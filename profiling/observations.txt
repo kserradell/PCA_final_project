@@ -1,0 +1,13 @@
+gcc.O3.march=core2: 
+real	0m42.363s
+user	0m42.039s
+sys	0m0.076s
+
+gprof:
+
+
+Gprof, rutina més temps dist1
+motion.c:1346
+
+then fullsearch
+motion.c:1249
