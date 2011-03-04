@@ -1,0 +1,7 @@
+script que cridi versió sense optimitzar
+
+i amb optimització
+
+llavors 10 execucions
+
+max, min, avg, stan

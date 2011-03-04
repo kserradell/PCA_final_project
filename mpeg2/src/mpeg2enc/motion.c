@@ -1359,7 +1359,7 @@ int distlim;
   if (!hx && !hy)
     for (j=0; j<h; j++)
     {
-      /*
+      
       if ((v = p1[0]  - p2[0])<0)  v = -v; s+= v;
       if ((v = p1[1]  - p2[1])<0)  v = -v; s+= v;
       if ((v = p1[2]  - p2[2])<0)  v = -v; s+= v;
@@ -1376,8 +1376,8 @@ int distlim;
       if ((v = p1[13] - p2[13])<0) v = -v; s+= v;
       if ((v = p1[14] - p2[14])<0) v = -v; s+= v;
       if ((v = p1[15] - p2[15])<0) v = -v; s+= v;
-      */
-
+      
+/*
       int i;
 
       for (i = 0 ; i < 16 ; i++){
@@ -1385,7 +1385,7 @@ int distlim;
 	if ((v = p1[i]  - p2[i])<0) v = -v; s+= v;
 
       }
-
+*/
       if (s >= distlim)
         break;
 

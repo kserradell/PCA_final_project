@@ -54,7 +54,7 @@
 # GNU gcc
 #
 CC = gcc
-CFLAGS = -O3 -march=core2 -g -pg 
+CFLAGS = -O3 -march=core2 
 
 all: mpeg2decode mpeg2encode
 
