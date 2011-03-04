@@ -5,7 +5,7 @@ USAGE="\n USAGE: experiment.sh N \n
 
 N=$1
 
-if [ "$1" = "" || test $1 -lt 1 ]
+if [ "$1" = "" ]
 then
 	N=1
 fi
