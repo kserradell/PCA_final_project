@@ -68,7 +68,6 @@ done
 
 result_anterior=`echo $elapsed/$N|bc -l`
 
-
 echo RESULTS:
 echo -n ELAPSED TIME AVERAGE OF $N EXECUTIONS: PREVIOUS VERSION =
 echo $result_anterior
@@ -89,6 +88,12 @@ if (cmp tiger.optimitzat.m2v ../original/tiger_original.m2v)
       # echo La sortida de la versio optimitzada no es correcta
 fi
 
+
  tput sgr0 #restaura el color a la consola
+
+speedup=`echo $result_anterior/$result_optimitzat|bc -l`
+echo SPEEDUP = $speedup
+
+
 #./jgraph -P grafica.jgr > grafica.ps
 #gs grafica.ps
