@@ -1,7 +1,11 @@
 #!/bin/bash
 
-USAGE="\n USAGE: experiment.sh N \n
-	N: vegades que s'executara el programa per fer la mitja \n"
+
+trap 'echo -e "\n Control-C premut, script detingut"; exit 1' 2
+
+
+USAGE="\n USAGE: compara.sh N \n
+	N: vegades que s'executaran tots dos programes per fer la mitja, default 1 \n"
 
 N=$1
 
@@ -9,6 +13,16 @@ if [ "$1" = "" ]
 then
 	N=1
 fi
+
+
+if (test $# -gt 1)
+then
+	echo -e $USAGE
+	exit 0					
+fi	
+
+
+
 
 #programa a executar amb optimitzacio
 PROG=../mpeg2/src/mpeg2enc/mpeg2encode
