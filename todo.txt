@@ -1,7 +1,9 @@
-script que cridi versió sense optimitzar
 
-i amb optimització
 
-llavors 10 execucions
+Sara:
+He fet un script compara.sh a /tests 
+Que li passes com a parametre un nombre, i executa els 2 programes el nombre de vegades, i calcula la mitja de temps de cadascun.
 
-max, min, avg, stan
+Faltaria afegir que tambe ens dones:
+
+max, min, stan
