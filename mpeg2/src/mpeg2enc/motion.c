@@ -31,6 +31,10 @@
 #include "config.h"
 #include "global.h"
 
+
+//per al CHAR_BIT (bithacks)
+#include <limits.h>
+
 /* private prototypes */
 
 static void frame_ME _ANSI_ARGS_((unsigned char *oldorg, unsigned char *neworg,
@@ -1357,7 +1361,7 @@ int distlim;
   p2 = blk2;
 
   if (!hx && !hy)
-    for (j=0; j<h; j++)
+    for (j=0; j<h && s<distlim; j++)
     {
       
      /*if ((v = p1[0]  - p2[0])<0)  v = -v; s+= v;
@@ -1380,13 +1384,26 @@ int distlim;
 
       int i;
 
-      for (i = 0 ; i < 16 ; i++){
-	
-	    if ((v = p1[i]  - p2[i])<0) v = -v; s+= v;
+      for (i = 0 ; i < 16 ; i++)
+       {
+
+        /*El que fa aquest if es un valor absolut de la diferencia, pero provant al meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if*/
+	    if ((v = p1[i]  - p2[i])<0) v = -v;
+
+        /* Bithack del valor absolut
+        v = p1[i]  - p2[i];
+        v = (v ^ (v>>31)) - (v>>31);
+        */
+        s+= v;
+
+        /*optimitzacio: quan s supera distlim acabem, no es necessiten la resta d'iteracions
+          el resultat final retornat (s) canvia pero al final el que interessa a les funcions que criden amb aquesta 
+          es si la s es major que el distlim. Hauriem d'assegurarnos que es aixi pero de moment les sortides que dona       son correctes i es guanyen entre 5 y 7 segons de temps*/
+         if (s >= distlim) break;
       }
 
-      if (s >= distlim)
-        break;
+      /*if (s >= distlim)
+         break;*/
 
       p1+= lx;
       p2+= lx;
