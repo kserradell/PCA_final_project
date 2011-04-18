@@ -1387,18 +1387,22 @@ int distlim;
       for (i = 0 ; i < 16 ; i++)
        {
 
-        /*El que fa aquest if es un valor absolut de la diferencia, pero provant al meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if*/
-	    if ((v = p1[i]  - p2[i])<0) v = -v;
+        /*El que fa aquest if es un valor absolut de la diferencia, pero provant al 
+	meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if
+	Ho acabo de probar en el meu i trigo 1,5 més. Ho descartem, no? */
+	if ((v = p1[i]  - p2[i])<0) v = -v;
 
-        /* Bithack del valor absolut
+        /* Bithack del valor absolut 
         v = p1[i]  - p2[i];
-        v = (v ^ (v>>31)) - (v>>31);
-        */
+        v = (v ^ (v>>31)) - (v>>31);*/
+        
         s+= v;
 
-        /*optimitzacio: quan s supera distlim acabem, no es necessiten la resta d'iteracions
-          el resultat final retornat (s) canvia pero al final el que interessa a les funcions que criden amb aquesta 
-          es si la s es major que el distlim. Hauriem d'assegurarnos que es aixi pero de moment les sortides que dona       son correctes i es guanyen entre 5 y 7 segons de temps*/
+        /*optimitzacio: quan es supera distlim acabem, no es necessiten la resta d'iteracions
+        el resultat final retornat (s) canvia pero al final el que interessa a les funcions 
+	que criden amb aquesta es si la s es major que el distlim. Hauriem d'assegurarnos que es aixi 
+	pero de moment les sortides que dona son correctes i es guanyen entre 5 y 7 segons de temps
+        */
          if (s >= distlim) break;
       }
 
@@ -1411,7 +1415,9 @@ int distlim;
   else if (hx && !hy)
     for (j=0; j<h; j++)
     {
-      for (i=0; i<16; i++)
+     /* He intentat fer unroll d'aquests loops i obtinc temps molt pitjors. El O3 fa més bona feia
+	que jo manualment... */ 
+     for (i=0; i<16; i++)
       {
         v = ((unsigned int)(p1[i]+p1[i+1]+1)>>1) - p2[i];
         if (v>=0)
