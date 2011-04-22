@@ -1416,7 +1416,9 @@ int distlim;
     for (j=0; j<h; j++)
     {
      /* He intentat fer unroll d'aquests loops i obtinc temps molt pitjors. El O3 fa més bona feia
-	que jo manualment... */ 
+	que jo manualment... 
+	Si aixo m'ha passat a la practica5 de l'assignatura, la majoria d'optimitzacions (especialment unroll i inlining) no nomes les fa el compilador si no que ell les fa molt millor que nosaltres a ma...
+	*/ 
      for (i=0; i<16; i++)
       {
         v = ((unsigned int)(p1[i]+p1[i+1]+1)>>1) - p2[i];
