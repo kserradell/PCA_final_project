@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-trap 'echo -e "\n Control-C premut, script detingut"; exit 1' 2
+trap 'echo -e "\n Control-C premut, script detingut"; tput sgr0; exit 1' 2
 
 
 USAGE="\n USAGE: compara.sh N \n
