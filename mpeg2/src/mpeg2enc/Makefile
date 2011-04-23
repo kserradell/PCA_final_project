@@ -32,23 +32,29 @@
 #
 # GNU gcc
 #
+
+.SUFFIXES: .pg
+
 CC = gcc
 CFLAGS = -O3 -Wall -march=core2
 
 OBJ = mpeg2enc.o conform.o putseq.o putpic.o puthdr.o putmpg.o putvlc.o putbits.o motion.o predict.o readpic.o writepic.o transfrm.o fdctref.o idct.o quantize.o ratectl.o stats.o
 
-all: mpeg2encode
+all: mpeg2encode .pg
 
 pc: mpeg2enc.exe
 
 clean:
-	rm -f *.o *% core mpeg2encode
+	rm -f *.o *% core mpeg2encode mpeg2encode.pg
 
 mpeg2enc.exe: mpeg2encode
 	coff2exe mpeg2enc
 
 mpeg2encode: $(OBJ)
 	$(CC) $(CFLAGS) -o mpeg2encode $(OBJ) -lm
+
+.pg: $(OBJ)
+	$(CC) $(CFLAGS) -g -pg -o mpeg2encode.pg $(OBJ) -lm
 
 conform.o : conform.c config.h global.h mpeg2enc.h 
 fdctref.o : fdctref.c config.h 
