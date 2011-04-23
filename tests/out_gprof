@@ -1,0 +1,59 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+ 81.04     29.24    29.24                             dist1
+  7.15     31.82     2.58                             fullsearch
+  2.85     32.85     1.03                             fdct
+  1.94     33.55     0.70                             quant_non_intra
+  1.39     34.05     0.50                             motion_estimation
+  0.75     34.32     0.27                             idct
+  0.61     34.54     0.22                             pred_comp
+  0.61     34.76     0.22                             quant_intra
+  0.47     34.93     0.17                             calcSNR
+  0.47     35.10     0.17                             itransform
+  0.36     35.23     0.13                             bdist2
+  0.36     35.36     0.13                             iquant_intra
+  0.33     35.48     0.12                             iquant_non_intra
+  0.33     35.60     0.12                             putbits
+  0.30     35.71     0.11                             rc_init_pict
+  0.30     35.82     0.11                             transform
+  0.19     35.89     0.07                             putnonintrablk
+  0.11     35.93     0.04                             dct_type_estimation
+  0.11     35.97     0.04                             dist2
+  0.08     36.00     0.03                             putintrablk
+  0.06     36.02     0.02                             stats
+  0.03     36.03     0.01                             alignbits
+  0.03     36.04     0.01                             calc_DMV
+  0.03     36.05     0.01                             predict
+  0.03     36.06     0.01                             putAC
+  0.03     36.07     0.01                             putACfirst
+  0.03     36.08     0.01                             putmotioncode
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
