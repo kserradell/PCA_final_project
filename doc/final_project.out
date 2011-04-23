@@ -1,5 +1,5 @@
-\BOOKMARK [2][-]{subsection.0.0.1}{Introducci\363: preparaci\363 de l'entorn}{}
-\BOOKMARK [2][-]{subsection.0.0.2}{Optimitzacions amb el compilador}{}
-\BOOKMARK [2][-]{subsection.0.0.3}{Profiling del codi original}{}
-\BOOKMARK [2][-]{subsection.0.0.4}{Optimitzacions}{}
-\BOOKMARK [2][-]{subsection.0.0.5}{????}{}
+\BOOKMARK [1][-]{section.0.1}{Introducci\363: preparaci\363 de l'entorn}{}
+\BOOKMARK [2][-]{subsection.0.1.1}{Optimitzacions amb el compilador}{section.0.1}
+\BOOKMARK [1][-]{section.0.2}{Profiling del codi original}{}
+\BOOKMARK [1][-]{section.0.3}{Optimitzacions}{}
+\BOOKMARK [1][-]{section.0.4}{????}{}

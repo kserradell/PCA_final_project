@@ -1,5 +1,5 @@
-\contentsline {subsection}{\numberline {0.0.1}Introducci\IeC {\'o}: preparaci\IeC {\'o} de l'entorn}{2}{subsection.0.0.1}
-\contentsline {subsection}{\numberline {0.0.2}Optimitzacions amb el compilador}{2}{subsection.0.0.2}
-\contentsline {subsection}{\numberline {0.0.3}Profiling del codi original}{2}{subsection.0.0.3}
-\contentsline {subsection}{\numberline {0.0.4}Optimitzacions}{2}{subsection.0.0.4}
-\contentsline {subsection}{\numberline {0.0.5}????}{2}{subsection.0.0.5}
+\contentsline {section}{\numberline {0.1}Introducci\IeC {\'o}: preparaci\IeC {\'o} de l'entorn}{2}{section.0.1}
+\contentsline {subsection}{\numberline {0.1.1}Optimitzacions amb el compilador}{2}{subsection.0.1.1}
+\contentsline {section}{\numberline {0.2}Profiling del codi original}{2}{section.0.2}
+\contentsline {section}{\numberline {0.3}Optimitzacions}{2}{section.0.3}
+\contentsline {section}{\numberline {0.4}????}{2}{section.0.4}
