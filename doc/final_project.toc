@@ -1,0 +1,5 @@
+\contentsline {subsection}{\numberline {0.0.1}Introducci\IeC {\'o}: preparaci\IeC {\'o} de l'entorn}{2}{subsection.0.0.1}
+\contentsline {subsection}{\numberline {0.0.2}Optimitzacions amb el compilador}{2}{subsection.0.0.2}
+\contentsline {subsection}{\numberline {0.0.3}Profiling del codi original}{2}{subsection.0.0.3}
+\contentsline {subsection}{\numberline {0.0.4}Optimitzacions}{2}{subsection.0.0.4}
+\contentsline {subsection}{\numberline {0.0.5}????}{2}{subsection.0.0.5}
