@@ -132,9 +132,10 @@ static void init()
 
   blocks =
     (short (*)[64])malloc(mb_width*mb_height2*block_count*sizeof(short [64]));
-
+  
   if (!blocks)
     error("malloc failed\n");
+    
 
   /* open statistics output file */
   if (statname[0]=='-')

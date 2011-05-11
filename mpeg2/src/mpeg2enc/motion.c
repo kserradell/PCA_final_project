@@ -30,7 +30,7 @@
 #include <stdio.h>
 #include "config.h"
 #include "global.h"
-
+#include <emmintrin.h>
 
 //per al CHAR_BIT (bithacks)
 #include <limits.h>
@@ -1347,73 +1347,46 @@ int *iminp,*jminp;
  * h:         height of block (usually 8 or 16)
  * distlim:   bail out if sum exceeds this value
  */
-static int dist1(blk1,blk2,lx,hx,hy,h,distlim)
-unsigned char *blk1,*blk2;
-int lx,hx,hy,h;
-int distlim;
+static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int hy,int h,int distlim)
 {
   unsigned char *p1,*p1a,*p2;
   int i,j;
   int s,v;
+  
 
   s = 0;
   p1 = blk1;
   p2 = blk2;
-
+  
   if (!hx && !hy)
-    for (j=0; j<h && s<distlim; j++)
+    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {
-      
-     /*if ((v = p1[0]  - p2[0])<0)  v = -v; s+= v;
-      if ((v = p1[1]  - p2[1])<0)  v = -v; s+= v;
-      if ((v = p1[2]  - p2[2])<0)  v = -v; s+= v;
-      if ((v = p1[3]  - p2[3])<0)  v = -v; s+= v;
-      if ((v = p1[4]  - p2[4])<0)  v = -v; s+= v;
-      if ((v = p1[5]  - p2[5])<0)  v = -v; s+= v;
-      if ((v = p1[6]  - p2[6])<0)  v = -v; s+= v;
-      if ((v = p1[7]  - p2[7])<0)  v = -v; s+= v;
-      if ((v = p1[8]  - p2[8])<0)  v = -v; s+= v;
-      if ((v = p1[9]  - p2[9])<0)  v = -v; s+= v;
-      if ((v = p1[10] - p2[10])<0) v = -v; s+= v;
-      if ((v = p1[11] - p2[11])<0) v = -v; s+= v;
-      if ((v = p1[12] - p2[12])<0) v = -v; s+= v;
-      if ((v = p1[13] - p2[13])<0) v = -v; s+= v;
-      if ((v = p1[14] - p2[14])<0) v = -v; s+= v;
-      if ((v = p1[15] - p2[15])<0) v = -v; s+= v;*/
-      
 
-      int i;
+          int i;
+          for (i = 0 ; i < 16 ; i++)
+           {
 
-      for (i = 0 ; i < 16 ; i++)
-       {
+                    /*El que fa aquest if es un valor absolut de la diferencia, pero provant al 
+	            meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if
+	            Ho acabo de probar en el meu i trigo 1,5 més. Ho descartem, no? */
+	            if ((v = p2[i]  - p1[i])<0) v = -v;
 
-        /*El que fa aquest if es un valor absolut de la diferencia, pero provant al 
-	meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if
-	Ho acabo de probar en el meu i trigo 1,5 més. Ho descartem, no? */
-	if ((v = p1[i]  - p2[i])<0) v = -v;
+                /* Bithack del valor absolut */
+               //v = p1[i]  - p2[i];
+              //  v = (v ^ (v>>31)) - (v>>31);
+               // printf("p1: %d, p2: %d\n",p1[i],p2[i]);
+                s+= v;
 
-        /* Bithack del valor absolut 
-        v = p1[i]  - p2[i];
-        v = (v ^ (v>>31)) - (v>>31);*/
-        
-        s+= v;
-
-        /*optimitzacio: quan es supera distlim acabem, no es necessiten la resta d'iteracions
-        el resultat final retornat (s) canvia pero al final el que interessa a les funcions 
-	que criden amb aquesta es si la s es major que el distlim. Hauriem d'assegurarnos que es aixi 
-	pero de moment les sortides que dona son correctes i es guanyen entre 5 y 7 segons de temps
-        */
-         if (s >= distlim) break;
-      }
-
-      /*if (s >= distlim)
-         break;*/
-
-      p1+= lx;
-      p2+= lx;
+                /*optimitzacio: quan es supera distlim acabem, no es necessiten la resta d'iteracions
+                el resultat final retornat (s) canvia pero al final el que interessa a les funcions 
+	            que criden amb aquesta es si la s es major que el distlim. Hauriem d'assegurarnos que es aixi 
+	            pero de moment les sortides que dona son correctes i es guanyen entre 5 y 7 segons de temps
+                */
+                 if (s >= distlim) break;
+          }
     }
   else if (hx && !hy)
-    for (j=0; j<h; j++)
+    for (j=0; j<h && s<distlim ; j++)
     {
      /* He intentat fer unroll d'aquests loops i obtinc temps molt pitjors. El O3 fa més bona feia
 	que jo manualment... 
@@ -1422,10 +1395,9 @@ int distlim;
      for (i=0; i<16; i++)
       {
         v = ((unsigned int)(p1[i]+p1[i+1]+1)>>1) - p2[i];
-        if (v>=0)
-          s+= v;
-        else
-          s-= v;
+         if (v<0) v=-v;
+       
+          s+=v; if (s >= distlim) break;
       }
       p1+= lx;
       p2+= lx;
@@ -1433,15 +1405,14 @@ int distlim;
   else if (!hx && hy)
   {
     p1a = p1 + lx;
-    for (j=0; j<h; j++)
+    for (j=0; j<h && s<distlim; j++)
     {
       for (i=0; i<16; i++)
       {
         v = ((unsigned int)(p1[i]+p1a[i]+1)>>1) - p2[i];
-        if (v>=0)
-          s+= v;
-        else
-          s-= v;
+        if (v<0) v=-v;
+       
+          s+=v; if (s >= distlim) break;
       }
       p1 = p1a;
       p1a+= lx;
@@ -1451,15 +1422,14 @@ int distlim;
   else /* if (hx && hy) */
   {
     p1a = p1 + lx;
-    for (j=0; j<h; j++)
+    for (j=0; j<h && s<distlim; j++)
     {
       for (i=0; i<16; i++)
       {
         v = ((unsigned int)(p1[i]+p1[i+1]+p1a[i]+p1a[i+1]+2)>>2) - p2[i];
-        if (v>=0)
-          s+= v;
-        else
-          s-= v;
+        if (v<0) v=-v;
+       
+          s+=v; if (s >= distlim) break;
       }
       p1 = p1a;
       p1a+= lx;
