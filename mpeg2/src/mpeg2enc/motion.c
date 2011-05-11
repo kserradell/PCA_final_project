@@ -1470,9 +1470,9 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
   
   if (!hx && !hy)
   {
-  int p1min,p1max,p2min,p2max;
-  p1min = 5000000;
-  p2min=5000000;
+  //int p1min,p1max,p2min,p2max;
+  //p1min = 5000000;
+  //p2min=5000000;
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {
 
@@ -1489,8 +1489,8 @@ els valors de p1 i p2 de i oscilen entre 0 i 255 -> dema intentare fer memoizati
 	            meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if
 	            Ho acabo de probar en el meu i trigo 1,5 més. Ho descartem, no? */
 	            
-	          /*  if ((v = p2[i]  - p1[i])<0) v = -v;
-            if(p1[i]<p1min) p1min=p1[i];
+	           if ((v = p2[i]  - p1[i])<0) v = -v;
+            /*if(p1[i]<p1min) p1min=p1[i];
             if(p1[i]>p1max) p1max=p1[i];
             if(p2[i]<p2min) p2min=p2[i];
             if(p2[i]>p2max) p2max=p2[i];*/
