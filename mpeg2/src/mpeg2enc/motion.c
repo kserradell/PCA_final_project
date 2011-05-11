@@ -1321,7 +1321,7 @@ int *iminp,*jminp;
       else            j--;
     }*/
     
-    for (k=0; k<2*l; k++)
+    for (k=0; k<(l<<1); k++)
     {
       if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
       {
@@ -1338,7 +1338,7 @@ int *iminp,*jminp;
      i++;
     }
     
-     for (; k<4*l; k++)
+     for (; k<(l<<2); k++)
     {
       if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
       {
@@ -1372,7 +1372,7 @@ int *iminp,*jminp;
      i--;
     }
     
-     for (; k<8*l; k++)
+     for (; k< (l<<3); k++)
     {
       if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
       {
