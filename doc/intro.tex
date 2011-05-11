@@ -2,9 +2,39 @@
 
 %primera versio d'estructura del document
 \section{Entorn i eines de treball}
+Totes les mesures, execucions i optimitzacions d'aquesta pràctica s'han dut a terme sota una arquitectura Intel Core Duo. Això ens permet treballar tant a les aules com en els nostres respectius portàtils.\\
+
+Pel manteniment del codi i per poder treballar amb més facilitat hem optat per GIT com a sistema de control de versions. Concretament, hem optat per GitHUB \url{https://github.com/} que ofereix repositoris propis gratuïtament.
+
+Perla feina propiament dita d'optimitzacions, hem utilitzat les eines vistes durant el curs. En el cas de fer servir alguna altra eina, ho indiquem en el document.
 
 %scripts, makefile, etc
 \section{Optimitzacions amb el compilador}
+Al treballar sota una arquitectura Intel, tenim l'opció de treballar amb dos compiladors:
+
+\begin{itemize}
+  \item icc (ICC) 12.0.2 20110112
+  \item gcc (Ubuntu/Linaro 4.5.2-8ubuntu4) 4.5.2
+\end{itemize}
+
+Sense començar a mirar el codi i per experiència d'anteriors pràctiques/feines, treballant sota una arquitectura Intel, el seu compil·lador natiu te millor rendiment. En el següent apartat, adjuntem un benchmarking del codi, comparant els dos compil·ladors i emprant diferents flags. Pels flags del compil·lador d'Intel, hem seguit el manual d'optimitzacion d'Intel.
 
 %-O3, -march=core2 ... etc
 \section{Profiling del codi original}
+
+
+\begin{table}[h!b!p!]
+\caption{Benchmarking entre compiladors i flags}
+\begin{center}
+\begin{tabular}{lll}
+\hline
+ & ICC & GCC \\
+\hline
+-O0 &  &  \\
+-O1 &  &  \\
+-O2 &  &  \\
+\hline
+\end{tabular}
+\end{center}
+\label{table1}
+\end{table}
