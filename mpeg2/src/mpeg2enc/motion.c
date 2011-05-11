@@ -1455,6 +1455,8 @@ static int dist1_special(unsigned char * blk1, unsigned char * blk2, int lx, int
  * h:         height of block (usually 8 or 16)
  * distlim:   bail out if sum exceeds this value
  */
+ 
+
 static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int hy,int h,int distlim)
 {
   unsigned char *p1,*p1a,*p2;
@@ -1468,6 +1470,9 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
   
   if (!hx && !hy)
   {
+  int p1min,p1max,p2min,p2max;
+  p1min = 5000000;
+  p2min=5000000;
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {
 
@@ -1478,12 +1483,19 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
 /*
 h: crec que sempre val 8 o 16
 lx: idem pero 720 o 1440, es l'increment dels punters...
+els valors de p1 i p2 de i oscilen entre 0 i 255 -> dema intentare fer memoization de les restes i valors absoluts
 */
                     /*El que fa aquest if es un valor absolut de la diferencia, pero provant al 
 	            meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if
 	            Ho acabo de probar en el meu i trigo 1,5 més. Ho descartem, no? */
-	            if ((v = p2[i]  - p1[i])<0) v = -v;
-
+	            
+	          /*  if ((v = p2[i]  - p1[i])<0) v = -v;
+            if(p1[i]<p1min) p1min=p1[i];
+            if(p1[i]>p1max) p1max=p1[i];
+            if(p2[i]<p2min) p2min=p2[i];
+            if(p2[i]>p2max) p2max=p2[i];*/
+            
+         
                 /* Bithack del valor absolut */
                //v = p2[i]  - p1[i];
               //  v = (v ^ (v>>31)) - (v>>31);
@@ -1498,6 +1510,7 @@ lx: idem pero 720 o 1440, es l'increment dels punters...
                  if (s >= distlim) break;
           }
     }
+    //printf("p1min: %d , p1max: %d  , p2min: %d , p2max: %d , \n",p1min,p1max,p2min,p2max);
     }
   else if (hx && !hy)
   { 
