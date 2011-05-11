@@ -89,6 +89,8 @@ static int bdist2 _ANSI_ARGS_((unsigned char *pf, unsigned char *pb,
 
 static int variance _ANSI_ARGS_((unsigned char *p, int lx));
 
+static int dist1_special _ANSI_ARGS_((unsigned char *blk1, unsigned char *blk2,
+  int lx, int hx, int hy, int h, int distlim));
 /*
  * motion estimation for progressive and interlaced frame pictures
  *
@@ -1281,19 +1283,27 @@ int *iminp,*jminp;
 
   imin = i0;
   jmin = j0;
-  dmin = dist1(org+imin+lx*jmin,blk,lx,0,0,h,65536);
+  dmin = dist1_special(org+imin+lx*jmin,blk,lx,0,0,h,65536);
 
   sxy = (sx>sy) ? sx : sy;
 
+ i=i0;
+    j=j0;
   for (l=1; l<=sxy; l++)
   {
     i = i0 - l;
     j = j0 - l;
-    for (k=0; k<8*l; k++)
+           /*
+           les variables i i j es decrementen en 1 a cada volta
+           No canvia el temps, ho fa el compilador
+           */
+          /*i-=1;
+          j-=1;*/
+   /* for (k=0; k<8*l; k++)
     {
       if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
       {
-        d = dist1(org+i+lx*j,blk,lx,0,0,h,dmin);
+        d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
 
         if (d<dmin)
         {
@@ -1303,15 +1313,87 @@ int *iminp,*jminp;
         }
       }
 
+
+//opt: desplego aquest bucle per evitar aquest carro de ifs, no es nota gaire baixada de temps
       if      (k<2*l) i++;
       else if (k<4*l) j++;
       else if (k<6*l) i--;
       else            j--;
+    }*/
+    
+    for (k=0; k<2*l; k++)
+    {
+      if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
+      {
+        d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
+
+        if (d<dmin)
+        {
+          dmin = d;
+          imin = i;
+          jmin = j;
+        }
+      }
+        
+     i++;
+    }
+    
+     for (; k<4*l; k++)
+    {
+      if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
+      {
+        d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
+
+        if (d<dmin)
+        {
+          dmin = d;
+          imin = i;
+          jmin = j;
+        }
+      }
+        
+     j++;
+    }
+    
+     for (; k<6*l; k++)
+    {
+      if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
+      {
+        d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
+
+        if (d<dmin)
+        {
+          dmin = d;
+          imin = i;
+          jmin = j;
+        }
+      }
+        
+     i--;
+    }
+    
+     for (; k<8*l; k++)
+    {
+      if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
+      {
+        d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
+
+        if (d<dmin)
+        {
+          dmin = d;
+          imin = i;
+          jmin = j;
+        }
+      }
+        
+     j--;
     }
   }
 
   /* half pel */
-  dmin = 65536;
+   /*Sembla ser que per baixar aquest valor el resultat no canvia i baixa el temps alguna decima (molt poc)*/
+   //dmin=65536;
+  dmin = 20000;
   imin <<= 1;
   jmin <<= 1;
   ilow = imin - (imin>0);
@@ -1338,6 +1420,32 @@ int *iminp,*jminp;
   return dmin;
 }
 
+/*specialitzacio de dist1, hi ha una crida que a on hx y hy sempre son 0*
+* no es guanya quasi res, i axo que ens estalviem un munt de ifs.... 
+*/
+static int dist1_special(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int hy,int h,int distlim)
+{
+  unsigned char *p1,*p2;
+  int i,j;
+  int s,v;
+  
+  s = 0;
+  p1 = blk1;
+  p2 = blk2;
+
+    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
+    {
+          
+          for (i = 0 ; i < 16 ; i++)
+           {
+	            if ((v = p2[i]  - p1[i])<0) v = -v;
+                s+= v;
+                if (s >= distlim) break;
+          }
+    }
+    
+    return s;
+}
 /*
  * total absolute difference between two (16*h) blocks
  * including optional half pel interpolation of blk1 (hx,hy)
@@ -1359,6 +1467,7 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
   p2 = blk2;
   
   if (!hx && !hy)
+  {
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {
 
@@ -1366,15 +1475,19 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
           for (i = 0 ; i < 16 ; i++)
            {
 
+/*
+h: crec que sempre val 8 o 16
+lx: idem pero 720 o 1440, es l'increment dels punters...
+*/
                     /*El que fa aquest if es un valor absolut de la diferencia, pero provant al 
 	            meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if
 	            Ho acabo de probar en el meu i trigo 1,5 més. Ho descartem, no? */
 	            if ((v = p2[i]  - p1[i])<0) v = -v;
 
                 /* Bithack del valor absolut */
-               //v = p1[i]  - p2[i];
+               //v = p2[i]  - p1[i];
               //  v = (v ^ (v>>31)) - (v>>31);
-               // printf("p1: %d, p2: %d\n",p1[i],p2[i]);
+               //printf("p1: %d, p2: %d  h: %d lx: %d\n",p1[i],p2[i],h,lx);
                 s+= v;
 
                 /*optimitzacio: quan es supera distlim acabem, no es necessiten la resta d'iteracions
@@ -1385,7 +1498,9 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
                  if (s >= distlim) break;
           }
     }
+    }
   else if (hx && !hy)
+  { 
     for (j=0; j<h && s<distlim ; j++)
     {
      /* He intentat fer unroll d'aquests loops i obtinc temps molt pitjors. El O3 fa més bona feia
@@ -1394,6 +1509,7 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
 	*/ 
      for (i=0; i<16; i++)
       {
+       
         v = ((unsigned int)(p1[i]+p1[i+1]+1)>>1) - p2[i];
          if (v<0) v=-v;
        
@@ -1402,8 +1518,11 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
       p1+= lx;
       p2+= lx;
     }
+   }
+
   else if (!hx && hy)
   {
+
     p1a = p1 + lx;
     for (j=0; j<h && s<distlim; j++)
     {
@@ -1419,7 +1538,7 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
       p2+= lx;
     }
   }
-  else /* if (hx && hy) */
+  else  /*if (hx && hy) */
   {
     p1a = p1 + lx;
     for (j=0; j<h && s<distlim; j++)
@@ -1436,6 +1555,7 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
       p2+= lx;
     }
   }
+ 
 
   return s;
 }

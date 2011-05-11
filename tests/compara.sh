@@ -61,6 +61,17 @@ done
 result_optimitzat=`echo $elapsed/$N|bc -l`
 
 
+if (cmp tiger.optimitzat.m2v ../original/tiger_original.m2v)
+    then
+
+        echo -e '\E[49;32m'"Sortida correcta"   # Green
+       #echo Sortida correcta
+
+    else
+       echo -e '\E[49;31m'"La sortida de la versio optimitzada no es correcta"
+      # echo La sortida de la versio optimitzada no es correcta
+fi
+ tput sgr0 #restaura el color a la consola
 echo
 echo Executant el programa anterior $N vegades:
 
@@ -91,19 +102,9 @@ echo -n ELAPSED TIME AVERAGE OF $N EXECUTIONS: OPTIMIZED VERSION =
 echo $result_optimitzat
 
 
-if (cmp tiger.optimitzat.m2v ../original/tiger_original.m2v)
-    then
-
-        echo -e '\E[49;32m'"Sortida correcta"   # Green
-       #echo Sortida correcta
-
-    else
-       echo -e '\E[49;31m'"La sortida de la versio optimitzada no es correcta"
-      # echo La sortida de la versio optimitzada no es correcta
-fi
 
 
- tput sgr0 #restaura el color a la consola
+
 
 speedup=`echo $result_anterior/$result_optimitzat|bc -l`
 echo SPEEDUP = $speedup
