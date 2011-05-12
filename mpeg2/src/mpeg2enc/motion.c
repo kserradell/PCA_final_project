@@ -1424,6 +1424,7 @@ int *iminp,*jminp;
 /*Intent de memoization que empitjora el temps, descartada
 *  ja no es crida a l'inici del programa
 */
+/*
 int mem_restas[256][256];
 void motion_memoization()
 {
@@ -1439,7 +1440,7 @@ for (i=0;i<256;i++)
         mem_restas[i][j]=v;
      }
 }
-
+*/
 
 
 /*specialitzacio de dist1, hi ha una crida que a on hx y hy sempre son 0*
@@ -1462,8 +1463,8 @@ static int dist1_special(unsigned char * blk1, unsigned char * blk2, int lx, int
            {
 	            if ((v = p2[i]  - p1[i])<0) v = -v;
                 s+= v;
-               /* s+=mem_restas[p2[i]][p1[i]];
-                if (s >= distlim) break;*/
+               /* s+=mem_restas[p2[i]][p1[i]];*/
+                if (s >= distlim) break;
           }
     }
     
@@ -1493,20 +1494,16 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
   
   if (!hx && !hy)
   {
-  //int p1min,p1max,p2min,p2max;
-  //p1min = 5000000;
-  //p2min=5000000;
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {
 
           int i;
           for (i = 0 ; i < 16 ; i++)
            {
-
 /*
-h: crec que sempre val 8 o 16
-lx: idem pero 720 o 1440, es l'increment dels punters...
-els valors de p1 i p2 de i oscilen entre 0 i 255 -> dema intentare fer memoization de les restes i valors absoluts
+h: sempre val 8 o 16
+lx: idem pero 720 o 1440, es l'increment dels punters, es com si es saltes tota una fila duna matriu
+els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i valors no millora
 */
                     /*El que fa aquest if es un valor absolut de la diferencia, pero provant al 
 	            meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if
