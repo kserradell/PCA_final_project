@@ -1420,6 +1420,28 @@ int *iminp,*jminp;
   return dmin;
 }
 
+
+/*Intent de memoization que empitjora el temps, descartada
+*  ja no es crida a l'inici del programa
+*/
+int mem_restas[256][256];
+void motion_memoization()
+{
+//mem_restas=malloc(256*256);
+
+int i,j;
+int v;
+for (i=0;i<256;i++)
+    for(j=0;j<256;j++)
+     {
+        v=i-j;
+        if(v<0) v=-v;
+        mem_restas[i][j]=v;
+     }
+}
+
+
+
 /*specialitzacio de dist1, hi ha una crida que a on hx y hy sempre son 0*
 * no es guanya quasi res, i axo que ens estalviem un munt de ifs.... 
 */
@@ -1440,7 +1462,8 @@ static int dist1_special(unsigned char * blk1, unsigned char * blk2, int lx, int
            {
 	            if ((v = p2[i]  - p1[i])<0) v = -v;
                 s+= v;
-                if (s >= distlim) break;
+               /* s+=mem_restas[p2[i]][p1[i]];
+                if (s >= distlim) break;*/
           }
     }
     
@@ -1490,18 +1513,15 @@ els valors de p1 i p2 de i oscilen entre 0 i 255 -> dema intentare fer memoizati
 	            Ho acabo de probar en el meu i trigo 1,5 més. Ho descartem, no? */
 	            
 	           if ((v = p2[i]  - p1[i])<0) v = -v;
-            /*if(p1[i]<p1min) p1min=p1[i];
-            if(p1[i]>p1max) p1max=p1[i];
-            if(p2[i]<p2min) p2min=p2[i];
-            if(p2[i]>p2max) p2max=p2[i];*/
-            
-         
+
                 /* Bithack del valor absolut */
                //v = p2[i]  - p1[i];
               //  v = (v ^ (v>>31)) - (v>>31);
                //printf("p1: %d, p2: %d  h: %d lx: %d\n",p1[i],p2[i],h,lx);
                 s+= v;
-
+               
+             //memoization tampoc millora res  
+           // s+=mem_restas[p2[i]][p1[i]];
                 /*optimitzacio: quan es supera distlim acabem, no es necessiten la resta d'iteracions
                 el resultat final retornat (s) canvia pero al final el que interessa a les funcions 
 	            que criden amb aquesta es si la s es major que el distlim. Hauriem d'assegurarnos que es aixi 
@@ -1526,7 +1546,8 @@ els valors de p1 i p2 de i oscilen entre 0 i 255 -> dema intentare fer memoizati
         v = ((unsigned int)(p1[i]+p1[i+1]+1)>>1) - p2[i];
          if (v<0) v=-v;
        
-          s+=v; if (s >= distlim) break;
+          s+=v; 
+          if (s >= distlim) break;
       }
       p1+= lx;
       p2+= lx;

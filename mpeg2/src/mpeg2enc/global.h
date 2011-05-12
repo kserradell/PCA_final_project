@@ -60,6 +60,9 @@ void motion_estimation _ANSI_ARGS_((unsigned char *oldorg, unsigned char *neworg
   unsigned char *curref, int sxf, int syf, int sxb, int syb,
   struct mbinfo *mbi, int secondfield, int ipflag));
 
+/*memoization*/  
+void motion_memoization _ANSI_ARGS_(());
+
 /* mpeg2enc.c */
 void error _ANSI_ARGS_((char *text));
 

@@ -63,7 +63,7 @@ char *argv[];
     sprintf(errortext,"Couldn't create output file %s",argv[2]);
     error(errortext);
   }
-
+//motion_memoization();
   init();
   putseq();
 
@@ -77,6 +77,8 @@ static void init()
 {
   int i, size;
   static int block_count_tab[3] = {6,8,12};
+
+
 
   initbits();
   init_fdct();
