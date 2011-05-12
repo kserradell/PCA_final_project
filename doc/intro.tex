@@ -17,24 +17,31 @@ Al treballar sota una arquitectura Intel, tenim l'opció de treballar amb dos co
   \item gcc (Ubuntu/Linaro 4.5.2-8ubuntu4) 4.5.2
 \end{itemize}
 
-Sense començar a mirar el codi i per experiència d'anteriors pràctiques/feines, treballant sota una arquitectura Intel, el seu compil·lador natiu te millor rendiment. En el següent apartat, adjuntem un benchmarking del codi, comparant els dos compil·ladors i emprant diferents flags. Pels flags del compil·lador d'Intel, hem seguit el manual d'optimitzacion d'Intel.
+Sense començar a mirar el codi i per experiència d'anteriors pràctiques/feines, treballant sota una arquitectura Intel, el seu compil·lador natiu te millor rendiment. Tot seguit, adjuntem un benchmarking del codi, comparant els dos compil·ladors i emprant diferents flags. Pels flags del compil·lador d'Intel, hem seguit parcialment el manual d'optimitzacions d'Intel.
 
-%-O3, -march=core2 ... etc
-\section{Profiling del codi original}
-
-
-\begin{table}[h!b!p!]
+\begin{table}
 \caption{Benchmarking entre compiladors i flags}
 \begin{center}
 \begin{tabular}{lll}
 \hline
  & ICC & GCC \\
 \hline
--O0 &  &  \\
--O1 &  &  \\
--O2 &  &  \\
+\texttt{-O0} & 133.113s & 125.026s \\
+\texttt{-O2} & 22.088s & 43.451s \\
+\texttt{-O3} & 22.868s & 43.160s \\
+\texttt{-O3 -march=core2} & 22.437s & 42.553s \\
+\texttt{-O3 -parallel} & 33.690s & N.A.\\
 \hline
 \end{tabular}
 \end{center}
 \label{table1}
 \end{table}
+
+De seguida veiem que el codi te un rendiment molt superior tan aviat com se li apliquen optimitzacions. Això és una bo per nosaltres, ja que aplicant les millores vistes durant el curs directament sobre el codi, hauriem de tenir speedups que demostressin l'eficàcia d'aquestes optimitzacions.
+Veiem també el que comentavem anteriorment, que sota una arquitectura Intel, el seu compilador és molt més eficient. Podriem dir que la versió \texttt{-O3 -march=core2} marca el millor temps que podem obtenir. Sembla dificil aconseguir millors optimitzacions que les més agressives que utilitza aquest compilador.
+I finalment, com a curiositat, el flag \texttt{-parallel}, que intenta paralelitzar automaticament el codi, i en aquest cas correr sobre dos processadors, no aporta cap guany, al contrari, te un rendiment inferior.
+
+%-O3, -march=core2 ... etc
+\section{Profiling del codi original}
+
+
