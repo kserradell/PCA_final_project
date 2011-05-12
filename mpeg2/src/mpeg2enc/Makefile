@@ -36,8 +36,10 @@
 .SUFFIXES: .pg
 
 CC = gcc
-CFLAGS = -O3 -Wall -march=core2 -ftree-vectorize -mfpmath=sse -Wl,-s,-O1 -lm  #-ftree-vectorizer-verbose=5
+CFLAGS = -O3 -Wall -march=core2
 
+#flags icc
+#CFLAGS = -O3 -Wall -march=core2 -parallel
 
 OBJ = mpeg2enc.o conform.o putseq.o putpic.o puthdr.o putmpg.o putvlc.o putbits.o motion.o predict.o readpic.o writepic.o transfrm.o fdctref.o idct.o quantize.o ratectl.o stats.o
 
