@@ -1417,7 +1417,7 @@ int *iminp,*jminp;
 /*Intent de memoization que empitjora el temps, descartada
 *  ja no es crida a l'inici del programa
 */
-/*
+
 int mem_restas[256][256];
 void motion_memoization()
 {
@@ -1433,13 +1433,13 @@ for (i=0;i<256;i++)
         mem_restas[i][j]=v;
      }
 }
-*/
+
 
 
 /*specialitzacio de dist1, hi ha una crida que a on hx y hy sempre son 0*
 * no es guanya quasi res, i axo que ens estalviem un munt de ifs.... 
 */
-static int dist1_special(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int hy,int h,int distlim)
+static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __restrict__  blk2, int lx, int hx,int hy,int h,int distlim)
 {
   unsigned char *p1,*p2;
   int i,j;
@@ -1453,9 +1453,9 @@ static int dist1_special(unsigned char * blk1, unsigned char * blk2, int lx, int
     {   
           for (i = 0 ; i < 16 ; i++)
            {
-	            if ((v = p2[i]  - p1[i])<0) v = -v;
+	           if ((v = p2[i]  - p1[i])<0) v = -v;
                 s+= v;
-
+       //s+=mem_restas[p2[i]][p1[i]];
                 if (s >= distlim) break;
           }
     }
@@ -1475,7 +1475,7 @@ static int dist1_special(unsigned char * blk1, unsigned char * blk2, int lx, int
 
 
 
-static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int hy,int h,int distlim)
+static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__ blk2, int lx, int hx,int hy,int h,int distlim)
 {
   unsigned char *p1,*p1a,*p2;
   int i,j;
@@ -1510,6 +1510,8 @@ els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i v
               //  v = (v ^ (v>>31)) - (v>>31);
                //printf("p1: %d, p2: %d  h: %d lx: %d\n",p1[i],p2[i],h,lx);
                 s+= v;
+               //s+=mem_restas[p1[i]][p2[i]];
+        
                
              //memoization tampoc millora res  
            // s+=mem_restas[p2[i]][p1[i]];
