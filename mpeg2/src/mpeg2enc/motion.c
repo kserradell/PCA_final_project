@@ -1260,7 +1260,8 @@ int *iminp,*jminp;
   int i,j,imin,jmin,ilow,ihigh,jlow,jhigh;
   int d,dmin;
   int k,l,sxy;
-
+ int maska;
+ 
   ilow = i0 - sx;
   ihigh = i0 + sx;
 
@@ -1291,103 +1292,97 @@ int *iminp,*jminp;
     j=j0;
   for (l=1; l<=sxy; l++)
   {
-    i = i0 - l;
-    j = j0 - l;
-           /*
-           les variables i i j es decrementen en 1 a cada volta
-           No canvia el temps, ho fa el compilador
-           */
-          /*i-=1;
-          j-=1;*/
-   /* for (k=0; k<8*l; k++)
-    {
-      if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
-      {
-        d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
-
-        if (d<dmin)
+        i = i0 - l;
+        j = j0 - l;
+               /*
+               les variables i i j es decrementen en 1 a cada volta
+               No canvia el temps, ho fa el compilador
+               */
+              /*i-=1;
+              j-=1;*/
+       /* for (k=0; k<8*l; k++)
         {
-          dmin = d;
-          imin = i;
-          jmin = j;
-        }
-      }
+          if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
+          {
+            d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
+
+            if (d<dmin)
+            {
+              dmin = d;
+              imin = i;
+              jmin = j;
+            }
+          }
 
 
-//opt: desplego aquest bucle per evitar aquest carro de ifs, no es nota gaire baixada de temps
-      if      (k<2*l) i++;
-      else if (k<4*l) j++;
-      else if (k<6*l) i--;
-      else            j--;
-    }*/
-    
-    for (k=0; k<(l<<1); k++)
-    {
-      if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
-      {
-        d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
-
-        if (d<dmin)
-        {
-          dmin = d;
-          imin = i;
-          jmin = j;
-        }
-      }
+    //opt: desplego aquest bucle per evitar aquest carro de ifs, no es nota gaire baixada de temps
+          if      (k<2*l) i++;
+          else if (k<4*l) j++;
+          else if (k<6*l) i--;
+          else            j--;
+        }*/
         
-     i++;
-    }
-    
-     for (; k<(l<<2); k++)
-    {
-      if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
-      {
-        d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
-
-        if (d<dmin)
+        for (k=0; k<(l<<1); k++,i++)
         {
-          dmin = d;
-          imin = i;
-          jmin = j;
-        }
-      }
-        
-     j++;
-    }
-    
-     for (; k<6*l; k++)
-    {
-      if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
-      {
-        d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
+          if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
+          {
+            d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
 
-        if (d<dmin)
-        {
-          dmin = d;
-          imin = i;
-          jmin = j;
+            //bithacks! eliminacio del salt
+            
+            /*
+            explicacio: la comparacio dona 1 o 0.  -0 es 0x00000000, i -1 es 0xFFFFFFFF 
+            (un anula el que hi ha i l'altre ho deixa com estava)
+            El temps no sembla que varii... una altra vegada. El compilador ho fa tot.
+            */
+            maska= -(d<dmin);
+            dmin=(dmin & ~maska) + (d&maska);
+            imin = (imin & ~maska) + (i&maska);
+            jmin = (jmin & ~maska) + (j&maska);
+          }
         }
-      }
         
-     i--;
-    }
-    
-     for (; k< (l<<3); k++)
-    {
-      if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
-      {
-        d = dist1_special(org+i+lx*j   ,   blk,lx,0,0,h,dmin);
+         for (; k<(l<<2); k++,j++)
+        {
+          if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
+          {
+            d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
 
-        if (d<dmin)
-        {
-          dmin = d;
-          imin = i;
-          jmin = j;
+            //bithacks!
+            maska=-(d<dmin);
+            dmin=(dmin & ~maska) + (d&maska);
+            imin = (imin & ~maska) + (i&maska);
+            jmin = (jmin & ~maska) + (j&maska);
+          }
         }
-      }
         
-     j--;
-    }
+         for (; k<6*l; k++,i--)
+        {
+          if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
+          {
+            d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
+
+            //bithacks!
+            maska=-(d<dmin);
+            dmin=(dmin & ~maska) + (d&maska);
+            imin = (imin & ~maska) + (i&maska);
+            jmin = (jmin & ~maska) + (j&maska);
+          }
+        }
+        
+         for (; k< (l<<3); k++,j--)
+        {
+          if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
+          {
+                d = dist1_special(org+i+lx*j   ,   blk,lx,0,0,h,dmin);
+
+               //bithacks!
+                maska=-(d<dmin);
+                dmin=(dmin & ~maska) + (d&maska);
+                imin = (imin & ~maska) + (i&maska);
+                jmin = (jmin & ~maska) + (j&maska);
+          }
+        }
   }
 
   /* half pel */
@@ -1405,13 +1400,12 @@ int *iminp,*jminp;
     for (i=ilow; i<=ihigh; i++)
     {
       d = dist1(ref+(i>>1)+lx*(j>>1),blk,lx,i&1,j&1,h,dmin);
-
-      if (d<dmin)
-      {
-        dmin = d;
-        imin = i;
-        jmin = j;
-      }
+      
+     //bithacks!
+        maska=-(d<dmin);
+        dmin=(dmin & ~maska) + (d&maska);
+        imin = (imin & ~maska) + (i&maska);
+        jmin = (jmin & ~maska) + (j&maska);
     }
 
   *iminp = imin;
@@ -1419,7 +1413,6 @@ int *iminp,*jminp;
 
   return dmin;
 }
-
 
 /*Intent de memoization que empitjora el temps, descartada
 *  ja no es crida a l'inici del programa
@@ -1457,13 +1450,12 @@ static int dist1_special(unsigned char * blk1, unsigned char * blk2, int lx, int
   p2 = blk2;
 
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
-    {
-          
+    {   
           for (i = 0 ; i < 16 ; i++)
            {
 	            if ((v = p2[i]  - p1[i])<0) v = -v;
                 s+= v;
-               /* s+=mem_restas[p2[i]][p1[i]];*/
+
                 if (s >= distlim) break;
           }
     }
