@@ -1376,7 +1376,7 @@ int *iminp,*jminp;
     {
       if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
       {
-        d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
+        d = dist1_special(org+i+lx*j   ,   blk,lx,0,0,h,dmin);
 
         if (d<dmin)
         {
@@ -1481,6 +1481,8 @@ static int dist1_special(unsigned char * blk1, unsigned char * blk2, int lx, int
  */
  
 
+
+
 static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int hy,int h,int distlim)
 {
   unsigned char *p1,*p1a,*p2;
@@ -1502,7 +1504,7 @@ static int dist1(unsigned char * blk1, unsigned char * blk2, int lx, int hx,int 
            {
 /*
 h: sempre val 8 o 16
-lx: idem pero 720 o 1440, es l'increment dels punters, es com si es saltes tota una fila duna matriu
+lx: idem pero 720 o 1440, es l'increment dels punters, es com si es saltes tota una fila d'una matriu
 els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i valors no millora
 */
                     /*El que fa aquest if es un valor absolut de la diferencia, pero provant al 
