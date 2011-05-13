@@ -1,4 +1,4 @@
-\chapter{Introduccio}
+\chapter{Introducci\'o}
 
 %primera versio d'estructura del document
 \section{Entorn i eines de treball}
@@ -43,6 +43,8 @@ I finalment, com a curiositat, el flag \texttt{-parallel}, que intenta paralelit
 
 %-O3, -march=core2 ... etc
 \section{Profiling del codi original}
+
+El primer pas abans de començar a treballar ha estat el de fer profiling del codi original, per tal d'identificar quines son les rutines que més temps de CPU consumeixen. Aix+o s'ha fet mitjançant l'eina \texttt{gprof} i posteriorment, dibuixant un graf que mostra visualment la sortida. De seguida veiem que la funció que més temps consumeix és \texttt{dist1} que alhora prové de la branca \texttt{motion}. Aquesta funció la trobem dins de \texttt{motion.c} i és la primera que optimitzarem.
 
 \begin{figure}[hbtp]
 \begin{center}
