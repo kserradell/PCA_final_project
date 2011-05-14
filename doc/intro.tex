@@ -1,4 +1,4 @@
-\chapter{Introduccio}
+\chapter{Introducci\'o}
 
 %primera versio d'estructura del document
 \section{Entorn i eines de treball}
@@ -20,7 +20,6 @@ Al treballar sota una arquitectura Intel, tenim l'opció de treballar amb dos co
 Sense començar a mirar el codi i per experiència d'anteriors pràctiques/feines, treballant sota una arquitectura Intel, el seu compil·lador natiu te millor rendiment. Tot seguit, adjuntem un benchmarking del codi, comparant els dos compil·ladors i emprant diferents flags. Pels flags del compil·lador d'Intel, hem seguit parcialment el manual d'optimitzacions d'Intel.
 
 \begin{table}
-\caption{Benchmarking entre compiladors i flags}
 \begin{center}
 \begin{tabular}{lll}
 \hline
@@ -33,6 +32,7 @@ Sense començar a mirar el codi i per experiència d'anteriors pràctiques/feine
 \texttt{-O3 -parallel} & 33.690s & N.A.\\
 \hline
 \end{tabular}
+\caption{Benchmarking entre compiladors i flags}
 \end{center}
 \label{table1}
 \end{table}
@@ -44,4 +44,12 @@ I finalment, com a curiositat, el flag \texttt{-parallel}, que intenta paralelit
 %-O3, -march=core2 ... etc
 \section{Profiling del codi original}
 
+El primer pas abans de començar a treballar ha estat el de fer profiling del codi original, per tal d'identificar quines son les rutines que més temps de CPU consumeixen. Aix+o s'ha fet mitjançant l'eina \texttt{gprof} i posteriorment, dibuixant un graf que mostra visualment la sortida. De seguida veiem que la funció que més temps consumeix és \texttt{dist1} que alhora prové de la branca \texttt{motion}. Aquesta funció la trobem dins de \texttt{motion.c} i és la primera que optimitzarem.
+
+\begin{figure}[hbtp]
+\begin{center}
+\includegraphics[scale=0.4]{img/output.png}
+\caption{Graf del profiling del codi original}
+\end{center}
+\end{figure}
 
