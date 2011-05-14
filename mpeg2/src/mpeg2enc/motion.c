@@ -1436,7 +1436,7 @@ for (i=0;i<256;i++)
 
 
 
-/*specialitzacio de dist1, hi ha una crida que a on hx y hy sempre son 0*
+/*specialitzacio de dist1, hi ha una crida que a on hx i hy sempre son 0*
 * no es guanya quasi res, i axo que ens estalviem un munt de ifs.... 
 */
 static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __restrict__  blk2, int lx, int hx,int hy,int h,int distlim)
@@ -1448,15 +1448,27 @@ static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __re
   s = 0;
   p1 = blk1;
   p2 = blk2;
+  
+/*VECTORITZACIO: esta comentada per que fa segmentation fault, cal alinear les dades, pero no trobo  d'on venen aquests punters blk i blk2,
+s'hauria de buscar d'on venen (la declaració o l'malloc) i posar-hi __attribute__ ((__aligned__(16)__)) i veure que passa*/
+//__m128i *pr1,*pr2;
+  //__m128i * res;
+  //unsigned short res_v[8] __attribute__((__aligned__(16)));
+  //res=(__m128i*)res_v;
 
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {   
           for (i = 0 ; i < 16 ; i++)
            {
-	           if ((v = p2[i]  - p1[i])<0) v = -v;
+	//        pr1 = (__m128i*) (((unsigned char *)p1));
+	  //      pr2 = (__m128i*) (((unsigned char *)p2));
+		
+		/*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6*/
+	//	*res=_mm_sad_epu8(*pr1, *pr2);
+	//	s+=res_v[0]+res_v[4];
+		if ((v = p2[i]  - p1[i])<0) v = -v;
                 s+= v;
-       //s+=mem_restas[p2[i]][p1[i]];
-                if (s >= distlim) break;
+               if (s >= distlim) break;
           }
     }
     
