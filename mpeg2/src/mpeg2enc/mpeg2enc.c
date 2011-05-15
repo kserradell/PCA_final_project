@@ -111,9 +111,18 @@ static void init()
   {
     size = (i==0) ? width*height : chrom_width*chrom_height;
 
-    if (!(newrefframe[i] = (unsigned char *)malloc(size)))
+/*Alineat de les dades*/
+    if (posix_memalign((void**)&newrefframe[i], 16, size)) error("malloc failed\n");
+    if (posix_memalign((void**)&oldrefframe[i], 16, size)) error("malloc failed\n");
+    if (posix_memalign((void**)&auxframe[i], 16, size)) error("malloc failed\n");
+    if (posix_memalign((void**)&neworgframe[i], 16, size)) error("malloc failed\n");
+    if (posix_memalign((void**)&oldorgframe[i], 16, size)) error("malloc failed\n");
+    if (posix_memalign((void**)&auxorgframe[i], 16, size)) error("malloc failed\n");
+    if (posix_memalign((void**)&predframe[i], 16, size)) error("malloc failed\n");
+    
+    /*if (!(newrefframe[i] = (unsigned char *)malloc(size)))
       error("malloc failed\n");
-    if (!(oldrefframe[i] = (unsigned char *)malloc(size)))
+   if (!(oldrefframe[i] = (unsigned char *)malloc(size)))
       error("malloc failed\n");
     if (!(auxframe[i] = (unsigned char *)malloc(size)))
       error("malloc failed\n");
@@ -125,6 +134,8 @@ static void init()
       error("malloc failed\n");
     if (!(predframe[i] = (unsigned char *)malloc(size)))
       error("malloc failed\n");
+      */
+      
   }
 
   mbinfo = (struct mbinfo *)malloc(mb_width*mb_height2*sizeof(struct mbinfo));

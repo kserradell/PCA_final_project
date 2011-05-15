@@ -1449,29 +1449,50 @@ static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __re
   p1 = blk1;
   p2 = blk2;
   
-/*VECTORITZACIO: esta comentada per que fa segmentation fault, cal alinear les dades, pero no trobo  d'on venen aquests punters blk i blk2,
-s'hauria de buscar d'on venen (la declaració o l'malloc) i posar-hi __attribute__ ((__aligned__(16)__)) i veure que passa*/
-//__m128i *pr1,*pr2;
-  //__m128i * res;
-  //unsigned short res_v[8] __attribute__((__aligned__(16)));
-  //res=(__m128i*)res_v;
+/*VECTORITZACIO: 
+dades alineades a mpeg2enc.c (posix memalign...)
 
+Peero, aquesta funcio reb adreçes blk1 i blk2 que van variant en un char, per tant no sempre entra un punter alineat .  Separem en casos alineats i no alineats.
+
+*/
+/*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem, si no no*/
+if (  (((unsigned long)p1 & 15) == 0) &&  (((unsigned long)p2 & 15) == 0))
+{
+
+    __m128i *pr1,*pr2;
+    __m128i * res;
+    unsigned short res_v[8] __attribute__((__aligned__(16)));
+    res=(__m128i*)res_v;
+    
+//printf("entro blk1:%u  blk2: %u\n",(unsigned int)p1,(unsigned int) p2);
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {   
-          for (i = 0 ; i < 16 ; i++)
-           {
-	//        pr1 = (__m128i*) (((unsigned char *)p1));
-	  //      pr2 = (__m128i*) (((unsigned char *)p2));
+       
+	      pr1 = (__m128i*) (((unsigned char *)p1));
+	      pr2 = (__m128i*) (((unsigned char *)p2));
 		
-		/*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6*/
-	//	*res=_mm_sad_epu8(*pr1, *pr2);
-	//	s+=res_v[0]+res_v[4];
-		if ((v = p2[i]  - p1[i])<0) v = -v;
+		/*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
+		fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
+		  *res=_mm_sad_epu8(*pr1, *pr2);
+		  s+=res_v[0]+res_v[4];
+    }
+ }
+ else
+ {
+     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
+    {   
+         for (i = 0 ; i < 16 ; i++)
+           {
+	    
+		
+		   /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6*/
+		
+		    if ((v = p2[i]  - p1[i])<0) v = -v;
                 s+= v;
-               if (s >= distlim) break;
+             if (s >= distlim) break;
           }
     }
-    
+ }   
     return s;
 }
 /*
@@ -1486,7 +1507,7 @@ s'hauria de buscar d'on venen (la declaració o l'malloc) i posar-hi __attribute
  
 
 
-
+ 
 static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__ blk2, int lx, int hx,int hy,int h,int distlim)
 {
   unsigned char *p1,*p1a,*p2;
@@ -1522,11 +1543,7 @@ els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i v
               //  v = (v ^ (v>>31)) - (v>>31);
                //printf("p1: %d, p2: %d  h: %d lx: %d\n",p1[i],p2[i],h,lx);
                 s+= v;
-               //s+=mem_restas[p1[i]][p2[i]];
-        
-               
-             //memoization tampoc millora res  
-           // s+=mem_restas[p2[i]][p1[i]];
+
                 /*optimitzacio: quan es supera distlim acabem, no es necessiten la resta d'iteracions
                 el resultat final retornat (s) canvia pero al final el que interessa a les funcions 
 	            que criden amb aquesta es si la s es major que el distlim. Hauriem d'assegurarnos que es aixi 

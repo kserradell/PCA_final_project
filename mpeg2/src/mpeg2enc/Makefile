@@ -36,7 +36,7 @@
 .SUFFIXES: .pg
 
 CC = gcc
-CFLAGS = -O3 -Wall -march=core2
+CFLAGS = -O3 -Wall -march=core2 -ftree-vectorize
 
 #flags icc
 #CFLAGS = -O3 -Wall -march=core2 -parallel
