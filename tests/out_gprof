@@ -3,38 +3,34 @@ Flat profile:
 Each sample counts as 0.01 seconds.
   %   cumulative   self              self     total           
  time   seconds   seconds    calls  Ts/call  Ts/call  name    
- 82.61     30.25    30.25                             dist1
-  6.28     32.55     2.30                             fullsearch
-  2.54     33.48     0.93                             fdct
-  1.77     34.13     0.65                             quant_non_intra
-  1.28     34.60     0.47                             motion_estimation
-  0.66     34.84     0.24                             idct
-  0.63     35.07     0.23                             itransform
-  0.63     35.30     0.23                             quant_intra
-  0.55     35.50     0.20                             pred_comp
-  0.46     35.67     0.17                             calcSNR
-  0.30     35.78     0.11                             iquant_intra
-  0.25     35.87     0.09                             bdist2
-  0.25     35.96     0.09                             putbits
-  0.25     36.05     0.09                             transform
-  0.22     36.13     0.08                             iquant_non_intra
-  0.22     36.21     0.08                             rc_init_pict
-  0.14     36.26     0.05                             dist2
-  0.14     36.31     0.05                             putintrablk
-  0.11     36.35     0.04                             putnonintrablk
-  0.11     36.39     0.04                             putpict
-  0.08     36.42     0.03                             dct_type_estimation
-  0.08     36.45     0.03                             predict
-  0.08     36.48     0.03                             putmv
-  0.08     36.51     0.03                             rc_calc_mquant
-  0.05     36.53     0.02                             calc_DMV
-  0.05     36.55     0.02                             frame_estimate
-  0.05     36.57     0.02                             stats
-  0.03     36.58     0.01                             putAC
-  0.03     36.59     0.01                             putACfirst
-  0.03     36.60     0.01                             putDClum
-  0.03     36.61     0.01                             putmotioncode
-  0.03     36.62     0.01                             readframe
+ 87.66     30.25    30.25                             fullsearch
+  2.87     31.24     0.99                             fdct
+  1.80     31.86     0.62                             quant_non_intra
+  1.36     32.33     0.47                             motion_estimation
+  0.90     32.64     0.31                             idct
+  0.78     32.91     0.27                             quant_intra
+  0.61     33.12     0.21                             calcSNR
+  0.61     33.33     0.21                             pred_comp
+  0.49     33.50     0.17                             bdist2
+  0.49     33.67     0.17                             putbits
+  0.32     33.78     0.11                             itransform
+  0.26     33.87     0.09                             iquant_intra
+  0.20     33.94     0.07                             iquant_non_intra
+  0.20     34.01     0.07                             putintrablk
+  0.20     34.08     0.07                             rc_init_pict
+  0.17     34.14     0.06                             dct_type_estimation
+  0.17     34.20     0.06                             putnonintrablk
+  0.17     34.26     0.06                             transform
+  0.14     34.31     0.05                             dist2
+  0.14     34.36     0.05                             predict
+  0.12     34.40     0.04                             frame_estimate
+  0.09     34.43     0.03                             putpict
+  0.06     34.45     0.02                             calc_DMV
+  0.06     34.47     0.02                             putACfirst
+  0.03     34.48     0.01                             putAC
+  0.03     34.49     0.01                             putmv
+  0.03     34.50     0.01                             rc_calc_mquant
+  0.03     34.51     0.01                             stats
 
  %         the percentage of the total running time of the
 time       program used by this function.

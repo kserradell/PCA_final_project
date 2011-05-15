@@ -1414,30 +1414,8 @@ int *iminp,*jminp;
   return dmin;
 }
 
-/*Intent de memoization que empitjora el temps, descartada
-*  ja no es crida a l'inici del programa
-*/
-
-int mem_restas[256][256];
-void motion_memoization()
-{
-//mem_restas=malloc(256*256);
-
-int i,j;
-int v;
-for (i=0;i<256;i++)
-    for(j=0;j<256;j++)
-     {
-        v=i-j;
-        if(v<0) v=-v;
-        mem_restas[i][j]=v;
-     }
-}
-
-
-
-/*specialitzacio de dist1, hi ha una crida que a on hx i hy sempre son 0*
-* no es guanya quasi res, i axo que ens estalviem un munt de ifs.... 
+/*specialitzacio de dist1, hi ha una crida a on hx i hy sempre son 0*
+* Ara amb vectoritzacio si que es guanya
 */
 static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __restrict__  blk2, int lx, int hx,int hy,int h,int distlim)
 {
@@ -1456,7 +1434,7 @@ Peero, aquesta funcio reb adreçes blk1 i blk2 que van variant en un char, per t
 
 */
 /*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem, si no no*/
-if (  (((unsigned long)p1 & 15) == 0) &&  (((unsigned long)p2 & 15) == 0))
+if (  (((unsigned int)p1 & 15) == 0) &&  (((unsigned int)p2 & 15) == 0))
 {
     __m128i *pr1,*pr2;
     __m128i * res;
@@ -1508,11 +1486,22 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
   int i,j;
   int s,v;
   
-
   s = 0;
   p1 = blk1;
   p2 = blk2;
-  
+             
+/*
+* h: sempre val 8 o 16
+* lx: idem pero 720 o 1440, es l'increment dels punters, es com si es saltes tota una fila d'una matriu: 
+*         important per vectoritzar: son multiples de 16
+* els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i valors no millora
+*/
+
+ /* Bithack del valor absolut */
+               //v = p2[i]  - p1[i];
+              //  v = (v ^ (v>>31)) - (v>>31);
+       
+              
   if (!hx && !hy)
   {
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
@@ -1520,21 +1509,14 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
 
           int i;
           for (i = 0 ; i < 16 ; i++)
-           {
-/*
-h: sempre val 8 o 16
-lx: idem pero 720 o 1440, es l'increment dels punters, es com si es saltes tota una fila d'una matriu
-els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i valors no millora
-*/
+            {
                     /*El que fa aquest if es un valor absolut de la diferencia, pero provant al 
 	            meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if
 	            Ho acabo de probar en el meu i trigo 1,5 més. Ho descartem, no? */
 	            
 	           if ((v = p2[i]  - p1[i])<0) v = -v;
 
-                /* Bithack del valor absolut */
-               //v = p2[i]  - p1[i];
-              //  v = (v ^ (v>>31)) - (v>>31);
+               
                //printf("p1: %d, p2: %d  h: %d lx: %d\n",p1[i],p2[i],h,lx);
                 s+= v;
 
@@ -1545,7 +1527,7 @@ els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i v
                 */
                  if (s >= distlim) break;
           }
-    }
+     }
     //printf("p1min: %d , p1max: %d  , p2min: %d , p2max: %d , \n",p1min,p1max,p2min,p2max);
     }
   else if (hx && !hy)

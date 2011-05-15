@@ -63,7 +63,7 @@ char *argv[];
     sprintf(errortext,"Couldn't create output file %s",argv[2]);
     error(errortext);
   }
-//motion_memoization();
+
   init();
   putseq();
 
