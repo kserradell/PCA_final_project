@@ -1477,9 +1477,6 @@ if (  (((unsigned int)p1 & 15) == 0) &&  (((unsigned int)p2 & 15) == 0))
  * distlim:   bail out if sum exceeds this value
  */
  
-
-
- 
 static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__ blk2, int lx, int hx,int hy,int h,int distlim)
 {
   unsigned char *p1,*p1a,*p2;
@@ -1504,6 +1501,8 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
               
   if (!hx && !hy)
   {
+  
+  /*També he vectoritzat aqui pero es perd temps, en canvi a dist1 special va més rapid*/
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {
 
