@@ -1458,7 +1458,6 @@ Peero, aquesta funcio reb adreçes blk1 i blk2 que van variant en un char, per t
 /*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem, si no no*/
 if (  (((unsigned long)p1 & 15) == 0) &&  (((unsigned long)p2 & 15) == 0))
 {
-
     __m128i *pr1,*pr2;
     __m128i * res;
     unsigned short res_v[8] __attribute__((__aligned__(16)));
@@ -1467,7 +1466,6 @@ if (  (((unsigned long)p1 & 15) == 0) &&  (((unsigned long)p2 & 15) == 0))
 //printf("entro blk1:%u  blk2: %u\n",(unsigned int)p1,(unsigned int) p2);
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {   
-       
 	      pr1 = (__m128i*) (((unsigned char *)p1));
 	      pr2 = (__m128i*) (((unsigned char *)p2));
 		
@@ -1482,14 +1480,10 @@ if (  (((unsigned long)p1 & 15) == 0) &&  (((unsigned long)p2 & 15) == 0))
      for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {   
          for (i = 0 ; i < 16 ; i++)
-           {
-	    
-		
-		   /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6*/
-		
-		    if ((v = p2[i]  - p1[i])<0) v = -v;
-                s+= v;
-             if (s >= distlim) break;
+           {	
+		      if ((v = p2[i]  - p1[i])<0) v = -v;
+              s+= v;
+              if (s >= distlim) break;
           }
     }
  }   
