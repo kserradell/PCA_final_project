@@ -3,21 +3,31 @@
 
 \chapter{Optimitzacions}
 
-\section{Optimitzacio 1: enrotllar el bucle a dist1}
+\section{Optimitzaci\'o 1: Loop roll}
+\begin{itemize}
+\item{Funció: motion.c/dist1}
+\item{SpeedUp:}
+\end{itemize}
 
-A dist 1 hem detectat que havia un bucle desenrotllat. Hem decidit provar a enrotllar-ho de nou i veure si el compilador aconseguia optimitzar mes aquest unroll, i efectivament, amb el bucle enrotllat hi ha hagut guany de temps. Esta clar que el compilador fa el desenrotllament optim per aquest bucle.
+A dist 1 hem detectat que hi havia un bucle desenrotllat. Hem decidit provar a enrotllar-ho de nou i veure si el compilador aconseguia optimitzar més aquest unroll, i efectivament, amb el bucle enrotllat hi ha hagut guany de temps, per tant la feina d'aquest unroll li deixem al compilador.
+ 
 
-Speed Up = 
-
-\section{Optimizacio 1: Retallada d'iteracions a dist1}
+\section{Optimizaci\'o 2: Retallada d'iteracions}
+\begin{itemize}
+\item{Funció: motion.c/dist1}
+\item{SpeedUp:}
+\end{itemize}
 
 Analitzant una mica el codi de la funció dist1 a motion.c, hem vist que el que fa aquesta funció es acumular a la variable s distàncies absolutes i finalment retornar s. Peró hi ha un detall important en aquest codi: no volem calcular totalment s, sinó que el que en interessa es saber si s>distlim, un altre paràmetre de la funció.
 
-Per tant, al bucle que hem desenrotllat anteriorment on es calculen les distancies absolutes de 16 variables tipus char, hem fet que es surti del bucle si s passa a ser major o igual que distlim. D'aquesta manera, ens estalviem gran quantitat de càlculs ja que dist1 es una funció que es crida gran quantitat de vegades.
+Per tant, als bucles que acumulen distancies absolutes a s, hem fet que es surti del bucle si s passa a ser major o igual que distlim. D'aquesta manera, ens estalviem gran quantitat de càlculs ja que dist1 es una funció que es crida gran quantitat de vegades.
 
-Speed Up  =
 
-\section{Optimizacio 3: Bithacks del valor absolut}
+\section{Optimizaci\'o 3: Bithacks}
+\begin{itemize}
+\item{Funcio: motion.c/dist1}
+\item{SpeedUp:}
+\end{itemize}
 
 El bucle que hem desenrotllat a l'optimització 1 fa el següent a cada iteració: resta dos valors, els fa el valor absolut i els suma a s. El valor absolut el calcula amb un if(v<0) v=-v, per tant havíem pensat que fent bithacks ens podíem estalviar aquest salt. Hem aplicat el següent bithack:
 
@@ -27,23 +37,70 @@ El bucle que hem desenrotllat a l'optimització 1 fa el següent a cada iteraci�
 \end{lstlisting}
  
 
-Tot i això, el profiling d'aquest programa ha estat negatiu: es triga més amb aquest bithack que amb l'if. Esta clar que el compilador amb els flags adequats d'optimització fa bastant bona feina.
+Tot i això, el profiling d'aquest programa ha estat negatiu: es triga més amb aquest bithack que amb l'if. Es evident que el compilador amb els flags adequats d'optimització fa bastant bona feina amb algunes optimitzacions.
               
-SpeedUp = 
 
-\section{Optimizacio 4: Memoization}
-Analitzar els valors dels punters p1 i p2 a dist1, hem vist que aquests son valors entre 0 i 255 (típics valors de components de color). Per tant vam pensar que potser fent memoization de les restes i valors absoluts d'aquests valors aconseguíem accelerar el proces a dist1. Vam fer servir una matriu de 255x255 amb totes les restes que s'inicialitzava al principi de l'execució. 
+\section{Optimitzaci\'o 4: Loop splitting}
+\begin{itemize}
+\item{Funcio: motion.c/fullsearch}
+\item{SpeedUp:}
+\end{itemize}
 
-El profiling d'aquesta versió va donar temps molt semblants a la versió sense memoization, el que vol dir que amb memoization es guanya poc temps, el qual es perd amb l'overhead inicial d'omplir aquesta matriu.
+El bucle for(k=0; k<8*l; k++) conté al final un if a on es decideix si mou j segons si el valor de k ha arribat a un cert valor. Aquest bucle es pot separar en 4 bucles a on a cadascun d'ells s'incrementa una variable (i,j i k en ordre), estalviant-nos l'if amb 3 condicions a cada iteració.
 
-SpeedUp=
+\section{Optimitzaci\'o 4: Bithacks}
+\begin{itemize}
+\item{Funció: motion.c/fullsearch}
+\item{SpeedUp:}
+\end{itemize}
 
-\section{Optimizacio 5: Especialitzacio de dist1}
+Aquest bithack consisteix en substituir aquest codi:
+
+\begin{lstlisting}
+if (d<dmin)
+{
+  dmin = d;
+  imin = i;
+  jmin = j;
+}
+
+\end{lstlisting}
+
+
+pel següent:
+
+\begin{lstlisting}
+mask=-(d<dmin);
+dmin=(dmin & ~mask) + (d&mask);
+imin = (imin & ~mask) + (i&mask);
+jmin = (jmin & ~mask) + (j&mask);
+\end{lstlisting}
+
+D'aquesta manera ens estalviem el salt i tenim la mateixa sortida.
+
+\section{Optimitzaci\'o 5: Memoization}
+\begin{itemize}
+\item{Funció: motion.c/dist1}
+\item{SpeedUp:}
+\end{itemize}
+
+Analitzant els valors dels punters p1 i p2 a dist1, hem vist que aquests son valors entre 0 i 255  (típics valors de components de color y valors que caben a un unsigned char). Per tant vam pensar que potser fent memoization de les restes i valors absoluts d'aquests valors aconseguíem accelerar el proces a dist1. Vam fer servir una matriu de 255x255 amb totes les restes que s'inicialitzava al principi de l'execució. 
+
+El profiling d'aquesta versió va donar temps molt semblants a la versió sense memoization, el que vol dir que amb memoization es guanya poc temps, el qual es perd amb l'overhead inicial d'omplir aquesta matriu i amb el cost dels accessos a memòria de la matriu de memoitzacio.
+
+
+\section{Optimizaci\'o 6: Especialitzaci\'o de dist1}
+\begin{itemize}
+\item{Funció: motion.c/dist1 -> dist1\_special}
+\item{SpeedUp:}
+\end{itemize}
+
 Dist1 es crida des de fullsearch, la segona funció en el ranking de temps d'execució. Fullsearch crida a dist1 diverses vegades, inicialment amb paràmetres hx i hy =0, per tant hem decidit separar aquest cas de la dist1 genèrica per qualsevol hx i hy. D'aquesta manera en aquestes crides no s'haurà d'executar l'if tantes vegades.
 
 El profiling no mostra una gran millora, però com veurem mes endavant, aquesta optimització ens va permetre obtindre un temps millor amb vectorització.
 
-SpeedUp=
-
-
-\section{Optimizacio 5: Vectoritzacio a dist1}
+\section{Optimizaci\'o 7: Vectoritzaci\'o}
+\begin{itemize}
+\item{Funció: motion.c/dist1\_special}
+\item{SpeedUp:}
+\end{itemize}
