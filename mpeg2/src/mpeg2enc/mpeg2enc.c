@@ -111,7 +111,7 @@ static void init()
   {
     size = (i==0) ? width*height : chrom_width*chrom_height;
 
-/*Alineat de les dades*/
+/*Alineat de les dades (malloc de dades alineades)*/
     if (posix_memalign((void**)&newrefframe[i], 16, size)) error("malloc failed\n");
     if (posix_memalign((void**)&oldrefframe[i], 16, size)) error("malloc failed\n");
     if (posix_memalign((void**)&auxframe[i], 16, size)) error("malloc failed\n");

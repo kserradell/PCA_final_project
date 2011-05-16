@@ -1517,7 +1517,7 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
 		        /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
 		        fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
 		          *res=_mm_sad_epu8(*pr1, *pr2);
-		          s+=res_v[0]+res_v[4];
+		           s+=res_v[0]+res_v[4];
             }
          }
          else
@@ -1560,6 +1560,7 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
   {
 
     p1a = p1 + lx;
+       
     for (j=0; j<h && s<distlim; j++)
     {
       for (i=0; i<16; i++)
@@ -1573,6 +1574,7 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
       p1a+= lx;
       p2+= lx;
     }
+    
   }
   else  /*if (hx && hy) */
   {
