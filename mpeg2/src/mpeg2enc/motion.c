@@ -1322,6 +1322,9 @@ int *iminp,*jminp;
           else            j--;
         }*/
         
+        
+        /*Aixo de la cerca en espiral sona ineficient pel tema de la memoria (localitat espacial arruinada) potser
+        es pot fer d'una altra forma...*/
         for (k=0; k<(l<<1); k++,i++)
         {
           if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
@@ -1374,13 +1377,13 @@ int *iminp,*jminp;
         {
           if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
           {
-                d = dist1_special(org+i+lx*j   ,   blk,lx,0,0,h,dmin);
+            d = dist1_special(org+i+lx*j   ,   blk,lx,0,0,h,dmin);
 
-               //bithacks!
-                maska=-(d<dmin);
-                dmin=(dmin & ~maska) + (d&maska);
-                imin = (imin & ~maska) + (i&maska);
-                jmin = (jmin & ~maska) + (j&maska);
+            //bithacks!
+            maska=-(d<dmin);
+            dmin=(dmin & ~maska) + (d&maska);
+            imin = (imin & ~maska) + (i&maska);
+            jmin = (jmin & ~maska) + (j&maska);
           }
         }
   }
@@ -1399,7 +1402,7 @@ int *iminp,*jminp;
   for (j=jlow; j<=jhigh; j++)
     for (i=ilow; i<=ihigh; i++)
     {
-      d = dist1(ref+(i>>1)+lx*(j>>1),blk,lx,i&1,j&1,h,dmin);
+        d = dist1(ref+(i>>1)+lx*(j>>1),blk,lx,i&1,j&1,h,dmin);
       
      //bithacks!
         maska=-(d<dmin);
@@ -1500,7 +1503,7 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
                  
   if (!hx && !hy)
   {
- /*Vectoritzat*/
+ /*Vectoritzat, en aquest cas s'hauria de provar mes per que no estic segura que es guanyi*/
         if ( ((unsigned int)p1 & 15) == 0)
         {
             __m128i *pr1,*pr2;
