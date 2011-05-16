@@ -1501,32 +1501,38 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
               
   if (!hx && !hy)
   {
-  
-  /*També he vectoritzat aqui pero es perd temps, en canvi a dist1 special va més rapid*/
-    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
-    {
-
-          int i;
-          for (i = 0 ; i < 16 ; i++)
-            {
-                    /*El que fa aquest if es un valor absolut de la diferencia, pero provant al 
-	            meu portatil de fer el bithack del valor , triga mes amb el bithack que amb l'if
-	            Ho acabo de probar en el meu i trigo 1,5 més. Ho descartem, no? */
-	            
-	           if ((v = p2[i]  - p1[i])<0) v = -v;
-
-               
-               //printf("p1: %d, p2: %d  h: %d lx: %d\n",p1[i],p2[i],h,lx);
-                s+= v;
-
-                /*optimitzacio: quan es supera distlim acabem, no es necessiten la resta d'iteracions
-                el resultat final retornat (s) canvia pero al final el que interessa a les funcions 
-	            que criden amb aquesta es si la s es major que el distlim. Hauriem d'assegurarnos que es aixi 
-	            pero de moment les sortides que dona son correctes i es guanyen entre 5 y 7 segons de temps
-                */
-                 if (s >= distlim) break;
-          }
-     }
+ /*Vectoritzat*/
+        if (  (((unsigned int)p1 & 15) == 0) &&  (((unsigned int)p2 & 15) == 0))
+        {
+            __m128i *pr1,*pr2;
+            __m128i * res;
+            unsigned short res_v[8] __attribute__((__aligned__(16)));
+            res=(__m128i*)res_v;
+            
+        //printf("entro blk1:%u  blk2: %u\n",(unsigned int)p1,(unsigned int) p2);
+            for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
+            {   
+	              pr1 = (__m128i*) (((unsigned char *)p1));
+	              pr2 = (__m128i*) (((unsigned char *)p2));
+		
+		        /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
+		        fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
+		          *res=_mm_sad_epu8(*pr1, *pr2);
+		          s+=res_v[0]+res_v[4];
+            }
+         }
+         else
+         {
+             for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
+            {   
+                 for (i = 0 ; i < 16 ; i++)
+                   {	
+		              if ((v = p2[i]  - p1[i])<0) v = -v;
+                      s+= v;
+                      if (s >= distlim) break;
+                  }
+            }
+         }   
     //printf("p1min: %d , p1max: %d  , p2min: %d , p2max: %d , \n",p1min,p1max,p2min,p2max);
     }
   else if (hx && !hy)
