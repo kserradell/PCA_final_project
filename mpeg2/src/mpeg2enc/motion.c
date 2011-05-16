@@ -1432,9 +1432,12 @@ dades alineades a mpeg2enc.c (posix memalign...)
 
 Peero, aquesta funcio reb adreçes blk1 i blk2 que van variant en un char, per tant no sempre entra un punter alineat .  Separem en casos alineats i no alineats.
 
+Si el punter p1 i p2 estan alineats inicialment, tots els accessos seran alineats ja que l'increment
+lx que fa als punters es multiple de 16
+
 */
 /*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem, si no no*/
-if (  (((unsigned int)p1 & 15) == 0) &&  (((unsigned int)p2 & 15) == 0))
+if ( ((unsigned int)p1 & 15) == 0)  //p2 sempre esta alineat
 {
     __m128i *pr1,*pr2;
     __m128i * res;
@@ -1494,15 +1497,11 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
 * els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i valors no millora
 */
 
- /* Bithack del valor absolut */
-               //v = p2[i]  - p1[i];
-              //  v = (v ^ (v>>31)) - (v>>31);
-       
-              
+                 
   if (!hx && !hy)
   {
  /*Vectoritzat*/
-        if (  (((unsigned int)p1 & 15) == 0) &&  (((unsigned int)p2 & 15) == 0))
+        if ( ((unsigned int)p1 & 15) == 0)
         {
             __m128i *pr1,*pr2;
             __m128i * res;
