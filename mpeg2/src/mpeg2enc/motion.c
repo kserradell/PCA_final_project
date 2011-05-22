@@ -1281,7 +1281,8 @@ int *iminp,*jminp;
     jhigh = ymax-h;
 
   /* full pel search, spiraling outwards */
-
+ /*Aixo de la cerca en espiral sona ineficient pel tema de la memoria (localitat espacial arruinada) potser
+        es pot fer d'una altra forma...*/
   imin = i0;
   jmin = j0;
   dmin = dist1_special(org+imin+lx*jmin,blk,lx,0,0,h,65536);
@@ -1294,37 +1295,8 @@ int *iminp,*jminp;
   {
         i = i0 - l;
         j = j0 - l;
-               /*
-               les variables i i j es decrementen en 1 a cada volta
-               No canvia el temps, ho fa el compilador
-               */
-              /*i-=1;
-              j-=1;*/
-       /* for (k=0; k<8*l; k++)
-        {
-          if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
-          {
-            d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
-
-            if (d<dmin)
-            {
-              dmin = d;
-              imin = i;
-              jmin = j;
-            }
-          }
-
-
-    //opt: desplego aquest bucle per evitar aquest carro de ifs, no es nota gaire baixada de temps
-          if      (k<2*l) i++;
-          else if (k<4*l) j++;
-          else if (k<6*l) i--;
-          else            j--;
-        }*/
-        
-        
-        /*Aixo de la cerca en espiral sona ineficient pel tema de la memoria (localitat espacial arruinada) potser
-        es pot fer d'una altra forma...*/
+              
+       
         for (k=0; k<(l<<1); k++,i++)
         {
           if (i>=ilow && i<=ihigh && j>=jlow && j<=jhigh)
@@ -1447,7 +1419,6 @@ if ( ((unsigned int)p1 & 15) == 0)  //p2 sempre esta alineat
     unsigned short res_v[8] __attribute__((__aligned__(16)));
     res=(__m128i*)res_v;
     
-//printf("entro blk1:%u  blk2: %u\n",(unsigned int)p1,(unsigned int) p2);
     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
     {   
 	      pr1 = (__m128i*) (((unsigned char *)p1));
@@ -1511,7 +1482,7 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
             unsigned short res_v[8] __attribute__((__aligned__(16)));
             res=(__m128i*)res_v;
             
-        //printf("entro blk1:%u  blk2: %u\n",(unsigned int)p1,(unsigned int) p2);
+            
             for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
             {   
 	              pr1 = (__m128i*) (((unsigned char *)p1));
