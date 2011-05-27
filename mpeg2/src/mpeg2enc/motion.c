@@ -35,6 +35,9 @@
 //per al CHAR_BIT (bithacks)
 #include <limits.h>
 
+#define NUM_THREADS 1 
+#include <pthread.h>
+
 /* private prototypes */
 
 static void frame_ME _ANSI_ARGS_((unsigned char *oldorg, unsigned char *neworg,
@@ -143,6 +146,20 @@ int secondfield,ipflag;
   if (!quiet)
     putc('\n',stderr);
 }
+
+/********** THREADS ************/
+struct struct_pthread{
+
+	int distlim;
+	char *p1, *p2;
+	int s;
+	
+}; 
+
+struct struct_pthread thread_data_array[NUM_THREADS];
+
+void* bucle_thread(struct_pthread);
+/******************************/
 
 static void frame_ME(oldorg,neworg,oldref,newref,cur,i,j,sxf,syf,sxb,syb,mbi)
 unsigned char *oldorg,*neworg,*oldref,*newref,*cur;
@@ -1389,6 +1406,36 @@ int *iminp,*jminp;
   return dmin;
 }
 
+void *bucle_thread(void *threadarg){
+
+        int i,s,v;
+	char *p1, *p2;
+	int distlim;
+        
+	//printf("Entro dins el thread\n");
+
+        struct struct_pthread *my_data = (struct struct_pthread *) threadarg;
+	 
+        p1 = my_data->p1;
+        p2 = my_data->p2;
+        distlim = my_data->distlim;
+
+        for (i = 0 ; i < 16 ; i++)
+        {
+              if ((v = p2[i]  - p1[i])<0) v = -v;
+              s+= v;
+              if (s >= distlim) break;
+        }
+
+        my_data->s=s;
+
+	//printf("s = %d\n",s);
+	//printf("Abans del pthread_exit\n");
+
+	pthread_exit(0);
+
+}
+
 /*specialitzacio de dist1, hi ha una crida a on hx i hy sempre son 0*
 * Ara amb vectoritzacio si que es guanya
 */
@@ -1401,6 +1448,10 @@ static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __re
   s = 0;
   p1 = blk1;
   p2 = blk2;
+
+  pthread_t threads[NUM_THREADS];
+
+  int rc,t;
   
 /*VECTORITZACIO: 
 dades alineades a mpeg2enc.c (posix memalign...)
@@ -1432,18 +1483,40 @@ if ( ((unsigned int)p1 & 15) == 0)  //p2 sempre esta alineat
  }
  else
  {
-     for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
+
+     /* Intentem aplicar pthreads en aquest bucle que suposem que on triga mes ara */
+
+     for (j=0; j<h && s<distlim; j=j++,p1+=lx,p2+=lx)
     {   
-         for (i = 0 ; i < 16 ; i++)
-           {	
-		      if ((v = p2[i]  - p1[i])<0) v = -v;
-              s+= v;
-              if (s >= distlim) break;
-          }
+
+	for (t = 0; t < NUM_THREADS; t++){
+
+		thread_data_array[t].distlim = distlim;
+                thread_data_array[t].p1 = p1;
+                thread_data_array[t].p2 = p2;
+	
+		//printf("Create pthread %d\n", t);
+		rc = pthread_create(&threads[t],NULL,bucle_thread,(void *) &thread_data_array[t]);
+ 		//printf("After Create pthread %d\n", t);		
+	
+		if(rc){
+			printf("Error, code %d\n",rc);
+			exit(-1);
+		}
+
+	}
+
+	for (t = 0; t < NUM_THREADS; t++){
+		
+		rc = pthread_join(threads[t],NULL);
+                s = s + thread_data_array[t].s;
+
+ 	}
     }
  }   
     return s;
 }
+
 /*
  * total absolute difference between two (16*h) blocks
  * including optional half pel interpolation of blk1 (hx,hy)
