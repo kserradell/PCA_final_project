@@ -35,7 +35,7 @@
 //per al CHAR_BIT (bithacks)
 #include <limits.h>
 
-#define NUM_THREADS 1 
+#define NUM_THREADS 2
 #include <pthread.h>
 
 /* private prototypes */
@@ -151,7 +151,7 @@ int secondfield,ipflag;
 struct struct_pthread{
 
 	int distlim;
-	char *p1, *p2;
+	unsigned char *p1, *p2;
 	int s;
 	
 }; 
@@ -1409,13 +1409,19 @@ int *iminp,*jminp;
 void *bucle_thread(void *threadarg){
 
         int i,s,v;
-	char *p1, *p2;
+	unsigned char *p1, *p2;
 	int distlim;
         
-	//printf("Entro dins el thread\n");
-
         struct struct_pthread *my_data = (struct struct_pthread *) threadarg;
-	 
+        
+        s = 0;
+        
+        //my_data->s=0;
+        //pthread_exit(0);
+        
+	//printf("Entro dins el thread\n");
+	//Actualment, perdem tot el temps aquí dins.
+
         p1 = my_data->p1;
         p2 = my_data->p2;
         distlim = my_data->distlim;
@@ -1423,7 +1429,8 @@ void *bucle_thread(void *threadarg){
         for (i = 0 ; i < 16 ; i++)
         {
               if ((v = p2[i]  - p1[i])<0) v = -v;
-              s+= v;
+              s+=v;
+              //printf("s=%d,distlim=%d\n",s,distlim);
               if (s >= distlim) break;
         }
 
@@ -1453,6 +1460,8 @@ static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __re
 
   int rc,t;
   
+  //printf("h=%d\n",h);
+  
 /*VECTORITZACIO: 
 dades alineades a mpeg2enc.c (posix memalign...)
 
@@ -1463,57 +1472,89 @@ lx que fa als punters es multiple de 16
 
 */
 /*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem, si no no*/
-if ( ((unsigned int)p1 & 15) == 0)  //p2 sempre esta alineat
-{
-    __m128i *pr1,*pr2;
-    __m128i * res;
-    unsigned short res_v[8] __attribute__((__aligned__(16)));
-    res=(__m128i*)res_v;
-    
-    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
-    {   
-	      pr1 = (__m128i*) (((unsigned char *)p1));
-	      pr2 = (__m128i*) (((unsigned char *)p2));
-		
-		/*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
-		fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
-		  *res=_mm_sad_epu8(*pr1, *pr2);
-		  s+=res_v[0]+res_v[4];
-    }
- }
- else
- {
-
-     /* Intentem aplicar pthreads en aquest bucle que suposem que on triga mes ara */
-
-     for (j=0; j<h && s<distlim; j=j++,p1+=lx,p2+=lx)
-    {   
-
-	for (t = 0; t < NUM_THREADS; t++){
-
-		thread_data_array[t].distlim = distlim;
-                thread_data_array[t].p1 = p1;
-                thread_data_array[t].p2 = p2;
 	
-		//printf("Create pthread %d\n", t);
-		rc = pthread_create(&threads[t],NULL,bucle_thread,(void *) &thread_data_array[t]);
- 		//printf("After Create pthread %d\n", t);		
-	
-		if(rc){
-			printf("Error, code %d\n",rc);
-			exit(-1);
-		}
-
-	}
-
-	for (t = 0; t < NUM_THREADS; t++){
+	if ( ((unsigned int)p1 & 15) == 0)  //p2 sempre esta alineat
+	{
+	    //printf("VECTORITZACIO\n");
+	    
+	    __m128i *pr1,*pr2;
+	    __m128i * res;
+	    unsigned short res_v[8] __attribute__((__aligned__(16)));
+	    res=(__m128i*)res_v;
+	    
+	    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
+	    {   
+		      pr1 = (__m128i*) (((unsigned char *)p1));
+		      pr2 = (__m128i*) (((unsigned char *)p2));
 		
-		rc = pthread_join(threads[t],NULL);
-                s = s + thread_data_array[t].s;
+			/*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
+			fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
+			  *res=_mm_sad_epu8(*pr1, *pr2);
+			  s+=res_v[0]+res_v[4];
+	    }
+	 }
+	 else
+	 {
+	  if (NUM_THREADS != 0){
+	  
+	  	    ////////////////////////////////////////////////////////////////////////////
+	    	    /// AMB PTHREADS
+	    	    ////////////////////////////////////////////////////////////////////////////
+		    
+		    
+		    //for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
+		    for (j=0; j<h/NUM_THREADS && s<distlim; j=j+NUM_THREADS)
+		    {   
 
- 	}
-    }
- }   
+			for (t = 0; t < NUM_THREADS; t++){
+	
+				//Comenta això si vols tornar a la versió original
+				p1+=lx*(t+1);
+				p2+=lx*(t+1);
+
+				thread_data_array[t].distlim = distlim;
+				thread_data_array[t].p1 = p1;
+				thread_data_array[t].p2 = p2;
+	
+				//printf("Create pthread %d\n", t);
+				rc = pthread_create(&threads[t],NULL,bucle_thread,(void *) &thread_data_array[t]);
+		 		//printf("After Create pthread %d\n", t);		
+	
+				if(rc){
+					printf("Error, code %d\n",rc);
+					exit(-1);
+				}
+
+			}
+
+			for (t = 0; t < NUM_THREADS; t++){
+		
+				rc = pthread_join(threads[t],NULL);
+				s = s + thread_data_array[t].s;
+				
+				if(rc){
+					printf("Error, code %d\n",rc);
+					exit(-1);
+				}
+		 	}
+		    }
+	    }
+	    else{
+	    	    ////////////////////////////////////////////////////////////////////////////
+	    	    /// SENSE PTHREADS
+	    	    ////////////////////////////////////////////////////////////////////////////
+	    	
+		    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
+		    {   
+			 for (i = 0 ; i < 16 ; i++)
+			   {	
+			      if ((v = p2[i]  - p1[i])<0) v = -v;
+			      s+= v;
+			      if (s >= distlim) break;
+			  }
+		    }
+	    }
+	 }   
     return s;
 }
 

@@ -36,7 +36,7 @@
 .SUFFIXES: .pg
 
 CC = gcc
-CFLAGS = -O3 -Wall -march=core2 -ftree-vectorize -pthread
+CFLAGS = -g -pg -O3 -Wall -march=core2 -ftree-vectorize -pthread
 
 #flags icc
 #CFLAGS = -O3 -Wall -march=core2 -parallel
