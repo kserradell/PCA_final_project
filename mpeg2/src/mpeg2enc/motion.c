@@ -153,6 +153,9 @@ struct struct_pthread{
 	int distlim;
 	unsigned char *p1, *p2;
 	int s;
+	int id;
+	int lx;
+	int h;
 	
 }; 
 
@@ -1406,13 +1409,19 @@ int *iminp,*jminp;
   return dmin;
 }
 
+
+  int distlim_global;
+	            unsigned char * p1_global;
+	            unsigned char* p2_global;
+	            int h_global;
+	            int lx_global;
 void *bucle_thread(void *threadarg){
 
-        int i,s,v;
-	unsigned char *p1, *p2;
-	int distlim;
+        int i,s,v,j;
+	//unsigned char *p1, *p2;
+	//int distlim,id,h,lx;
         
-        struct struct_pthread *my_data = (struct struct_pthread *) threadarg;
+      //  struct struct_pthread *my_data = (struct struct_pthread *) threadarg;
         
         s = 0;
         
@@ -1422,30 +1431,58 @@ void *bucle_thread(void *threadarg){
 	//printf("Entro dins el thread\n");
 	//Actualment, perdem tot el temps aquí dins.
 
-        p1 = my_data->p1;
+        /*p1 = my_data->p1;
         p2 = my_data->p2;
         distlim = my_data->distlim;
-
-        for (i = 0 ; i < 16 ; i++)
-        {
-              if ((v = p2[i]  - p1[i])<0) v = -v;
-              s+=v;
-              //printf("s=%d,distlim=%d\n",s,distlim);
-              if (s >= distlim) break;
+        id=my_data->id;
+        h=my_data->h;
+        lx=my_data->lx;
+        int block_size,start,end;*/
+        
+        unsigned char * p1=p1_global;
+        unsigned char * p2=p2_global;
+        int distlim=distlim_global;
+        int h=h_global;
+        int lx=lx_global;
+        int id=(int)threadarg;
+     
+        int block_size=h/NUM_THREADS;
+        
+        int start=id*block_size;
+        int end=start+block_size;
+        
+        p1=p1+start*lx;
+        p2=p2+start*lx;
+          // printf("id: %d h:%d start: %d end: %d \n",id,h,start,end);
+        for (j=start; j<end && s<distlim; j++,p1+=lx,p2+=lx)
+        { 
+                for (i = 0 ; i < 16 ; i++)
+                {
+                      if ((v = p2[i]  - p1[i])<0) v = -v;
+                      s+=v;
+                      //printf("s=%d,distlim=%d\n",s,distlim);
+                      if (s >= distlim) break;
+                }           
         }
-
-        my_data->s=s;
-
+        
+         //my_data->s=s;
 	//printf("s = %d\n",s);
 	//printf("Abans del pthread_exit\n");
 
-	pthread_exit(0);
+	pthread_exit(s);
 
 }
 
 /*specialitzacio de dist1, hi ha una crida a on hx i hy sempre son 0*
 * Ara amb vectoritzacio si que es guanya
 */
+
+
+
+	            
+	            
+	          
+	            
 static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __restrict__  blk2, int lx, int hx,int hy,int h,int distlim)
 {
   unsigned char *p1,*p2;
@@ -1456,11 +1493,9 @@ static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __re
   p1 = blk1;
   p2 = blk2;
 
-  pthread_t threads[NUM_THREADS];
+
 
   int rc,t;
-  
-  //printf("h=%d\n",h);
   
 /*VECTORITZACIO: 
 dades alineades a mpeg2enc.c (posix memalign...)
@@ -1472,7 +1507,7 @@ lx que fa als punters es multiple de 16
 
 */
 /*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem, si no no*/
-	
+	//if(0)
 	if ( ((unsigned int)p1 & 15) == 0)  //p2 sempre esta alineat
 	{
 	    //printf("VECTORITZACIO\n");
@@ -1500,44 +1535,49 @@ lx que fa als punters es multiple de 16
 	  	    ////////////////////////////////////////////////////////////////////////////
 	    	    /// AMB PTHREADS
 	    	    ////////////////////////////////////////////////////////////////////////////
-		    
-		    
-		    //for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
-		    for (j=0; j<h/NUM_THREADS && s<distlim; j=j+NUM_THREADS)
-		    {   
-
+             pthread_t threads[NUM_THREADS];
+             
+              p1_global=p1;
+	            p2_global=p2;
+	            h_global=h;
+	            lx_global=lx;
 			for (t = 0; t < NUM_THREADS; t++){
+			
 	
 				//Comenta això si vols tornar a la versió original
-				p1+=lx*(t+1);
-				p2+=lx*(t+1);
+				
 
-				thread_data_array[t].distlim = distlim;
+				/*thread_data_array[t].distlim = distlim;
 				thread_data_array[t].p1 = p1;
 				thread_data_array[t].p2 = p2;
-	
+	            thread_data_array[t].id=t;
+	            thread_data_array[t].h=h;
+	            thread_data_array[t].lx=lx;*/
+	           
+	            
 				//printf("Create pthread %d\n", t);
-				rc = pthread_create(&threads[t],NULL,bucle_thread,(void *) &thread_data_array[t]);
+				rc = pthread_create(&threads[t],NULL,bucle_thread,(void *) t);
 		 		//printf("After Create pthread %d\n", t);		
 	
 				if(rc){
-					printf("Error, code %d\n",rc);
+					printf("Error at pthread_create, code %d\n",rc);
 					exit(-1);
 				}
-
-			}
-
+            }
+			
+int aux;
 			for (t = 0; t < NUM_THREADS; t++){
 		
-				rc = pthread_join(threads[t],NULL);
-				s = s + thread_data_array[t].s;
-				
+				rc = pthread_join(threads[t], (void *) aux);
+				s = s + (int)aux;
+				//printf("s: %d \n",s);
 				if(rc){
-					printf("Error, code %d\n",rc);
+					printf("Error at pthread_join, code %d\n",rc);
 					exit(-1);
 				}
 		 	}
-		    }
+		 
+		    
 	    }
 	    else{
 	    	    ////////////////////////////////////////////////////////////////////////////
