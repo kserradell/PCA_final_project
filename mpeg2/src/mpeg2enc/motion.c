@@ -1316,7 +1316,7 @@ int *iminp,*jminp;
         i = i0 - l;
         j = j0 - l;
         
-        
+      
         if (j>=jlow && j<=jhigh)
             for (k=0; k<(l<<1); k++,i++)
             {
@@ -1389,11 +1389,13 @@ int *iminp,*jminp;
                     jmin = (jmin & ~maska) + (j&maska);
                   }
              }
+   
   }
 
   /* half pel */
    /*Se mbla ser que per baixar aquest valor el resultat no canvia i baixa el temps alguna decima (molt poc)*/
    //dmin=65536;
+   int aux=dmin;
   dmin = 19000;
   imin <<= 1;
   jmin <<= 1;
@@ -1408,6 +1410,7 @@ int *iminp,*jminp;
         d = dist1(ref+(i>>1)+lx*(j>>1),blk,lx,i&1,j&1,h,dmin);
       
      //bithacks!
+   
         maska=-(d<dmin);
         dmin=(dmin & ~maska) + (d&maska);
         imin = (imin & ~maska) + (i&maska);
