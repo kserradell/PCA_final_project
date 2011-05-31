@@ -1524,7 +1524,7 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
 		        /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
 		        fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
 		          res=_mm_sad_epu8(*pr1, *pr2);
-		           s+=_mm_extract_epi16(res,0) + _mm_extract_epi16(res,4);
+		          s+=_mm_extract_epi16(res,0) + _mm_extract_epi16(res,4);
             }
          }
          else
