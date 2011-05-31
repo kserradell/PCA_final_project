@@ -12,7 +12,7 @@
 A dist 1 hem detectat que hi havia un bucle desenrotllat. Hem decidit provar a enrotllar-ho de nou i veure si el compilador aconseguia optimitzar més aquest unroll, i efectivament, amb el bucle enrotllat hi ha hagut guany de temps, per tant la feina d'aquest unroll li deixem al compilador.
  
 
-\section{Optimizaci\'o 2: Retallada d'iteracions}
+\section{Optimitzaci\'o 2: Retallada d'iteracions}
 \begin{itemize}
 \item{Funció: motion.c/dist1}
 \item{SpeedUp:}
@@ -23,7 +23,7 @@ Analitzant una mica el codi de la funció dist1 a motion.c, hem vist que el que 
 Per tant, als bucles que acumulen distancies absolutes a s, hem fet que es surti del bucle si s passa a ser major o igual que distlim. D'aquesta manera, ens estalviem gran quantitat de càlculs ja que dist1 es una funció que es crida gran quantitat de vegades.
 
 
-\section{Optimizaci\'o 3: Bithacks}
+\section{Optimitzaci\'o 3: Bithacks}
 \begin{itemize}
 \item{Funcio: motion.c/dist1}
 \item{SpeedUp:}
@@ -89,7 +89,7 @@ Analitzant els valors dels punters p1 i p2 a dist1, hem vist que aquests son val
 El profiling d'aquesta versió va donar temps molt semblants a la versió sense memoization, el que vol dir que amb memoization es guanya poc temps, el qual es perd amb l'overhead inicial d'omplir aquesta matriu i amb el cost dels accessos a memòria de la matriu de memoitzacio.
 
 
-\section{Optimizaci\'o 6: Especialitzaci\'o de dist1}
+\section{Optimitzaci\'o 6: Especialitzaci\'o de dist1}
 \begin{itemize}
 \item{Funció: motion.c/dist1 -> dist1\_special}
 \item{SpeedUp:}
@@ -99,8 +99,38 @@ Dist1 es crida des de fullsearch, la segona funció en el ranking de temps d'exe
 
 El profiling no mostra una gran millora, però com veurem mes endavant, aquesta optimització ens va permetre obtindre un temps millor amb vectorització.
 
-\section{Optimizaci\'o 7: Vectoritzaci\'o}
+\section{Optimitzaci\'o 7: Vectoritzaci\'o}
 \begin{itemize}
 \item{Funció: motion.c/dist1\_special}
 \item{SpeedUp:}
 \end{itemize}
+
+\section{Optimitzaci\'o 8: Threads}
+\begin{itemize}
+\item{Funció: motion.c/dist1\_special}
+\item{SpeedUp:}
+\end{itemize}
+
+Abans d'aplicar la vectorització tota "sencera", és a dir per posicions alineades i no alineades, tenim el cas que les no alineades seguien executant-se amb el bucle i utilitzant gprof, hem vist que aquesta part del codi, consumia gairebé un 80\% del temps de CPU. Per optimitzar aquest part, de seguida vàrem pensar en utilitzar els pthreads, ja que ens semblava un bon lloc i una bona manera d'aplicar una tècnica que encara no havíem fet servir fins ara. La idea era que cada thread executés un bucle i que es repartissin la feina entre ells. El codi quedava així:
+
+\begin{lstlisting}
+for (j=0; j<h/NUM_THREADS && s<distlim; j=j+NUM_THREADS){   
+  for (t = 0; t < NUM_THREADS; t++){
+  p1+=lx*(t+1);
+  p2+=lx*(t+1);
+
+  thread_data_array[t].distlim = distlim;
+  thread_data_array[t].p1 = p1;
+  thread_data_array[t].p2 = p2;
+
+  rc = pthread_create(&threads[t],NULL,bucle_thread,
+  (void *) &thread_data_array[t]);
+}
+
+for (t = 0; t < NUM_THREADS; t++){
+  rc = pthread_join(threads[t],NULL);
+  s = s + thread_data_array[t].s;
+}		 	
+\end{lstlisting}
+
+La funció \texttt{blucle\_thread} és el bucle que fa els càlculs i tant els parametres d'entrada com de sortida están passats a través d'una estructura de dades creada i reagrupada sota un array, un element per thread. La idea semblava correcte però el que no vam tenir en compte és en els càlculs reals que duu a terme \texttt{blucle\_thread}. En efecte, aquesta funció no fa masses iteracions i al contrari, és crida molts cops, per tant, l'overhead generat per crear i gestionar els threads era molt superior al temps guanyat. Això va provocar que descartessim aquesta optimització per ineficient.

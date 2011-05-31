@@ -32,7 +32,7 @@ Sense començar a mirar el codi i per experiència d'anteriors pràctiques/feine
 \texttt{-O3 -parallel} & 33.690s & N.A.\\
 \hline
 \end{tabular}
-\caption{Benchmarking entre compiladors i flags}
+\caption{Benchmarking entre compiladors i flags utilitzant el video del tigre}
 \end{center}
 \label{table1}
 \end{table}
@@ -48,8 +48,17 @@ El primer pas abans de començar a treballar ha estat el de fer profiling del co
 
 \begin{figure}[hbtp]
 \begin{center}
-\includegraphics[scale=0.4]{img/output.png}
+\includegraphics[scale=0.3]{img/output.png}
 \caption{Graf del profiling del codi original}
 \end{center}
 \end{figure}
 
+\section{Metodologia de treball}
+Durant tota aquesta pràctica hem seguit la següent meteorologia per validar i integrar les optimitzacions:
+
+\begin{itemize}
+  \item Codificar
+  \item Testejar amb el fitxer tiger.mpg
+  \item Comparar el resultat amb l'original (\texttt{diff})
+  \item Calcular speedups
+\end{itemize}

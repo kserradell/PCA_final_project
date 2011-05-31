@@ -147,7 +147,7 @@ int secondfield,ipflag;
     putc('\n',stderr);
 }
 
-/********** THREADS ************/
+/********** THREADS ***********
 struct struct_pthread{
 
 	int distlim;
@@ -157,11 +157,11 @@ struct struct_pthread{
 	int lx;
 	int h;
 	
-}; 
+};
 
 struct struct_pthread thread_data_array[NUM_THREADS];
 
-void* bucle_thread(struct_pthread);
+void* bucle_thread(struct_pthread);*/
 /******************************/
 
 static void frame_ME(oldorg,neworg,oldref,newref,cur,i,j,sxf,syf,sxb,syb,mbi)
@@ -1411,77 +1411,14 @@ int *iminp,*jminp;
 
 
   int distlim_global;
-	            unsigned char * p1_global;
-	            unsigned char* p2_global;
-	            int h_global;
-	            int lx_global;
-void *bucle_thread(void *threadarg){
+  unsigned char * p1_global;
+  unsigned char* p2_global;
+  int h_global;
+  int lx_global;
 
-        int i,s,v,j;
-	//unsigned char *p1, *p2;
-	//int distlim,id,h,lx;
-        
-      //  struct struct_pthread *my_data = (struct struct_pthread *) threadarg;
-        
-        s = 0;
-        
-        //my_data->s=0;
-        //pthread_exit(0);
-        
-	//printf("Entro dins el thread\n");
-	//Actualment, perdem tot el temps aquí dins.
-
-        /*p1 = my_data->p1;
-        p2 = my_data->p2;
-        distlim = my_data->distlim;
-        id=my_data->id;
-        h=my_data->h;
-        lx=my_data->lx;
-        int block_size,start,end;*/
-        
-        unsigned char * p1=p1_global;
-        unsigned char * p2=p2_global;
-        int distlim=distlim_global;
-        int h=h_global;
-        int lx=lx_global;
-        int id=(int)threadarg;
-     
-        int block_size=h/NUM_THREADS;
-        
-        int start=id*block_size;
-        int end=start+block_size;
-        
-        p1=p1+start*lx;
-        p2=p2+start*lx;
-          // printf("id: %d h:%d start: %d end: %d \n",id,h,start,end);
-        for (j=start; j<end && s<distlim; j++,p1+=lx,p2+=lx)
-        { 
-                for (i = 0 ; i < 16 ; i++)
-                {
-                      if ((v = p2[i]  - p1[i])<0) v = -v;
-                      s+=v;
-                      //printf("s=%d,distlim=%d\n",s,distlim);
-                      if (s >= distlim) break;
-                }           
-        }
-        
-         //my_data->s=s;
-	//printf("s = %d\n",s);
-	//printf("Abans del pthread_exit\n");
-
-	pthread_exit(s);
-
-}
 
 /*specialitzacio de dist1, hi ha una crida a on hx i hy sempre son 0*
-* Ara amb vectoritzacio si que es guanya
-*/
-
-
-
-	            
-	            
-	          
+* Ara amb vectoritzacio si que es guanya */
 	            
 static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __restrict__  blk2, int lx, int hx,int hy,int h,int distlim)
 {
@@ -1507,12 +1444,10 @@ lx que fa als punters es multiple de 16
 
 */
 /*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem, si no no*/
-	//if(0)
-	
 	 
-	 __m128i * res;
-	 unsigned short res_v[8] __attribute__((__aligned__(16)));
-	 res=(__m128i*)res_v;
+	__m128i * res;
+	unsigned short res_v[8] __attribute__((__aligned__(16)));
+	res=(__m128i*)res_v;
 	
 	if ( ((unsigned int)p1 & 15) == 0)  //p2 sempre esta alineat
 	{
@@ -1534,15 +1469,12 @@ lx que fa als punters es multiple de 16
 	    }
 	    
 	 }
-	 else
-	 {
+	else{
 	 
 	  	    __m128i pr1,pr2;
 	  
 	 	    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
-	    		{  
-	 	      //__mm_loadu_si128();
-	 
+	    	    {  
 	 	      pr1 = _mm_loadu_si128( (__m128i*) p1);
 		      pr2 = _mm_loadu_si128( (__m128i*) p2);
 		
@@ -1552,10 +1484,11 @@ lx que fa als punters es multiple de 16
 		      *res=_mm_sad_epu8(pr1, pr2);
 		      s+=res_v[0]+res_v[4];
 	 		
-	 	      }
+	 	     }
 	    
-	 }   
-    return s;
+	}   
+    
+       return s;
 }
 
 /*
