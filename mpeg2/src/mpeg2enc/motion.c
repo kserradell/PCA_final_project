@@ -1409,14 +1409,6 @@ int *iminp,*jminp;
   return dmin;
 }
 
-
-  int distlim_global;
-  unsigned char * p1_global;
-  unsigned char* p2_global;
-  int h_global;
-  int lx_global;
-
-
 /*specialitzacio de dist1, hi ha una crida a on hx i hy sempre son 0*
 * Ara amb vectoritzacio si que es guanya */
 	            
@@ -1506,8 +1498,6 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
 * els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i valors no millora
 */
 
-  
-  
   if (!hx && !hy)
   {
         __m128i res;  
