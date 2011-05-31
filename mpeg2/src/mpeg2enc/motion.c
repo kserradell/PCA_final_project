@@ -35,7 +35,7 @@
 //per al CHAR_BIT (bithacks)
 #include <limits.h>
 
-#define NUM_THREADS 2
+#define NUM_THREADS 0 
 #include <pthread.h>
 
 /* private prototypes */
@@ -1508,92 +1508,52 @@ lx que fa als punters es multiple de 16
 */
 /*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem, si no no*/
 	//if(0)
+	
+	 
+	 __m128i * res;
+	 unsigned short res_v[8] __attribute__((__aligned__(16)));
+	 res=(__m128i*)res_v;
+	
 	if ( ((unsigned int)p1 & 15) == 0)  //p2 sempre esta alineat
 	{
 	    //printf("VECTORITZACIO\n");
 	    
-	    __m128i *pr1,*pr2;
-	    __m128i * res;
-	    unsigned short res_v[8] __attribute__((__aligned__(16)));
-	    res=(__m128i*)res_v;
+	     __m128i *pr1,*pr2;
 	    
 	    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
 	    {   
+	    
 		      pr1 = (__m128i*) (((unsigned char *)p1));
 		      pr2 = (__m128i*) (((unsigned char *)p2));
 		
-			/*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
-			fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
-			  *res=_mm_sad_epu8(*pr1, *pr2);
-			  s+=res_v[0]+res_v[4];
+		      /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
+		      fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
+		      
+		      *res=_mm_sad_epu8(*pr1, *pr2);
+		      s+=res_v[0]+res_v[4];
 	    }
+	    
 	 }
 	 else
 	 {
-	  if (NUM_THREADS != 0){
+	 
+	  	    __m128i pr1,pr2;
 	  
-	  	    ////////////////////////////////////////////////////////////////////////////
-	    	    /// AMB PTHREADS
-	    	    ////////////////////////////////////////////////////////////////////////////
-             pthread_t threads[NUM_THREADS];
-             
-              p1_global=p1;
-	            p2_global=p2;
-	            h_global=h;
-	            lx_global=lx;
-			for (t = 0; t < NUM_THREADS; t++){
-			
-	
-				//Comenta això si vols tornar a la versió original
-				
-
-				/*thread_data_array[t].distlim = distlim;
-				thread_data_array[t].p1 = p1;
-				thread_data_array[t].p2 = p2;
-	            thread_data_array[t].id=t;
-	            thread_data_array[t].h=h;
-	            thread_data_array[t].lx=lx;*/
-	           
-	            
-				//printf("Create pthread %d\n", t);
-				rc = pthread_create(&threads[t],NULL,bucle_thread,(void *) t);
-		 		//printf("After Create pthread %d\n", t);		
-	
-				if(rc){
-					printf("Error at pthread_create, code %d\n",rc);
-					exit(-1);
-				}
-            }
-			
-int aux;
-			for (t = 0; t < NUM_THREADS; t++){
+	 	    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
+	    		{  
+	 	      //__mm_loadu_si128();
+	 
+	 	      pr1 = _mm_loadu_si128( (__m128i*) p1);
+		      pr2 = _mm_loadu_si128( (__m128i*) p2);
 		
-				rc = pthread_join(threads[t], (void *) aux);
-				s = s + (int)aux;
-				//printf("s: %d \n",s);
-				if(rc){
-					printf("Error at pthread_join, code %d\n",rc);
-					exit(-1);
-				}
-		 	}
-		 
-		    
-	    }
-	    else{
-	    	    ////////////////////////////////////////////////////////////////////////////
-	    	    /// SENSE PTHREADS
-	    	    ////////////////////////////////////////////////////////////////////////////
-	    	
-		    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
-		    {   
-			 for (i = 0 ; i < 16 ; i++)
-			   {	
-			      if ((v = p2[i]  - p1[i])<0) v = -v;
-			      s+= v;
-			      if (s >= distlim) break;
-			  }
-		    }
-	    }
+		      /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
+		      fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
+		      
+		      *res=_mm_sad_epu8(pr1, pr2);
+		      s+=res_v[0]+res_v[4];
+	 		
+	 	      }
+	    
 	 }   
     return s;
 }
@@ -1625,6 +1585,9 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
 * els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i valors no millora
 */
 
+            __m128i * res;
+            unsigned short res_v[8] __attribute__((__aligned__(16)));
+            res=(__m128i*)res_v;
                  
   if (!hx && !hy)
   {
@@ -1632,9 +1595,7 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
         if ( ((unsigned int)p1 & 15) == 0)
         {
             __m128i *pr1,*pr2;
-            __m128i * res;
-            unsigned short res_v[8] __attribute__((__aligned__(16)));
-            res=(__m128i*)res_v;
+
             
             
             for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
@@ -1650,15 +1611,23 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
          }
          else
          {
-             for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
-            {   
-                 for (i = 0 ; i < 16 ; i++)
-                   {	
-		              if ((v = p2[i]  - p1[i])<0) v = -v;
-                      s+= v;
-                      if (s >= distlim) break;
-                  }
-            }
+	  	    __m128i pr1,pr2;
+	  
+	 	    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
+	    		{  
+	 	      //__mm_loadu_si128();
+	 
+	 	      pr1 = _mm_loadu_si128( (__m128i*) p1);
+		      pr2 = _mm_loadu_si128( (__m128i*) p2);
+		
+		      /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
+		      fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
+		      
+		      *res=_mm_sad_epu8(pr1, pr2);
+		      s+=res_v[0]+res_v[4];
+	 		
+	 	      }
+	 	      
          }   
     //printf("p1min: %d , p1max: %d  , p2min: %d , p2max: %d , \n",p1min,p1max,p2min,p2max);
     }
