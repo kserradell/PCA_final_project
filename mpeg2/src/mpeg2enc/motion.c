@@ -1339,12 +1339,12 @@ int *iminp,*jminp;
                   }
             }
         else
-            i+=l<<1;
+            {i+=l<<1;k=l<<1;}
       
        if( i>=ilow && i<=ihigh)
-            for (k=l<<1; k<(l<<2); k++,j++)
+            for (; k<(l<<2); k++,j++)
             {
-                  if ( j>=jlow && j<=jhigh)
+                  if (j>=jlow && j<=jhigh)
                   {
                     d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
 
@@ -1356,10 +1356,10 @@ int *iminp,*jminp;
                   }
             }
        else
-            j+=l<<1;
+            {j+=l<<1;k=l<<2;}
        
        if (j>=jlow && j<=jhigh)
-            for (k=l<<2; k<6*l; k++,i--)
+            for (; k<6*l; k++,i--)
             {
                   if (i>=ilow && i<=ihigh)
                   {
@@ -1394,7 +1394,7 @@ int *iminp,*jminp;
   /* half pel */
    /*Se mbla ser que per baixar aquest valor el resultat no canvia i baixa el temps alguna decima (molt poc)*/
    //dmin=65536;
-  dmin = 20000;
+  dmin = 19000;
   imin <<= 1;
   jmin <<= 1;
   ilow = imin - (imin>0);
