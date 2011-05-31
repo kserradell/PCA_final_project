@@ -2,36 +2,519 @@ Flat profile:
 
 Each sample counts as 0.01 seconds.
   %   cumulative   self              self     total           
- time   seconds   seconds    calls  Ts/call  Ts/call  name    
- 88.54     30.98    30.98                             fullsearch
-  2.69     31.92     0.94                             fdct
-  1.57     32.47     0.55                             quant_non_intra
-  1.46     32.98     0.51                             motion_estimation
-  0.77     33.25     0.27                             quant_intra
-  0.63     33.47     0.22                             idct
-  0.51     33.65     0.18                             putbits
-  0.49     33.82     0.17                             calcSNR
-  0.49     33.99     0.17                             itransform
-  0.49     34.16     0.17                             pred_comp
-  0.40     34.30     0.14                             iquant_intra
-  0.37     34.43     0.13                             transform
-  0.31     34.54     0.11                             rc_init_pict
-  0.26     34.63     0.09                             iquant_non_intra
-  0.20     34.70     0.07                             bdist2
-  0.14     34.75     0.05                             dct_type_estimation
-  0.14     34.80     0.05                             putnonintrablk
-  0.11     34.84     0.04                             dist2
-  0.09     34.87     0.03                             putAC
-  0.09     34.90     0.03                             putintrablk
-  0.03     34.91     0.01                             calc_DMV
-  0.03     34.92     0.01                             frame_estimate
-  0.03     34.93     0.01                             putACfirst
-  0.03     34.94     0.01                             putaddrinc
-  0.03     34.95     0.01                             putmotioncode
-  0.03     34.96     0.01                             putmv
-  0.03     34.97     0.01                             putmvs
-  0.03     34.98     0.01                             putpict
-  0.03     34.99     0.01                             putseq
+ time   seconds   seconds    calls  ns/call  ns/call  name    
+  8.16      1.67     1.67                             dist1_special (motion.c:1485 @ 804fdeb)
+  7.72      3.25     1.58                             dist1_special (motion.c:1485 @ 804fb6b)
+  4.69      4.21     0.96                             dist1_special (motion.c:1485 @ 804fa33)
+  4.35      5.10     0.89                             dist1_special (motion.c:1485 @ 804fcab)
+  3.23      5.76     0.66                             _mm_loadu_si128 (emmintrin.h:685 @ 804fb55)
+  3.23      6.42     0.66                             dist1_special (motion.c:1476 @ 804fb78)
+  2.91      7.01     0.59                             _mm_loadu_si128 (emmintrin.h:685 @ 804fdd5)
+  2.81      7.59     0.57                             dist1_special (motion.c:1476 @ 804fdf8)
+  1.83      7.96     0.38                             _mm_loadu_si128 (emmintrin.h:685 @ 804fc95)
+  1.74      8.32     0.35                             _mm_loadu_si128 (emmintrin.h:685 @ 804fa1d)
+  1.32      8.59     0.27                             dist1_special (motion.c:1476 @ 804fcb8)
+  1.22      8.84     0.25                             dist1_special (motion.c:1476 @ 804fb50)
+  1.08      9.06     0.22                             dist1_special (motion.c:1476 @ 804fa40)
+  0.93      9.25     0.19                             quant_non_intra (quantize.c:105 @ 806c376)
+  0.88      9.43     0.18                             _mm_sad_epu8 (emmintrin.h:1412 @ 804fb5f)
+  0.83      9.60     0.17                             dist1 (motion.c:1615 @ 80506a3)
+  0.83      9.77     0.17                             fullsearch (motion.c:1368 @ 804fd2f)
+  0.83      9.94     0.17                             quant_non_intra (quantize.c:108 @ 806c37e)
+  0.73     10.09     0.15                             _mm_sad_epu8 (emmintrin.h:1412 @ 804fddf)
+  0.71     10.23     0.14                             dist1 (motion.c:1615 @ 805066d)
+  0.71     10.38     0.14                             quant_non_intra (quantize.c:104 @ 806c35a)
+  0.68     10.52     0.14                             dist1 (motion.c:1612 @ 8050640)
+  0.68     10.66     0.14                             dist1_special (motion.c:1476 @ 804fdd0)
+  0.68     10.80     0.14                             dist1_special (motion.c:1468 @ 8050b1b)
+  0.68     10.94     0.14                             fullsearch (motion.c:1370 @ 804fd88)
+  0.66     11.07     0.14                             dist1_special (motion.c:1468 @ 8050acb)
+  0.66     11.21     0.14                             quant_intra (quantize.c:63 @ 806c22e)
+  0.59     11.33     0.12                             dist1_special (motion.c:1476 @ 804fb63)
+  0.59     11.45     0.12                             dist1_special (motion.c:1468 @ 8050bb6)
+  0.54     11.56     0.11                             dist1_special (motion.c:1458 @ 8050ad8)
+  0.54     11.67     0.11                             fullsearch (motion.c:1354 @ 804fc30)
+  0.49     11.77     0.10                             dist1_special (motion.c:1476 @ 804fc90)
+  0.49     11.87     0.10                             fullsearch (motion.c:1322 @ 804f9d4)
+  0.49     11.97     0.10                             quant_non_intra (quantize.c:116 @ 806c330)
+  0.46     12.06     0.10                             fdct (fdctref.c:76 @ 806b3da)
+  0.46     12.16     0.10                             fullsearch (motion.c:1342 @ 804fb06)
+  0.44     12.25     0.09                             bdist2 (motion.c:1788 @ 804f068)
+  0.44     12.34     0.09                             dist1 (motion.c:1612 @ 80508c4)
+  0.44     12.43     0.09                             fullsearch (motion.c:1320 @ 804f9c0)
+  0.42     12.52     0.09                             _mm_sad_epu8 (emmintrin.h:1412 @ 804fa27)
+  0.39     12.60     0.08                             dist1_special (motion.c:1476 @ 804fde3)
+  0.39     12.68     0.08                             fdct (fdctref.c:76 @ 806b340)
+  0.39     12.76     0.08                             fullsearch (motion.c:1275 @ 804fbc8)
+  0.39     12.84     0.08                             fullsearch (motion.c:1275 @ 804fd18)
+  0.37     12.91     0.07                             _mm_sad_epu8 (emmintrin.h:1412 @ 804fc9f)
+  0.37     12.98     0.07                             dist1 (motion.c:1612 @ 80506b7)
+  0.34     13.05     0.07                             dist1 (motion.c:1612 @ 8050789)
+  0.34     13.12     0.07                             dist1 (motion.c:1615 @ 80507a9)
+  0.34     13.20     0.07                             dist1 (motion.c:1615 @ 8050812)
+  0.34     13.27     0.07                             dist1 (motion.c:1615 @ 805091a)
+  0.34     13.34     0.07                             dist1_special (motion.c:1476 @ 804f9ed)
+  0.34     13.40     0.07                             dist1_special (motion.c:1476 @ 804fa18)
+  0.34     13.47     0.07                             fdct (fdctref.c:76 @ 806b172)
+  0.34     13.54     0.07                             fullsearch (motion.c:1314 @ 804fe40)
+  0.32     13.61     0.07                             dist1 (motion.c:1612 @ 805071f)
+  0.32     13.68     0.07                             fullsearch (motion.c:1340 @ 804faf0)
+  0.29     13.73     0.06                             dist1 (motion.c:1557 @ 804ff7e)
+  0.29     13.79     0.06                             dist1 (motion.c:1612 @ 8050826)
+  0.29     13.86     0.06                             dist1 (motion.c:1615 @ 805094f)
+  0.29     13.91     0.06                             dist1_special (motion.c:1476 @ 804fc5d)
+  0.29     13.97     0.06                             dist1_special (motion.c:1458 @ 8050bc7)
+  0.29     14.04     0.06                             fdct (fdctref.c:76 @ 806b00c)
+  0.29     14.10     0.06                             fullsearch (motion.c:1320 @ 804fa8a)
+  0.29     14.15     0.06                             iquant_intra (quantize.c:140 @ 806c53a)
+  0.24     14.21     0.05                             dist1 (motion.c:1577 @ 8050064)
+  0.24     14.26     0.05                             dist1 (motion.c:1612 @ 8050682)
+  0.24     14.30     0.05                             dist1 (motion.c:1615 @ 8050775)
+  0.24     14.36     0.05                             dist1 (motion.c:1612 @ 80507bd)
+  0.24     14.40     0.05                             dist1 (motion.c:1615 @ 80507de)
+  0.24     14.46     0.05                             dist1 (motion.c:1615 @ 80508e5)
+  0.24     14.51     0.05                             dist1 (motion.c:1612 @ 80508f9)
+  0.24     14.55     0.05                             dist1_special (motion.c:1476 @ 804fa2b)
+  0.24     14.61     0.05                             dist1_special (motion.c:1476 @ 804fca3)
+  0.24     14.65     0.05                             dist1_special (motion.c:1458 @ 8050b28)
+  0.24     14.71     0.05                             fdct (fdctref.c:89 @ 806b9c7)
+  0.24     14.76     0.05                             quant_intra (quantize.c:74 @ 806c26d)
+  0.22     14.80     0.04                             dist1_special (motion.c:1458 @ 804fb3a)
+  0.22     14.85     0.04                             fdct (fdctref.c:76 @ 806b2a6)
+  0.22     14.89     0.04                             fullsearch (motion.c:1348 @ 804fb94)
+  0.20     14.93     0.04                             add_pred (transfrm.c:191 @ 806a1ec)
+  0.20     14.97     0.04                             add_pred (transfrm.c:191 @ 806a619)
+  0.20     15.01     0.04                             dist1 (motion.c:1565 @ 8050285)
+  0.20     15.05     0.04                             dist1 (motion.c:1597 @ 80503a0)
+  0.20     15.09     0.04                             dist1 (motion.c:1597 @ 80503c8)
+  0.20     15.13     0.04                             dist1 (motion.c:1594 @ 8050404)
+  0.20     15.17     0.04                             dist1 (motion.c:1594 @ 8050454)
+  0.20     15.21     0.04                             dist1 (motion.c:1597 @ 8050490)
+  0.20     15.25     0.04                             dist1 (motion.c:1597 @ 80504e1)
+  0.20     15.29     0.04                             dist1 (motion.c:1594 @ 8050515)
+  0.20     15.33     0.04                             dist1 (motion.c:1612 @ 80506eb)
+  0.20     15.37     0.04                             dist1 (motion.c:1615 @ 8050740)
+  0.20     15.41     0.04                             dist1 (motion.c:1612 @ 8050754)
+  0.20     15.45     0.04                             dist1 (motion.c:1612 @ 805092e)
+  0.20     15.49     0.04                             dist1 (motion.c:1608 @ 8050994)
+  0.20     15.53     0.04                             dist1_special (motion.c:1458 @ 8050a78)
+  0.20     15.57     0.04                             fdct (fdctref.c:87 @ 806b603)
+  0.20     15.61     0.04                             fdct (fdctref.c:87 @ 806b847)
+  0.20     15.65     0.04                             fullsearch (motion.c:1334 @ 804fa59)
+  0.20     15.69     0.04                             fullsearch (motion.c:1340 @ 804fab0)
+  0.20     15.73     0.04                             fullsearch (motion.c:1356 @ 804fbf0)
+  0.20     15.77     0.04                             fullsearch (motion.c:1377 @ 804fe19)
+  0.20     15.81     0.04                             pred_comp (predict.c:473 @ 8064f30)
+  0.20     15.85     0.04                             quant_non_intra (quantize.c:116 @ 806c394)
+  0.17     15.88     0.04                             calcSNR1 (stats.c:91 @ 806f5dd)
+  0.17     15.92     0.04                             dist1 (motion.c:1615 @ 805070b)
+  0.17     15.96     0.04                             dist1 (motion.c:1612 @ 805085a)
+  0.17     15.99     0.04                             dist1_special (motion.c:1476 @ 804fb25)
+  0.17     16.02     0.04                             dist1_special (motion.c:1458 @ 804fdbb)
+  0.15     16.05     0.03                             add_pred (transfrm.c:191 @ 806a540)
+  0.15     16.09     0.03                             calcSNR1 (stats.c:92 @ 806f5e2)
+  0.15     16.11     0.03                             dist1 (motion.c:1546 @ 804ff60)
+  0.15     16.14     0.03                             dist1 (motion.c:1578 @ 805006f)
+  0.15     16.18     0.03                             dist1 (motion.c:1574 @ 8050078)
+  0.15     16.20     0.03                             dist1 (motion.c:1577 @ 80500ac)
+  0.15     16.23     0.03                             dist1 (motion.c:1574 @ 805012c)
+  0.15     16.27     0.03                             dist1 (motion.c:1574 @ 8050198)
+  0.15     16.30     0.03                             dist1 (motion.c:1574 @ 80501bc)
+  0.15     16.32     0.03                             dist1 (motion.c:1597 @ 8050300)
+  0.15     16.36     0.03                             dist1 (motion.c:1594 @ 8050314)
+  0.15     16.39     0.03                             dist1 (motion.c:1597 @ 8050328)
+  0.15     16.41     0.03                             dist1 (motion.c:1597 @ 8050378)
+  0.15     16.45     0.03                             dist1 (motion.c:1597 @ 8050440)
+  0.15     16.48     0.03                             dist1 (motion.c:1594 @ 8050539)
+  0.15     16.50     0.03                             dist1 (motion.c:1590 @ 8050558)
+  0.15     16.54     0.03                             dist1 (motion.c:1615 @ 80506d7)
+  0.15     16.57     0.03                             dist1 (motion.c:1612 @ 80507f2)
+  0.15     16.59     0.03                             dist1 (motion.c:1615 @ 80508b0)
+  0.15     16.62     0.03                             dist1_special (motion.c:1484 @ 804fb66)
+  0.15     16.66     0.03                             fdct (fdctref.c:78 @ 806b0d1)
+  0.15     16.68     0.03                             fdct (fdctref.c:76 @ 806b474)
+  0.15     16.71     0.03                             fullsearch (motion.c:1322 @ 804f997)
+  0.15     16.75     0.03                             fullsearch (motion.c:1349 @ 804fba5)
+  0.15     16.77     0.03                             fullsearch (motion.c:1350 @ 804fbbb)
+  0.15     16.80     0.03                             fullsearch (motion.c:1356 @ 804fc44)
+  0.15     16.84     0.03                             idctrow (idct.c:81 @ 806be56)
+  0.15     16.86     0.03                             idctrow (idct.c:84 @ 806bec4)
+  0.15     16.89     0.03                             iquant_intra (quantize.c:139 @ 806c510)
+  0.15     16.93     0.03                             iquant_intra (quantize.c:139 @ 806c523)
+  0.15     16.95     0.03                             pred_comp (predict.c:481 @ 8064c70)
+  0.15     16.98     0.03                             sub_pred (transfrm.c:209 @ 806ac3a)
+  0.12     17.01     0.03                             dist1 (motion.c:1577 @ 805013c)
+  0.12     17.04     0.03                             dist1 (motion.c:1574 @ 8050247)
+  0.12     17.06     0.03                             dist1 (motion.c:1615 @ 8050846)
+  0.12     17.09     0.03                             dist1_special (motion.c:1476 @ 804fda6)
+  0.12     17.11     0.03                             dist1_special (motion.c:1484 @ 804fde6)
+  0.12     17.14     0.03                             fullsearch (motion.c:1349 @ 804fbad)
+  0.12     17.16     0.03                             fullsearch (motion.c:1350 @ 804fbaf)
+  0.12     17.18     0.03                             fullsearch (motion.c:1376 @ 804fe0e)
+  0.12     17.21     0.03                             fullsearch (motion.c:1397 @ 804ff16)
+  0.10     17.23     0.02  1196413    16.72    16.72  putAC (putvlc.c:106 @ 804ded0)
+  0.10     17.25     0.02                             add_pred (transfrm.c:191 @ 806a39a)
+  0.10     17.27     0.02                             add_pred (transfrm.c:191 @ 806a6e7)
+  0.10     17.29     0.02                             bdist1 (motion.c:1734 @ 805c787)
+  0.10     17.31     0.02                             bdist1 (motion.c:1734 @ 805cc47)
+  0.10     17.33     0.02                             bdist1 (motion.c:1734 @ 805da57)
+  0.10     17.35     0.02                             bdist1 (motion.c:1734 @ 805db87)
+  0.10     17.37     0.02                             calcSNR1 (stats.c:88 @ 806f5c0)
+  0.10     17.39     0.02                             calcSNR1 (stats.c:90 @ 806f5d5)
+  0.10     17.41     0.02                             calcSNR1 (stats.c:86 @ 806f5d7)
+  0.10     17.43     0.02                             dist1 (motion.c:1574 @ 80500c0)
+  0.10     17.45     0.02                             dist1 (motion.c:1577 @ 80500d0)
+  0.10     17.47     0.02                             dist1 (motion.c:1577 @ 80500f4)
+  0.10     17.49     0.02                             dist1 (motion.c:1574 @ 8050150)
+  0.10     17.51     0.02                             dist1 (motion.c:1577 @ 805025a)
+  0.10     17.53     0.02                             dist1 (motion.c:1594 @ 80502e8)
+  0.10     17.55     0.02                             dist1 (motion.c:1594 @ 805033c)
+  0.10     17.57     0.02                             dist1 (motion.c:1594 @ 80503dc)
+  0.10     17.59     0.02                             dist1 (motion.c:1597 @ 80504b8)
+  0.10     17.61     0.02                             dist1 (motion.c:1597 @ 8050505)
+  0.10     17.63     0.02                             dist1 (motion.c:1597 @ 805054d)
+  0.10     17.65     0.02                             dist1 (motion.c:1619 @ 80509a8)
+  0.10     17.67     0.02                             dist1_special (motion.c:1458 @ 804fa02)
+  0.10     17.69     0.02                             fdct (fdctref.c:76 @ 806b20c)
+  0.10     17.71     0.02                             fdct (fdctref.c:89 @ 806b661)
+  0.10     17.73     0.02                             fdct (fdctref.c:89 @ 806b783)
+  0.10     17.75     0.02                             fdct (fdctref.c:87 @ 806b83c)
+  0.10     17.77     0.02                             fdct (fdctref.c:89 @ 806b8a5)
+  0.10     17.79     0.02                             fdct (fdctref.c:87 @ 806b8cd)
+  0.10     17.81     0.02                             fdct (fdctref.c:89 @ 806b936)
+  0.10     17.83     0.02                             fullsearch (motion.c:1336 @ 804fa75)
+  0.10     17.85     0.02                             fullsearch (motion.c:1349 @ 804fbb8)
+  0.10     17.87     0.02                             fullsearch (motion.c:1354 @ 804fbe4)
+  0.10     17.89     0.02                             fullsearch (motion.c:1354 @ 804fce3)
+  0.10     17.91     0.02                             idctcol (idct.c:181 @ 806c027)
+  0.10     17.93     0.02                             idctcol (idct.c:182 @ 806c037)
+  0.10     17.95     0.02                             idctcol (idct.c:143 @ 806c0af)
+  0.10     17.97     0.02                             iquant_non_intra (quantize.c:165 @ 806c620)
+  0.10     17.99     0.02                             pred_comp (predict.c:473 @ 8064f51)
+  0.10     18.01     0.02                             putbits (putbits.c:59 @ 804e507)
+  0.10     18.03     0.02                             putbits (putbits.c:74 @ 804e561)
+  0.10     18.05     0.02                             quant_intra (quantize.c:57 @ 806c27a)
+  0.10     18.07     0.02                             sub_pred (transfrm.c:209 @ 806aa3f)
+  0.10     18.09     0.02                             sub_pred (transfrm.c:209 @ 806acb9)
+  0.10     18.11     0.02                             sub_pred (transfrm.c:209 @ 806ad38)
+  0.10     18.13     0.02                             variance (motion.c:1825 @ 805aac0)
+  0.10     18.15     0.02                             variance (motion.c:1827 @ 805abb1)
+  0.07     18.16     0.01                             bdist1 (motion.c:1734 @ 805c8b7)
+  0.07     18.18     0.01                             calcSNR1 (stats.c:86 @ 806f5e6)
+  0.07     18.20     0.01                             dist1 (motion.c:1524 @ 804ff1e)
+  0.07     18.21     0.01                             dist1 (motion.c:1546 @ 804ff8b)
+  0.07     18.23     0.01                             dist1 (motion.c:1578 @ 80501d7)
+  0.07     18.24     0.01                             dist1 (motion.c:1577 @ 8050237)
+  0.07     18.25     0.01                             dist1 (motion.c:1577 @ 805027a)
+  0.07     18.27     0.01                             dist1 (motion.c:1612 @ 805088f)
+  0.07     18.29     0.01                             dist1 (motion.c:1615 @ 8050983)
+  0.07     18.30     0.01                             fdct (fdctref.c:76 @ 806b0e4)
+  0.07     18.32     0.01                             fdct (fdctref.c:78 @ 806b294)
+  0.07     18.33     0.01                             fdct (fdctref.c:78 @ 806b3c8)
+  0.07     18.34     0.01                             fdct (fdctref.c:87 @ 806b7b6)
+  0.07     18.36     0.01                             fullsearch (motion.c:1335 @ 804fa6b)
+  0.07     18.38     0.01                             fullsearch (motion.c:1349 @ 804fb9f)
+  0.07     18.39     0.01                             iquant_non_intra (quantize.c:164 @ 806c676)
+  0.07     18.41     0.01                             iquant_non_intra (quantize.c:166 @ 806c67b)
+  0.07     18.42     0.01                             putbits (putbits.c:62 @ 804e51a)
+  0.07     18.43     0.01                             putnonintrablk (putmpg.c:84 @ 804dbe7)
+  0.07     18.45     0.01                             quant_non_intra (quantize.c:103 @ 806c34f)
+  0.07     18.46     0.01                             quant_non_intra (quantize.c:102 @ 806c352)
+  0.07     18.48     0.01                             sub_pred (transfrm.c:209 @ 806ab3c)
+  0.05     18.49     0.01  5730804     1.74     1.74  putbits (putbits.c:51 @ 804e4d0)
+  0.05     18.50     0.01   874800    11.43    11.43  fdct (fdctref.c:65 @ 806afe0)
+  0.05     18.51     0.01   146340    68.33    68.33  bitcount (putbits.c:85 @ 804e4b0)
+  0.05     18.52     0.01                             _mm_sad_epu8 (emmintrin.h:1412 @ 8050ba0)
+  0.05     18.53     0.01                             add_pred (transfrm.c:191 @ 806a14a)
+  0.05     18.54     0.01                             add_pred (transfrm.c:191 @ 806a2c1)
+  0.05     18.55     0.01                             add_pred (transfrm.c:191 @ 806a46b)
+  0.05     18.56     0.01                             bdist1 (motion.c:1734 @ 805c35e)
+  0.05     18.57     0.01                             bdist1 (motion.c:1734 @ 805c48f)
+  0.05     18.58     0.01                             bdist1 (motion.c:1734 @ 805c5bf)
+  0.05     18.59     0.01                             bdist1 (motion.c:1734 @ 805c6ef)
+  0.05     18.60     0.01                             bdist1 (motion.c:1734 @ 805c81f)
+  0.05     18.61     0.01                             bdist1 (motion.c:1740 @ 805c940)
+  0.05     18.62     0.01                             bdist1 (motion.c:1734 @ 805c94f)
+  0.05     18.63     0.01                             bdist1 (motion.c:1740 @ 805c9e4)
+  0.05     18.64     0.01                             bdist1 (motion.c:1734 @ 805c9e7)
+  0.05     18.65     0.01                             bdist1 (motion.c:1734 @ 805ca7f)
+  0.05     18.66     0.01                             bdist1 (motion.c:1734 @ 805cb17)
+  0.05     18.67     0.01                             bdist1 (motion.c:1734 @ 805cbaf)
+  0.05     18.68     0.01                             bdist1 (motion.c:1734 @ 805ce4e)
+  0.05     18.69     0.01                             bdist1 (motion.c:1734 @ 805cf7f)
+  0.05     18.70     0.01                             bdist1 (motion.c:1734 @ 805d017)
+  0.05     18.71     0.01                             bdist1 (motion.c:1740 @ 805d0a0)
+  0.05     18.72     0.01                             bdist1 (motion.c:1740 @ 805d300)
+  0.05     18.73     0.01                             bdist1 (motion.c:1734 @ 805d43f)
+  0.05     18.74     0.01                             bdist1 (motion.c:1734 @ 805d568)
+  0.05     18.75     0.01                             bdist1 (motion.c:1734 @ 805d607)
+  0.05     18.76     0.01                             bdist1 (motion.c:1734 @ 805d9bf)
+  0.05     18.77     0.01                             bdist1 (motion.c:1734 @ 805dc1f)
+  0.05     18.78     0.01                             bdist1 (motion.c:1734 @ 805dcb7)
+  0.05     18.79     0.01                             bdist1 (motion.c:1734 @ 805dd48)
+  0.05     18.80     0.01                             bdist1 (motion.c:1734 @ 805e20f)
+  0.05     18.81     0.01                             bdist2 (motion.c:1791 @ 804f6cf)
+  0.05     18.82     0.01                             calcSNR1 (stats.c:88 @ 806f710)
+  0.05     18.83     0.01                             calc_actj (ratectl.c:172 @ 806ed79)
+  0.05     18.84     0.01                             clearblock (predict.c:585 @ 8065d8c)
+  0.05     18.85     0.01                             dct_type_estimation (transfrm.c:248 @ 8069264)
+  0.05     18.86     0.01                             dct_type_estimation (transfrm.c:248 @ 80692f7)
+  0.05     18.87     0.01                             dct_type_estimation (transfrm.c:248 @ 8069329)
+  0.05     18.88     0.01                             dct_type_estimation (transfrm.c:249 @ 8069370)
+  0.05     18.89     0.01                             dct_type_estimation (transfrm.c:249 @ 80693d4)
+  0.05     18.90     0.01                             dct_type_estimation (transfrm.c:248 @ 806951d)
+  0.05     18.91     0.01                             dct_type_estimation (transfrm.c:249 @ 806956a)
+  0.05     18.92     0.01                             dct_type_estimation (transfrm.c:243 @ 8069587)
+  0.05     18.93     0.01                             dct_type_estimation (transfrm.c:260 @ 8069897)
+  0.05     18.94     0.01                             dct_type_estimation (transfrm.c:269 @ 8069f58)
+  0.05     18.95     0.01                             dist1 (motion.c:1563 @ 8050000)
+  0.05     18.96     0.01                             dist1 (motion.c:1574 @ 8050052)
+  0.05     18.97     0.01                             dist1 (motion.c:1574 @ 805009c)
+  0.05     18.98     0.01                             dist1 (motion.c:1578 @ 80500db)
+  0.05     18.99     0.01                             dist1 (motion.c:1574 @ 80500e4)
+  0.05     19.00     0.01                             dist1 (motion.c:1574 @ 8050108)
+  0.05     19.01     0.01                             dist1 (motion.c:1577 @ 8050160)
+  0.05     19.02     0.01                             dist1 (motion.c:1578 @ 805016b)
+  0.05     19.03     0.01                             dist1 (motion.c:1577 @ 80501a8)
+  0.05     19.04     0.01                             dist1 (motion.c:1578 @ 80501b3)
+  0.05     19.05     0.01                             dist1 (motion.c:1578 @ 8050242)
+  0.05     19.06     0.01                             dist1 (motion.c:1597 @ 8050350)
+  0.05     19.07     0.01                             dist1 (motion.c:1594 @ 805038c)
+  0.05     19.08     0.01                             dist1 (motion.c:1594 @ 80503b4)
+  0.05     19.09     0.01                             dist1 (motion.c:1597 @ 80503f0)
+  0.05     19.10     0.01                             dist1 (motion.c:1597 @ 8050418)
+  0.05     19.11     0.01                             dist1 (motion.c:1594 @ 805042c)
+  0.05     19.12     0.01                             dist1 (motion.c:1597 @ 8050468)
+  0.05     19.13     0.01                             dist1 (motion.c:1594 @ 80504a4)
+  0.05     19.14     0.01                             dist1 (motion.c:1594 @ 80504cd)
+  0.05     19.15     0.01                             dist1 (motion.c:1597 @ 8050529)
+  0.05     19.16     0.01                             dist1 (motion.c:1601 @ 805056c)
+  0.05     19.17     0.01                             dist1 (motion.c:1531 @ 80505e0)
+  0.05     19.18     0.01                             dist1 (motion.c:1607 @ 8050612)
+  0.05     19.19     0.01                             dist1 (motion.c:1612 @ 8050963)
+  0.05     19.20     0.01                             dist1 (motion.c:1608 @ 805098e)
+  0.05     19.21     0.01                             dist1_special (motion.c:1484 @ 804fa2e)
+  0.05     19.22     0.01                             dist1_special (motion.c:1452 @ 804fc54)
+  0.05     19.23     0.01                             dist1_special (motion.c:1458 @ 804fc72)
+  0.05     19.24     0.01                             dist1_special (motion.c:1484 @ 804fca6)
+  0.05     19.25     0.01                             dist1_special (motion.c:1452 @ 804fd9e)
+  0.05     19.26     0.01                             dist1_special (motion.c:1458 @ 8050b89)
+  0.05     19.27     0.01                             dist2 (motion.c:1662 @ 804e915)
+  0.05     19.28     0.01                             dist2 (motion.c:1652 @ 804ebe1)
+  0.05     19.29     0.01                             dist2 (motion.c:1690 @ 804ed48)
+  0.05     19.30     0.01                             dist2 (motion.c:1651 @ 8060505)
+  0.05     19.31     0.01                             fdct (fdctref.c:78 @ 806b32e)
+  0.05     19.32     0.01                             fdct (fdctref.c:78 @ 806b462)
+  0.05     19.33     0.01                             fdct (fdctref.c:78 @ 806b4de)
+  0.05     19.34     0.01                             fdct (fdctref.c:87 @ 806b530)
+  0.05     19.35     0.01                             fdct (fdctref.c:89 @ 806b5d5)
+  0.05     19.36     0.01                             fdct (fdctref.c:87 @ 806b5f9)
+  0.05     19.37     0.01                             fdct (fdctref.c:87 @ 806b725)
+  0.05     19.38     0.01                             fdct (fdctref.c:87 @ 806b95e)
+  0.05     19.39     0.01                             fdct (fdctref.c:87 @ 806b969)
+  0.05     19.40     0.01                             frame_estimate (motion.c:827 @ 8050d05)
+  0.05     19.41     0.01                             frame_estimate (motion.c:846 @ 8050dc4)
+  0.05     19.42     0.01                             fullsearch (motion.c:1314 @ 804f908)
+  0.05     19.43     0.01                             fullsearch (motion.c:1275 @ 804f96f)
+  0.05     19.44     0.01                             fullsearch (motion.c:1320 @ 804f981)
+  0.05     19.45     0.01                             fullsearch (motion.c:1320 @ 804fa60)
+  0.05     19.46     0.01                             fullsearch (motion.c:1334 @ 804fa63)
+  0.05     19.47     0.01                             fullsearch (motion.c:1320 @ 804fa68)
+  0.05     19.48     0.01                             fullsearch (motion.c:1362 @ 804fcd4)
+  0.05     19.49     0.01                             fullsearch (motion.c:1362 @ 804fce1)
+  0.05     19.50     0.01                             fullsearch (motion.c:1363 @ 804fce6)
+  0.05     19.51     0.01                             fullsearch (motion.c:1395 @ 804fee0)
+  0.05     19.52     0.01                             fullsearch (motion.c:1407 @ 804ff90)
+  0.05     19.53     0.01                             fullsearch (motion.c:1401 @ 804ff9b)
+  0.05     19.54     0.01                             fullsearch (motion.c:1402 @ 804ff9d)
+  0.05     19.55     0.01                             fullsearch (motion.c:1395 @ 804ffc5)
+  0.05     19.56     0.01                             fullsearch (motion.c:1407 @ 8050580)
+  0.05     19.57     0.01                             idct (idct.c:200 @ 806c024)
+  0.05     19.58     0.01                             idctcol (idct.c:155 @ 806bf33)
+  0.05     19.59     0.01                             idctcol (idct.c:158 @ 806bf78)
+  0.05     19.60     0.01                             idctcol (idct.c:159 @ 806bf7b)
+  0.05     19.61     0.01                             idctcol (idct.c:169 @ 806bfca)
+  0.05     19.62     0.01                             idctcol (idct.c:176 @ 806bff4)
+  0.05     19.63     0.01                             idctcol (idct.c:182 @ 806c031)
+  0.05     19.64     0.01                             idctcol (idct.c:183 @ 806c042)
+  0.05     19.65     0.01                             idctrow (idct.c:88 @ 806bd18)
+  0.05     19.66     0.01                             idctrow (idct.c:91 @ 806bd24)
+  0.05     19.67     0.01                             idctrow (idct.c:91 @ 806bd2f)
+  0.05     19.68     0.01                             idctrow (idct.c:94 @ 806bd51)
+  0.05     19.69     0.01                             iquant_intra (quantize.c:137 @ 806c55b)
+  0.05     19.70     0.01                             iquant_intra (quantize.c:147 @ 806c571)
+  0.05     19.71     0.01                             itransform (transfrm.c:125 @ 806a0a0)
+  0.05     19.72     0.01                             itransform (transfrm.c:151 @ 806a0a3)
+  0.05     19.73     0.01                             itransform (transfrm.c:173 @ 806a118)
+  0.05     19.74     0.01                             itransform (transfrm.c:130 @ 806a7f0)
+  0.05     19.75     0.01                             pred_comp (predict.c:429 @ 8064b4f)
+  0.05     19.76     0.01                             pred_comp (predict.c:427 @ 8064bed)
+  0.05     19.77     0.01                             pred_comp (predict.c:481 @ 8064c87)
+  0.05     19.78     0.01                             pred_comp (predict.c:480 @ 8064c90)
+  0.05     19.79     0.01                             pred_comp (predict.c:485 @ 8064cb0)
+  0.05     19.80     0.01                             pred_comp (predict.c:439 @ 8064d6d)
+  0.05     19.81     0.01                             pred_comp (predict.c:429 @ 8064ddf)
+  0.05     19.82     0.01                             pred_comp (predict.c:464 @ 8064eb8)
+  0.05     19.83     0.01                             pred_comp (predict.c:461 @ 8064ecf)
+  0.05     19.84     0.01                             pred_comp (predict.c:456 @ 8064fb8)
+  0.05     19.85     0.01                             putAC (putvlc.c:140 @ 804df64)
+  0.05     19.86     0.01                             putAC (putvlc.c:143 @ 804df68)
+  0.05     19.87     0.01                             putAC (putvlc.c:165 @ 804df85)
+  0.05     19.88     0.01                             putDC (putvlc.c:79 @ 804e3d5)
+  0.05     19.89     0.01                             putDC (putvlc.c:87 @ 804e458)
+  0.05     19.90     0.01                             putbits (putbits.c:57 @ 804e500)
+  0.05     19.91     0.01                             putbits (putbits.c:64 @ 804e505)
+  0.05     19.92     0.01                             putbits (putbits.c:67 @ 804e529)
+  0.05     19.93     0.01                             putbits (putbits.c:69 @ 804e52d)
+  0.05     19.94     0.01                             putbits (putbits.c:57 @ 804e55d)
+  0.05     19.95     0.01                             putintrablk (putmpg.c:46 @ 804dc7f)
+  0.05     19.96     0.01                             putintrablk (putmpg.c:55 @ 804dc9f)
+  0.05     19.97     0.01                             putmv (putmpg.c:131 @ 804dae6)
+  0.05     19.98     0.01                             putmv (putmpg.c:141 @ 804db10)
+  0.05     19.99     0.01                             putpict (putpic.c:115 @ 804ca00)
+  0.05     20.00     0.01                             sub_pred (transfrm.c:209 @ 806aabd)
+  0.05     20.01     0.01                             sub_pred (transfrm.c:209 @ 806abbb)
+  0.05     20.02     0.01                             sub_pred (transfrm.c:209 @ 806adb7)
+  0.05     20.03     0.01                             transform (transfrm.c:94 @ 806af80)
+  0.05     20.04     0.01                             var_sblk (ratectl.c:343 @ 806da58)
+  0.05     20.05     0.01                             var_sblk (ratectl.c:345 @ 806e5dd)
+  0.05     20.06     0.01                             var_sblk (ratectl.c:345 @ 806e9fd)
+  0.02     20.07     0.01                             _mm_sad_epu8 (emmintrin.h:1412 @ 8050b0e)
+  0.02     20.07     0.01                             bdist1 (motion.c:1740 @ 805c8b4)
+  0.02     20.07     0.01                             bdist1 (motion.c:1726 @ 805cdc8)
+  0.02     20.08     0.01                             bdist1 (motion.c:1725 @ 805cdca)
+  0.02     20.09     0.01                             calcSNR1 (stats.c:88 @ 806f5cc)
+  0.02     20.09     0.01                             calcSNR1 (stats.c:91 @ 806f5cf)
+  0.02     20.09     0.01                             calcSNR1 (stats.c:88 @ 806f84c)
+  0.02     20.10     0.01                             calcSNR1 (stats.c:91 @ 806f84f)
+  0.02     20.11     0.01                             calcSNR1 (stats.c:92 @ 806f862)
+  0.02     20.11     0.01                             calcSNR1 (stats.c:86 @ 806f866)
+  0.02     20.11     0.01                             dct_type_estimation (transfrm.c:249 @ 80693a2)
+  0.02     20.12     0.01                             dct_type_estimation (transfrm.c:248 @ 80693bf)
+  0.02     20.12     0.01                             dist1 (motion.c:1527 @ 804ff32)
+  0.02     20.13     0.01                             dist1 (motion.c:1546 @ 804ff3b)
+  0.02     20.14     0.01                             dist1 (motion.c:1556 @ 804ff79)
+  0.02     20.14     0.01                             dist1 (motion.c:1578 @ 8050147)
+  0.02     20.14     0.01                             dist1 (motion.c:1577 @ 80501cc)
+  0.02     20.15     0.01                             dist1 (motion.c:1577 @ 80501f0)
+  0.02     20.16     0.01                             dist1 (motion.c:1578 @ 80501fb)
+  0.02     20.16     0.01                             dist1 (motion.c:1574 @ 805026a)
+  0.02     20.16     0.01                             dist1 (motion.c:1615 @ 805087b)
+  0.02     20.17     0.01                             dist1 (motion.c:1612 @ 8050981)
+  0.02     20.18     0.01                             dist1_special (motion.c:1467 @ 8050ac6)
+  0.02     20.18     0.01                             dist1_special (motion.c:1458 @ 8050b13)
+  0.02     20.18     0.01                             dist2 (motion.c:1686 @ 804efbb)
+  0.02     20.19     0.01                             dist2 (motion.c:1691 @ 804efbe)
+  0.02     20.20     0.01                             fdct (fdctref.c:78 @ 806b166)
+  0.02     20.20     0.01                             fdct (fdctref.c:89 @ 806b6f2)
+  0.02     20.20     0.01                             fdct (fdctref.c:87 @ 806b71a)
+  0.02     20.21     0.01                             fdct (fdctref.c:89 @ 806b7b1)
+  0.02     20.21     0.01                             fullsearch (motion.c:1286 @ 804f837)
+  0.02     20.22     0.01                             fullsearch (motion.c:1291 @ 804f847)
+  0.02     20.23     0.01                             fullsearch (motion.c:1275 @ 804f984)
+  0.02     20.23     0.01                             fullsearch (motion.c:1320 @ 804f987)
+  0.02     20.23     0.01                             fullsearch (motion.c:1320 @ 804fa65)
+  0.02     20.24     0.01                             fullsearch (motion.c:1334 @ 804fa66)
+  0.02     20.25     0.01                             fullsearch (motion.c:1334 @ 804fa6e)
+  0.02     20.25     0.01                             fullsearch (motion.c:1354 @ 804fcdb)
+  0.02     20.25     0.01                             fullsearch (motion.c:1362 @ 804fcde)
+  0.02     20.26     0.01                             fullsearch (motion.c:1364 @ 804fcf0)
+  0.02     20.27     0.01                             fullsearch (motion.c:1363 @ 804fcf3)
+  0.02     20.27     0.01                             fullsearch (motion.c:1364 @ 804fcff)
+  0.02     20.27     0.01                             fullsearch (motion.c:1363 @ 804fd02)
+  0.02     20.28     0.01                             fullsearch (motion.c:1376 @ 804fe1c)
+  0.02     20.29     0.01                             fullsearch (motion.c:1377 @ 804fe1f)
+  0.02     20.29     0.01                             fullsearch (motion.c:1387 @ 804fe7b)
+  0.02     20.30     0.01                             fullsearch (motion.c:1391 @ 804fe7e)
+  0.02     20.30     0.01                             idctcol (idct.c:158 @ 806bf69)
+  0.02     20.30     0.01                             idctcol (idct.c:159 @ 806bf6b)
+  0.02     20.31     0.01                             idctrow (idct.c:120 @ 806be17)
+  0.02     20.32     0.01                             idctrow (idct.c:123 @ 806be1b)
+  0.02     20.32     0.01                             idctrow (idct.c:125 @ 806be28)
+  0.02     20.32     0.01                             idctrow (idct.c:121 @ 806be2b)
+  0.02     20.33     0.01                             iquant_intra (quantize.c:140 @ 806c532)
+  0.02     20.34     0.01                             iquant_intra (quantize.c:139 @ 806c537)
+  0.02     20.34     0.01                             iquant_intra (quantize.c:140 @ 806c55c)
+  0.02     20.34     0.01                             iquant_intra (quantize.c:137 @ 806c55e)
+  0.02     20.35     0.01                             pred_comp (predict.c:431 @ 8064bfc)
+  0.02     20.36     0.01                             pred_comp (predict.c:432 @ 8064bff)
+  0.02     20.36     0.01                             putbits (putbits.c:65 @ 804e523)
+  0.02     20.36     0.01                             putnonintrablk (putmpg.c:88 @ 804dbc0)
+  0.02     20.37     0.01                             putnonintrablk (putmpg.c:91 @ 804dbc6)
+  0.02     20.38     0.01                             putnonintrablk (putmpg.c:81 @ 804dbe1)
+  0.02     20.38     0.01                             putnonintrablk (putmpg.c:86 @ 804dbfb)
+  0.02     20.39     0.01                             putnonintrablk (putmpg.c:100 @ 804dbff)
+  0.02     20.39     0.01                             putpict (putpic.c:61 @ 804c9b0)
+  0.02     20.39     0.01                             putpict (putpic.c:68 @ 804c9b3)
+  0.02     20.40     0.01                             putpict (putpic.c:239 @ 804cf7d)
+  0.02     20.41     0.01                             putpict (putpic.c:238 @ 804cf82)
+  0.02     20.41     0.01                             quant_intra (quantize.c:60 @ 806c22a)
+  0.02     20.41     0.01                             quant_non_intra (quantize.c:103 @ 806c356)
+  0.02     20.42     0.01                             stats (stats.c:124 @ 806ef9e)
+  0.02     20.43     0.01                             stats (stats.c:130 @ 806efa6)
+  0.02     20.43     0.01                             sub_pred (transfrm.c:211 @ 806abae)
+  0.02     20.43     0.01                             var_sblk (ratectl.c:350 @ 806e744)
+  0.02     20.44     0.01                             var_sblk (ratectl.c:344 @ 806e746)
+  0.02     20.45     0.01                             var_sblk (ratectl.c:343 @ 806e842)
+  0.02     20.45     0.01                             var_sblk (ratectl.c:344 @ 806e846)
+  0.02     20.45     0.01                             var_sblk (ratectl.c:344 @ 806e9e5)
+  0.02     20.46     0.01                             var_sblk (ratectl.c:345 @ 806e9e7)
+  0.00     20.46     0.00   958500     0.00     0.00  fullsearch (motion.c:1279 @ 804f810)
+  0.00     20.46     0.00   874800     0.00     0.00  idct (idct.c:194 @ 806bcf0)
+  0.00     20.46     0.00   744855     0.00     0.00  pred_comp (predict.c:402 @ 8064ad0)
+  0.00     20.46     0.00   584412     0.00     0.00  iquant_non_intra (quantize.c:153 @ 806c580)
+  0.00     20.46     0.00   584412     0.00     0.00  quant_non_intra (quantize.c:93 @ 806c300)
+  0.00     20.46     0.00   491036     0.00     0.00  putmotioncode (putvlc.c:194 @ 804ddd0)
+  0.00     20.46     0.00   491036     0.00     0.00  putmv (putmpg.c:110 @ 804daa0)
+  0.00     20.46     0.00   290388     0.00     0.00  iquant_intra (quantize.c:129 @ 806c410)
+  0.00     20.46     0.00   290388     0.00     0.00  putintrablk (putmpg.c:38 @ 804dc50)
+  0.00     20.46     0.00   290388     0.00     0.00  quant_intra (quantize.c:49 @ 806c1c0)
+  0.00     20.46     0.00   248285     0.00     0.00  calc_DMV (predict.c:504 @ 8065000)
+  0.00     20.46     0.00   241225     0.00     0.00  putACfirst (putvlc.c:96 @ 804e1d0)
+  0.00     20.46     0.00   241225     0.00     0.00  putnonintrablk (putmpg.c:75 @ 804db90)
+  0.00     20.46     0.00   193592     0.00     0.00  putDClum (putvlc.c:42 @ 804e390)
+  0.00     20.46     0.00   191700     0.00     0.00  frame_estimate (motion.c:814 @ 8050c20)
+  0.00     20.46     0.00   145800     0.00    68.33  rc_calc_mquant (ratectl.c:268 @ 806cb80)
+  0.00     20.46     0.00   145168     0.00     0.00  putaddrinc (putvlc.c:173 @ 804de70)
+  0.00     20.46     0.00   145168     0.00     0.00  putmbtype (putvlc.c:186 @ 804de30)
+  0.00     20.46     0.00   136406     0.00     0.00  dist2 (motion.c:1638 @ 804e5f0)
+  0.00     20.46     0.00   135376     0.00     0.00  putmvs (putpic.c:303 @ 804c5f0)
+  0.00     20.46     0.00    96796     0.00     0.00  putDCchrom (putvlc.c:49 @ 804e0d0)
+  0.00     20.46     0.00    78217     0.00     0.00  bdist2 (motion.c:1769 @ 804f000)
+  0.00     20.46     0.00    77206     0.00     0.00  putcbp (putvlc.c:221 @ 804dd30)
+  0.00     20.46     0.00     3480     0.00     0.00  alignbits (putbits.c:78 @ 804e570)
+  0.00     20.46     0.00      108     0.00     0.00  calcSNR (stats.c:43 @ 806f530)
+  0.00     20.46     0.00      108     0.00     0.00  calc_vbv_delay (ratectl.c:380 @ 806c6f0)
+  0.00     20.46     0.00      108     0.00     0.00  dct_type_estimation (transfrm.c:224 @ 8069170)
+  0.00     20.46     0.00      108     0.00     0.00  itransform (transfrm.c:115 @ 806a020)
+  0.00     20.46     0.00      108     0.00     0.00  motion_estimation (motion.c:124 @ 805a960)
+  0.00     20.46     0.00      108     0.00     0.00  predict (predict.c:70 @ 80656c0)
+  0.00     20.46     0.00      108     0.00     0.00  putpict (putpic.c:42 @ 804c910)
+  0.00     20.46     0.00      108     0.00     0.00  putpictcodext (puthdr.c:194 @ 804d270)
+  0.00     20.46     0.00      108     0.00     0.00  putpicthdr (puthdr.c:160 @ 804d680)
+  0.00     20.46     0.00      108     0.00     0.00  rc_init_pict (ratectl.c:104 @ 806d3b0)
+  0.00     20.46     0.00      108     0.00     0.00  rc_start_mb (ratectl.c:227 @ 806cce0)
+  0.00     20.46     0.00      108     0.00     0.00  rc_update_pict (ratectl.c:182 @ 806cda0)
+  0.00     20.46     0.00      108     0.00     0.00  readframe (readpic.c:47 @ 8067350)
+  0.00     20.46     0.00      108     0.00     0.00  stats (stats.c:111 @ 806ef20)
+  0.00     20.46     0.00      108     0.00     0.00  transform (transfrm.c:46 @ 806a940)
+  0.00     20.46     0.00      108     0.00     0.00  vbv_end_of_picture (ratectl.c:368 @ 806c6d0)
+  0.00     20.46     0.00      108     0.00     0.00  writeframe (writepic.c:38 @ 8068e80)
+  0.00     20.46     0.00       19     0.00     0.00  putgophdr (puthdr.c:125 @ 804d410)
+  0.00     20.46     0.00       19     0.00     0.00  rc_init_GOP (ratectl.c:87 @ 806d030)
+  0.00     20.46     0.00        1     0.00     0.00  init_fdct (fdctref.c:50 @ 806ba10)
+  0.00     20.46     0.00        1     0.00     0.00  init_idct (idct.c:205 @ 806c160)
+  0.00     20.46     0.00        1     0.00     0.00  initbits (putbits.c:42 @ 804e490)
+  0.00     20.46     0.00        1     0.00     0.00  profile_and_level_checks (conform.c:189 @ 804b270)
+  0.00     20.46     0.00        1     0.00     0.00  putseq (putseq.c:36 @ 804b6b0)
+  0.00     20.46     0.00        1     0.00     0.00  putseqdispext (puthdr.c:92 @ 804d5a0)
+  0.00     20.46     0.00        1     0.00     0.00  putseqend (puthdr.c:218 @ 804d240)
+  0.00     20.46     0.00        1     0.00     0.00  putseqext (puthdr.c:70 @ 804d7d0)
+  0.00     20.46     0.00        1     0.00     0.00  putseqhdr (puthdr.c:43 @ 804d920)
+  0.00     20.46     0.00        1     0.00     0.00  putuserdata (puthdr.c:112 @ 804d540)
+  0.00     20.46     0.00        1     0.00     0.00  range_checks (conform.c:38 @ 804aaf0)
+  0.00     20.46     0.00        1     0.00     0.00  rc_init_seq (ratectl.c:49 @ 806d140)
+  0.00     20.46     0.00        1     0.00     0.00  readparmfile (mpeg2enc.c:173 @ 8048ba0)
 
  %         the percentage of the total running time of the
 time       program used by this function.
@@ -59,3 +542,595 @@ name       the name of the function.  This is the minor sort
 	   the function in the gprof listing. If the index is
 	   in parenthesis it shows where it would appear in
 	   the gprof listing if it were to be printed.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.05% of 20.46 seconds
+
+index % time    self  children    called     name
+                0.01    0.00  596846/1196413     putnonintrablk (putmpg.c:95 @ 804dc28) [220]
+                0.01    0.00  599567/1196413     putintrablk (putmpg.c:58 @ 804dcc2) [219]
+[150]    0.1    0.02    0.00 1196413         putAC (putvlc.c:106 @ 804ded0) [150]
+-----------------------------------------------
+                0.00    0.00       1/5730804     putseqend (puthdr.c:220 @ 804d250) [538]
+                0.00    0.00       1/5730804     putuserdata (puthdr.c:115 @ 804d568) [559]
+                0.00    0.00       1/5730804     putseqdispext (puthdr.c:94 @ 804d5b0) [532]
+                0.00    0.00       1/5730804     putseqdispext (puthdr.c:97 @ 804d5ed) [533]
+                0.00    0.00       1/5730804     putseqdispext (puthdr.c:98 @ 804d601) [534]
+                0.00    0.00       1/5730804     putseqdispext (puthdr.c:99 @ 804d616) [535]
+                0.00    0.00       1/5730804     putseqdispext (puthdr.c:102 @ 804d655) [536]
+                0.00    0.00       1/5730804     putseqdispext (puthdr.c:103 @ 804d669) [537]
+                0.00    0.00       1/5730804     putseqext (puthdr.c:72 @ 804d7e0) [539]
+                0.00    0.00       1/5730804     putseqext (puthdr.c:75 @ 804d826) [540]
+                0.00    0.00       1/5730804     putseqext (puthdr.c:77 @ 804d850) [541]
+                0.00    0.00       1/5730804     putseqext (puthdr.c:78 @ 804d868) [542]
+                0.00    0.00       1/5730804     putseqext (puthdr.c:80 @ 804d8ad) [543]
+                0.00    0.00       1/5730804     putseqext (puthdr.c:81 @ 804d8c1) [544]
+                0.00    0.00       1/5730804     putseqext (puthdr.c:82 @ 804d8d9) [545]
+                0.00    0.00       1/5730804     putseqext (puthdr.c:83 @ 804d8ed) [546]
+                0.00    0.00       1/5730804     putseqext (puthdr.c:84 @ 804d901) [547]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:47 @ 804d931) [548]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:48 @ 804d945) [549]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:49 @ 804d95a) [550]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:50 @ 804d96f) [551]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:51 @ 804d984) [552]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:52 @ 804d999) [553]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:53 @ 804d9bd) [554]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:54 @ 804d9d1) [555]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:55 @ 804d9e6) [556]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:58 @ 804da10) [557]
+                0.00    0.00       1/5730804     putseqhdr (puthdr.c:62 @ 804da44) [558]
+                0.00    0.00       2/5730804     putseqdispext (puthdr.c:96 @ 804d5d8) [528]
+                0.00    0.00       2/5730804     putseqdispext (puthdr.c:101 @ 804d640) [529]
+                0.00    0.00       2/5730804     putseqext (puthdr.c:74 @ 804d808) [530]
+                0.00    0.00       2/5730804     putseqext (puthdr.c:79 @ 804d880) [531]
+                0.00    0.00      19/5730804     putseq (putseq.c:125 @ 804c4e7) [527]
+                0.00    0.00      19/5730804     putgophdr (puthdr.c:129 @ 804d431) [526]
+                0.00    0.00      29/5730804     putuserdata (puthdr.c:116 @ 804d570) [525]
+                0.00    0.00      38/5730804     putgophdr (puthdr.c:132 @ 804d510) [524]
+                0.00    0.00      53/5730804     putpicthdr (puthdr.c:179 @ 804d74d) [522]
+                0.00    0.00      53/5730804     putpicthdr (puthdr.c:183 @ 804d76a) [523]
+                0.00    0.00      89/5730804     putpicthdr (puthdr.c:170 @ 804d710) [520]
+                0.00    0.00      89/5730804     putpicthdr (puthdr.c:174 @ 804d7a8) [521]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:196 @ 804d280) [501]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:199 @ 804d2bd) [502]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:200 @ 804d2d2) [503]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:201 @ 804d2e7) [504]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:202 @ 804d2fc) [505]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:203 @ 804d311) [506]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:204 @ 804d326) [507]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:205 @ 804d346) [508]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:206 @ 804d35b) [509]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:207 @ 804d36f) [510]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:208 @ 804d384) [511]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:209 @ 804d399) [512]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:210 @ 804d3ae) [513]
+                0.00    0.00     108/5730804     putpictcodext (puthdr.c:213 @ 804d3ed) [514]
+                0.00    0.00     108/5730804     putpicthdr (puthdr.c:162 @ 804d690) [515]
+                0.00    0.00     108/5730804     putpicthdr (puthdr.c:164 @ 804d6a9) [516]
+                0.00    0.00     108/5730804     putpicthdr (puthdr.c:165 @ 804d6be) [517]
+                0.00    0.00     108/5730804     putpicthdr (puthdr.c:168 @ 804d6e8) [518]
+                0.00    0.00     108/5730804     putpicthdr (puthdr.c:186 @ 804d6f5) [519]
+                0.00    0.00     216/5730804     putpictcodext (puthdr.c:198 @ 804d2a8) [499]
+                0.00    0.00     216/5730804     putpictcodext (puthdr.c:212 @ 804d3d8) [500]
+                0.00    0.00    1077/5730804     putAC (putvlc.c:151 @ 804e296) [497]
+                0.00    0.00    1077/5730804     putAC (putvlc.c:152 @ 804e2aa) [498]
+                0.00    0.00    3240/5730804     putpict (putpic.c:74 @ 804ce07) [494]
+                0.00    0.00    3240/5730804     putpict (putpic.c:82 @ 804ce1a) [495]
+                0.00    0.00    3240/5730804     putpict (putpic.c:85 @ 804ce42) [496]
+                0.00    0.00    3634/5730804     putmvs (putpic.c:347 @ 804c8cb) [493]
+                0.00    0.00    3659/5730804     putmvs (putpic.c:309 @ 804c8f0) [492]
+                0.00    0.00    7779/5730804     putDC (putvlc.c:79 @ 804e467) [486]
+                0.00    0.00   14308/5730804     putAC (putvlc.c:151 @ 804dfa1) [484]
+                0.00    0.00   14308/5730804     putAC (putvlc.c:152 @ 804dfb5) [485]
+                0.00    0.00   16855/5730804     putDC (putvlc.c:79 @ 804e1a7) [483]
+                0.00    0.00   20426/5730804     putmvs (putpic.c:359 @ 804c7b4) [482]
+                0.00    0.00   20527/5730804     putmvs (putpic.c:319 @ 804c72b) [481]
+                0.00    0.00   21202/5730804     putmvs (putpic.c:321 @ 804c764) [480]
+                0.00    0.00   21439/5730804     putmvs (putpic.c:318 @ 804c716) [479]
+                0.00    0.00   77206/5730804     putcbp (putvlc.c:222 @ 804dd3e) [478]
+                0.00    0.00   79941/5730804     putDC (putvlc.c:79 @ 804e115) [476]
+                0.00    0.00   79941/5730804     putDC (putvlc.c:88 @ 804e135) [477]
+                0.00    0.00   84845/5730804     putpict (putpic.c:230 @ 804cb2c) [475]
+                0.00    0.00   94694/5730804     putpict (putpic.c:223 @ 804d030) [474]
+                0.00    0.00   99954/5730804     putpict (putpic.c:226 @ 804d010) [473]
+                0.00    0.00  110142/5730804     putmvs (putpic.c:317 @ 804c700) [471]
+                0.00    0.00  110142/5730804     putmvs (putpic.c:320 @ 804c74d) [472]
+                0.00    0.00  145168/5730804     putpict (putpic.c:220 @ 804cae3) [470]
+                0.00    0.00  145168/5730804     putaddrinc (putvlc.c:180 @ 804dea4) [469]
+                0.00    0.00  160962/5730804     putAC (putvlc.c:145 @ 804e31a) [468]
+                0.00    0.00  185813/5730804     putDC (putvlc.c:79 @ 804e3d5) [221]
+                0.00    0.00  185813/5730804     putDC (putvlc.c:88 @ 804e3f5) [467]
+                0.00    0.00  241225/5730804     putnonintrablk (putmpg.c:91 @ 804dbc6) [382]
+                0.00    0.00  241225/5730804     putnonintrablk (putmpg.c:104 @ 804dc06) [466]
+                0.00    0.00  290388/5730804     putpict (putpic.c:264 @ 804cbc0) [465]
+                0.00    0.00  369703/5730804     putmotioncode (putvlc.c:200 @ 804de0a) [464]
+                0.00    0.00  491036/5730804     putmotioncode (putvlc.c:198 @ 804ddea) [463]
+                0.00    0.00  596846/5730804     putnonintrablk (putmpg.c:95 @ 804dc28) [220]
+                0.00    0.00  599567/5730804     putintrablk (putmpg.c:58 @ 804dcc2) [219]
+                0.00    0.00 1182105/5730804     putAC (putvlc.c:145 @ 804df73) [462]
+[222]    0.0    0.01    0.00 5730804         putbits (putbits.c:51 @ 804e4d0) [222]
+-----------------------------------------------
+                0.01    0.00  874800/874800      transform (transfrm.c:103 @ 806ae2d) [374]
+[223]    0.0    0.01    0.00  874800         fdct (fdctref.c:65 @ 806afe0) [223]
+-----------------------------------------------
+                0.00    0.00     108/146340      vbv_end_of_picture (ratectl.c:370 @ 806c6e0) [491]
+                0.00    0.00     108/146340      calc_vbv_delay (ratectl.c:489 @ 806c882) [487]
+                0.00    0.00     108/146340      fprintf (stdio2.h:98 @ 806c8f8) [488]
+                0.00    0.00     108/146340      rc_update_pict (ratectl.c:185 @ 806cdac) [490]
+                0.00    0.00     108/146340      rc_init_pict (ratectl.c:129 @ 806d430) [489]
+                0.01    0.00  145800/146340      rc_calc_mquant (ratectl.c:268 @ 806cb80) [380]
+[224]    0.0    0.01    0.00  146340         bitcount (putbits.c:85 @ 804e4b0) [224]
+-----------------------------------------------
+                0.00    0.01  145800/145800      putpict (putpic.c:101 @ 804c9d4) [381]
+[380]    0.0    0.00    0.01  145800         rc_calc_mquant (ratectl.c:268 @ 806cb80) [380]
+                0.01    0.00  145800/146340      bitcount (putbits.c:85 @ 804e4b0) [224]
+-----------------------------------------------
+                0.00    0.00  191700/958500      frame_estimate (motion.c:819 @ 8050c5a) [4638]
+                0.00    0.00  191700/958500      frame_estimate (motion.c:823 @ 8050c9d) [4641]
+                0.00    0.00  191700/958500      frame_estimate (motion.c:827 @ 8050d05) [312]
+                0.00    0.00  191700/958500      frame_estimate (motion.c:846 @ 8050dc4) [313]
+                0.00    0.00  191700/958500      frame_estimate (motion.c:850 @ 8050e28) [4654]
+[560]    0.0    0.00    0.00  958500         fullsearch (motion.c:1279 @ 804f810) [560]
+-----------------------------------------------
+                0.00    0.00  874800/874800      itransform (transfrm.c:173 @ 806a118) [345]
+[561]    0.0    0.00    0.00  874800         idct (idct.c:194 @ 806bcf0) [561]
+-----------------------------------------------
+                0.00    0.00   11144/744855      predict_mb (predict.c:280 @ 806629a) [5381]
+                0.00    0.00   16857/744855      predict_mb (predict.c:151 @ 806623e) [5380]
+                0.00    0.00   48824/744855      predict_mb (predict.c:292 @ 8065fd6) [5365]
+                0.00    0.00   48824/744855      predict_mb (predict.c:321 @ 806606f) [5371]
+                0.00    0.00   52449/744855      pred (predict.c:366 @ 8065440) [5211]
+                0.00    0.00   54994/744855      pred (predict.c:378 @ 806558a) [5218]
+                0.00    0.00   55148/744855      pred (predict.c:378 @ 80651b7) [5196]
+                0.00    0.00   61318/744855      predict_mb (predict.c:163 @ 8066626) [5401]
+                0.00    0.00   61318/744855      predict_mb (predict.c:167 @ 8066682) [5402]
+                0.00    0.00   85694/744855      pred (predict.c:378 @ 8065359) [5208]
+                0.00    0.00  107443/744855      pred (predict.c:378 @ 8065477) [5214]
+                0.00    0.00  140842/744855      pred (predict.c:378 @ 8065241) [5200]
+[562]    0.0    0.00    0.00  744855         pred_comp (predict.c:402 @ 8064ad0) [562]
+-----------------------------------------------
+                0.00    0.00  584412/584412      putseq (putseq.c:309 @ 804c38f) [6072]
+[563]    0.0    0.00    0.00  584412         iquant_non_intra (quantize.c:153 @ 806c580) [563]
+-----------------------------------------------
+                0.00    0.00  584412/584412      putpict (putpic.c:114 @ 804ca30) [5732]
+[564]    0.0    0.00    0.00  584412         quant_non_intra (quantize.c:93 @ 806c300) [564]
+-----------------------------------------------
+                0.00    0.00  491036/491036      putmv (putmpg.c:137 @ 804dafe) [5651]
+[565]    0.0    0.00    0.00  491036         putmotioncode (putvlc.c:194 @ 804ddd0) [565]
+-----------------------------------------------
+                0.00    0.00   25234/491036      putmvs (putpic.c:347 @ 804c8cb) [493]
+                0.00    0.00   25234/491036      putmvs (putpic.c:309 @ 804c8f0) [492]
+                0.00    0.00  110142/491036      putmvs (putpic.c:318 @ 804c716) [479]
+                0.00    0.00  110142/491036      putmvs (putpic.c:319 @ 804c72b) [481]
+                0.00    0.00  110142/491036      putmvs (putpic.c:321 @ 804c764) [480]
+                0.00    0.00  110142/491036      putmvs (putpic.c:359 @ 804c7b4) [482]
+[566]    0.0    0.00    0.00  491036         putmv (putmpg.c:110 @ 804daa0) [566]
+-----------------------------------------------
+                0.00    0.00  290388/290388      putseq (putseq.c:305 @ 804c41e) [6079]
+[567]    0.0    0.00    0.00  290388         iquant_intra (quantize.c:129 @ 806c410) [567]
+-----------------------------------------------
+                0.00    0.00  290388/290388      putpict (putpic.c:264 @ 804cbc0) [465]
+[568]    0.0    0.00    0.00  290388         putintrablk (putmpg.c:38 @ 804dc50) [568]
+-----------------------------------------------
+                0.00    0.00  290388/290388      putpict (putpic.c:107 @ 804cd98) [5786]
+[569]    0.0    0.00    0.00  290388         quant_intra (quantize.c:49 @ 806c1c0) [569]
+-----------------------------------------------
+                0.00    0.00   11144/248285      predict_mb (predict.c:280 @ 806629a) [5381]
+                0.00    0.00   16857/248285      predict_mb (predict.c:151 @ 806623e) [5380]
+                0.00    0.00   48824/248285      predict_mb (predict.c:292 @ 8065fd6) [5365]
+                0.00    0.00   48824/248285      predict_mb (predict.c:321 @ 806606f) [5371]
+                0.00    0.00   61318/248285      predict_mb (predict.c:163 @ 8066626) [5401]
+                0.00    0.00   61318/248285      predict_mb (predict.c:167 @ 8066682) [5402]
+[570]    0.0    0.00    0.00  248285         calc_DMV (predict.c:504 @ 8065000) [570]
+-----------------------------------------------
+                0.00    0.00  241225/241225      putnonintrablk (putmpg.c:91 @ 804dbc6) [382]
+[571]    0.0    0.00    0.00  241225         putACfirst (putvlc.c:96 @ 804e1d0) [571]
+-----------------------------------------------
+                0.00    0.00  241225/241225      putpict (putpic.c:267 @ 804cc4a) [5769]
+[572]    0.0    0.00    0.00  241225         putnonintrablk (putmpg.c:75 @ 804db90) [572]
+-----------------------------------------------
+                0.00    0.00  193592/193592      putintrablk (putmpg.c:46 @ 804dc7f) [366]
+[573]    0.0    0.00    0.00  193592         putDClum (putvlc.c:42 @ 804e390) [573]
+-----------------------------------------------
+                0.00    0.00   48600/191700      frame_ME (motion.c:206 @ 8060060) [4551]
+                0.00    0.00   71550/191700      frame_ME (motion.c:345 @ 805c179) [4460]
+                0.00    0.00   71550/191700      frame_ME (motion.c:350 @ 805c1a4) [4461]
+[574]    0.0    0.00    0.00  191700         frame_estimate (motion.c:814 @ 8050c20) [574]
+-----------------------------------------------
+                0.00    0.00  145168/145168      putpict (putpic.c:217 @ 804cad8) [5748]
+[575]    0.0    0.00    0.00  145168         putaddrinc (putvlc.c:173 @ 804de70) [575]
+-----------------------------------------------
+                0.00    0.00  145168/145168      putpict (putpic.c:220 @ 804cae3) [470]
+[576]    0.0    0.00    0.00  145168         putmbtype (putvlc.c:186 @ 804de30) [576]
+-----------------------------------------------
+                0.00    0.00    1457/136406      frame_ME (motion.c:403 @ 80619ce) [4592]
+                0.00    0.00    3054/136406      frame_ME (motion.c:421 @ 805ff61) [4549]
+                0.00    0.00    5397/136406      frame_ME (motion.c:411 @ 805e4e4) [4516]
+                0.00    0.00    5397/136406      frame_ME (motion.c:413 @ 805e555) [4519]
+                0.00    0.00    7743/136406      frame_ME (motion.c:220 @ 80628da) [4604]
+                0.00    0.00   31644/136406      frame_ME (motion.c:255 @ 8060cb8) [4573]
+                0.00    0.00   40857/136406      frame_ME (motion.c:227 @ 806009c) [4559]
+                0.00    0.00   40857/136406      frame_ME (motion.c:229 @ 80600f8) [4562]
+[577]    0.0    0.00    0.00  136406         dist2 (motion.c:1638 @ 804e5f0) [577]
+-----------------------------------------------
+                0.00    0.00   59850/135376      putpict (putpic.c:245 @ 804cf31) [5806]
+                0.00    0.00   75526/135376      putpict (putpic.c:238 @ 804cf8a) [5809]
+[578]    0.0    0.00    0.00  135376         putmvs (putpic.c:303 @ 804c5f0) [578]
+-----------------------------------------------
+                0.00    0.00   96796/96796       putintrablk (putmpg.c:48 @ 804dd00) [5622]
+[579]    0.0    0.00    0.00   96796         putDCchrom (putvlc.c:49 @ 804e0d0) [579]
+-----------------------------------------------
+                0.00    0.00    8913/78217       frame_ME (motion.c:381 @ 8064813) [4630]
+                0.00    0.00   34652/78217       frame_ME (motion.c:391 @ 805e3bf) [4502]
+                0.00    0.00   34652/78217       frame_ME (motion.c:394 @ 805e400) [4507]
+[580]    0.0    0.00    0.00   78217         bdist2 (motion.c:1769 @ 804f000) [580]
+-----------------------------------------------
+                0.00    0.00   77206/77206       putpict (putpic.c:252 @ 804ced8) [5799]
+[581]    0.0    0.00    0.00   77206         putcbp (putvlc.c:221 @ 804dd30) [581]
+-----------------------------------------------
+                0.00    0.00       1/3480        putseqend (puthdr.c:220 @ 804d250) [538]
+                0.00    0.00       1/3480        putuserdata (puthdr.c:113 @ 804d54f) [6123]
+                0.00    0.00       1/3480        putseqdispext (puthdr.c:94 @ 804d5b0) [532]
+                0.00    0.00       1/3480        putseqext (puthdr.c:72 @ 804d7e0) [539]
+                0.00    0.00       1/3480        putseqhdr (puthdr.c:46 @ 804d92c) [6111]
+                0.00    0.00      19/3480        putgophdr (puthdr.c:128 @ 804d42c) [5595]
+                0.00    0.00     108/3480        putpictcodext (puthdr.c:196 @ 804d280) [501]
+                0.00    0.00     108/3480        putpicthdr (puthdr.c:162 @ 804d690) [515]
+                0.00    0.00    3240/3480        putpict (putpic.c:71 @ 804cde8) [5793]
+[582]    0.0    0.00    0.00    3480         alignbits (putbits.c:78 @ 804e570) [582]
+-----------------------------------------------
+                0.00    0.00     108/108         putseq (putseq.c:314 @ 804bf79) [5993]
+[583]    0.0    0.00    0.00     108         calcSNR (stats.c:43 @ 806f530) [583]
+-----------------------------------------------
+                0.00    0.00     108/108         putpicthdr (puthdr.c:163 @ 804d6a4) [5855]
+[584]    0.0    0.00    0.00     108         calc_vbv_delay (ratectl.c:380 @ 806c6f0) [584]
+-----------------------------------------------
+                0.00    0.00     108/108         putseq (putseq.c:296 @ 804c2db) [6063]
+[585]    0.0    0.00    0.00     108         dct_type_estimation (transfrm.c:224 @ 8069170) [585]
+-----------------------------------------------
+                0.00    0.00     108/108         putseq (putseq.c:313 @ 804bf63) [5992]
+[586]    0.0    0.00    0.00     108         itransform (transfrm.c:115 @ 806a020) [586]
+-----------------------------------------------
+                0.00    0.00     108/108         putseq (putseq.c:290 @ 804c27c) [6061]
+[587]    0.0    0.00    0.00     108         motion_estimation (motion.c:124 @ 805a960) [587]
+-----------------------------------------------
+                0.00    0.00     108/108         putseq (putseq.c:295 @ 804c2ae) [6062]
+[588]    0.0    0.00    0.00     108         predict (predict.c:70 @ 80656c0) [588]
+-----------------------------------------------
+                0.00    0.00     108/108         putseq (putseq.c:299 @ 804c31d) [6065]
+[589]    0.0    0.00    0.00     108         putpict (putpic.c:42 @ 804c910) [589]
+-----------------------------------------------
+                0.00    0.00     108/108         putpict (putpic.c:54 @ 804c931) [5702]
+[590]    0.0    0.00    0.00     108         putpictcodext (puthdr.c:194 @ 804d270) [590]
+-----------------------------------------------
+                0.00    0.00     108/108         putpict (putpic.c:52 @ 804c92c) [5701]
+[591]    0.0    0.00    0.00     108         putpicthdr (puthdr.c:160 @ 804d680) [591]
+-----------------------------------------------
+                0.00    0.00     108/108         putpict (putpic.c:49 @ 804c921) [5700]
+[592]    0.0    0.00    0.00     108         rc_init_pict (ratectl.c:104 @ 806d3b0) [592]
+-----------------------------------------------
+                0.00    0.00     108/108         putpict (putpic.c:57 @ 804c93f) [5704]
+[593]    0.0    0.00    0.00     108         rc_start_mb (ratectl.c:227 @ 806cce0) [593]
+-----------------------------------------------
+                0.00    0.00     108/108         putpict (putpic.c:288 @ 804cce8) [5777]
+[594]    0.0    0.00    0.00     108         rc_update_pict (ratectl.c:182 @ 806cda0) [594]
+-----------------------------------------------
+                0.00    0.00     108/108         putseq (putseq.c:194 @ 804ba8c) [5926]
+[595]    0.0    0.00    0.00     108         readframe (readpic.c:47 @ 8067350) [595]
+-----------------------------------------------
+                0.00    0.00     108/108         putseq (putseq.c:314 @ 804bf79) [5993]
+[596]    0.0    0.00    0.00     108         stats (stats.c:111 @ 806ef20) [596]
+-----------------------------------------------
+                0.00    0.00     108/108         putseq (putseq.c:297 @ 804c2fb) [6064]
+[597]    0.0    0.00    0.00     108         transform (transfrm.c:46 @ 806a940) [597]
+-----------------------------------------------
+                0.00    0.00     108/108         putpict (putpic.c:288 @ 804cce8) [5777]
+[598]    0.0    0.00    0.00     108         vbv_end_of_picture (ratectl.c:368 @ 806c6d0) [598]
+-----------------------------------------------
+                0.00    0.00     108/108         putseq (putseq.c:60 @ 804bfd8) [5996]
+[599]    0.0    0.00    0.00     108         writeframe (writepic.c:38 @ 8068e80) [599]
+-----------------------------------------------
+                0.00    0.00      19/19          putseq (putseq.c:125 @ 804c4e7) [527]
+[600]    0.0    0.00    0.00      19         putgophdr (puthdr.c:125 @ 804d410) [600]
+-----------------------------------------------
+                0.00    0.00      19/19          putseq (putseq.c:123 @ 804c4d8) [6088]
+[601]    0.0    0.00    0.00      19         rc_init_GOP (ratectl.c:87 @ 806d030) [601]
+-----------------------------------------------
+                0.00    0.00       1/1           init (mpeg2enc.c:83 @ 804a42c) [4932]
+[602]    0.0    0.00    0.00       1         init_fdct (fdctref.c:50 @ 806ba10) [602]
+-----------------------------------------------
+                0.00    0.00       1/1           init (mpeg2enc.c:85 @ 804a436) [4934]
+[603]    0.0    0.00    0.00       1         init_idct (idct.c:205 @ 806c160) [603]
+-----------------------------------------------
+                0.00    0.00       1/1           init (mpeg2enc.c:83 @ 804a42c) [4932]
+[604]    0.0    0.00    0.00       1         initbits (putbits.c:42 @ 804e490) [604]
+-----------------------------------------------
+                0.00    0.00       1/1           error (mpeg2enc.c:168 @ 8049e22) [4002]
+[605]    0.0    0.00    0.00       1         profile_and_level_checks (conform.c:189 @ 804b270) [605]
+-----------------------------------------------
+                0.00    0.00       1/1           main (mpeg2enc.c:68 @ 804a8bf) [5117]
+[606]    0.0    0.00    0.00       1         putseq (putseq.c:36 @ 804b6b0) [606]
+-----------------------------------------------
+                0.00    0.00       1/1           putseq (putseq.c:51 @ 804c5cd) [6098]
+[607]    0.0    0.00    0.00       1         putseqdispext (puthdr.c:92 @ 804d5a0) [607]
+-----------------------------------------------
+                0.00    0.00       1/1           putseq (putseq.c:323 @ 804bff0) [5997]
+[608]    0.0    0.00    0.00       1         putseqend (puthdr.c:218 @ 804d240) [608]
+-----------------------------------------------
+                0.00    0.00       1/1           putseq (putseq.c:51 @ 804c5cd) [6098]
+[609]    0.0    0.00    0.00       1         putseqext (puthdr.c:70 @ 804d7d0) [609]
+-----------------------------------------------
+                0.00    0.00       1/1           putseq (putseq.c:45 @ 804b6cc) [5863]
+[610]    0.0    0.00    0.00       1         putseqhdr (puthdr.c:43 @ 804d920) [610]
+-----------------------------------------------
+                0.00    0.00       1/1           putseq (putseq.c:57 @ 804b6f5) [5867]
+[611]    0.0    0.00    0.00       1         putuserdata (puthdr.c:112 @ 804d540) [611]
+-----------------------------------------------
+                0.00    0.00       1/1           readparmfile (mpeg2enc.c:298 @ 80497a7) [6655]
+[612]    0.0    0.00    0.00       1         range_checks (conform.c:38 @ 804aaf0) [612]
+-----------------------------------------------
+                0.00    0.00       1/1           putseq (putseq.c:45 @ 804b6cc) [5863]
+[613]    0.0    0.00    0.00       1         rc_init_seq (ratectl.c:49 @ 806d140) [613]
+-----------------------------------------------
+                0.00    0.00       1/1           main (mpeg2enc.c:55 @ 804a2bb) [5115]
+[614]    0.0    0.00    0.00       1         readparmfile (mpeg2enc.c:173 @ 8048ba0) [614]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+
+Index by function name
+
+  [10] _mm_loadu_si128 (emmintrin.h:685 @ 804fa1d) [92] dist1 (motion.c:1612 @ 8050754) [326] fullsearch (motion.c:1402 @ 804ff9d)
+   [6] _mm_loadu_si128 (emmintrin.h:685 @ 804fb55) [67] dist1 (motion.c:1615 @ 8050775) [327] fullsearch (motion.c:1395 @ 804ffc5)
+   [9] _mm_loadu_si128 (emmintrin.h:685 @ 804fc95) [47] dist1 (motion.c:1612 @ 8050789) [328] fullsearch (motion.c:1407 @ 8050580)
+   [7] _mm_loadu_si128 (emmintrin.h:685 @ 804fdd5) [48] dist1 (motion.c:1615 @ 80507a9) [561] idct (idct.c:194 @ 806bcf0)
+  [40] _mm_sad_epu8 (emmintrin.h:1412 @ 804fa27) [68] dist1 (motion.c:1612 @ 80507bd) [329] idct (idct.c:200 @ 806c024)
+  [15] _mm_sad_epu8 (emmintrin.h:1412 @ 804fb5f) [69] dist1 (motion.c:1615 @ 80507de) [330] idctcol (idct.c:155 @ 806bf33)
+  [46] _mm_sad_epu8 (emmintrin.h:1412 @ 804fc9f) [126] dist1 (motion.c:1612 @ 80507f2) [429] idctcol (idct.c:158 @ 806bf69)
+  [19] _mm_sad_epu8 (emmintrin.h:1412 @ 804fddf) [49] dist1 (motion.c:1615 @ 8050812) [430] idctcol (idct.c:159 @ 806bf6b)
+ [461] _mm_sad_epu8 (emmintrin.h:1412 @ 8050b0e) [58] dist1 (motion.c:1612 @ 8050826) [331] idctcol (idct.c:158 @ 806bf78)
+ [379] _mm_sad_epu8 (emmintrin.h:1412 @ 8050ba0) [143] dist1 (motion.c:1615 @ 8050846) [332] idctcol (idct.c:159 @ 806bf7b)
+ [225] add_pred (transfrm.c:191 @ 806a14a) [106] dist1 (motion.c:1612 @ 805085a) [333] idctcol (idct.c:169 @ 806bfca)
+  [80] add_pred (transfrm.c:191 @ 806a1ec) [402] dist1 (motion.c:1615 @ 805087b) [334] idctcol (idct.c:176 @ 806bff4)
+ [226] add_pred (transfrm.c:191 @ 806a2c1) [204] dist1 (motion.c:1612 @ 805088f) [184] idctcol (idct.c:181 @ 806c027)
+ [151] add_pred (transfrm.c:191 @ 806a39a) [127] dist1 (motion.c:1615 @ 80508b0) [335] idctcol (idct.c:182 @ 806c031)
+ [227] add_pred (transfrm.c:191 @ 806a46b) [38] dist1 (motion.c:1612 @ 80508c4) [185] idctcol (idct.c:182 @ 806c037)
+ [109] add_pred (transfrm.c:191 @ 806a540) [70] dist1 (motion.c:1615 @ 80508e5) [336] idctcol (idct.c:183 @ 806c042)
+  [81] add_pred (transfrm.c:191 @ 806a619) [71] dist1 (motion.c:1612 @ 80508f9) [186] idctcol (idct.c:143 @ 806c0af)
+ [152] add_pred (transfrm.c:191 @ 806a6e7) [50] dist1 (motion.c:1615 @ 805091a) [337] idctrow (idct.c:88 @ 806bd18)
+ [582] alignbits (putbits.c:78 @ 804e570) [93] dist1 (motion.c:1612 @ 805092e) [338] idctrow (idct.c:91 @ 806bd24)
+ [228] bdist1 (motion.c:1734 @ 805c35e) [59] dist1 (motion.c:1615 @ 805094f) [339] idctrow (idct.c:91 @ 806bd2f)
+ [229] bdist1 (motion.c:1734 @ 805c48f) [291] dist1 (motion.c:1612 @ 8050963) [340] idctrow (idct.c:94 @ 806bd51)
+ [230] bdist1 (motion.c:1734 @ 805c5bf) [403] dist1 (motion.c:1612 @ 8050981) [431] idctrow (idct.c:120 @ 806be17)
+ [231] bdist1 (motion.c:1734 @ 805c6ef) [205] dist1 (motion.c:1615 @ 8050983) [432] idctrow (idct.c:123 @ 806be1b)
+ [153] bdist1 (motion.c:1734 @ 805c787) [292] dist1 (motion.c:1608 @ 805098e) [433] idctrow (idct.c:125 @ 806be28)
+ [232] bdist1 (motion.c:1734 @ 805c81f) [94] dist1 (motion.c:1608 @ 8050994) [434] idctrow (idct.c:121 @ 806be2b)
+ [383] bdist1 (motion.c:1740 @ 805c8b4) [171] dist1 (motion.c:1619 @ 80509a8) [135] idctrow (idct.c:81 @ 806be56)
+ [197] bdist1 (motion.c:1734 @ 805c8b7) [51] dist1_special (motion.c:1476 @ 804f9ed) [136] idctrow (idct.c:84 @ 806bec4)
+ [233] bdist1 (motion.c:1740 @ 805c940) [172] dist1_special (motion.c:1458 @ 804fa02) [602] init_fdct (fdctref.c:50 @ 806ba10)
+ [234] bdist1 (motion.c:1734 @ 805c94f) [52] dist1_special (motion.c:1476 @ 804fa18) [603] init_idct (idct.c:205 @ 806c160)
+ [235] bdist1 (motion.c:1740 @ 805c9e4) [72] dist1_special (motion.c:1476 @ 804fa2b) [604] initbits (putbits.c:42 @ 804e490)
+ [236] bdist1 (motion.c:1734 @ 805c9e7) [293] dist1_special (motion.c:1484 @ 804fa2e) [567] iquant_intra (quantize.c:129 @ 806c410)
+ [237] bdist1 (motion.c:1734 @ 805ca7f) [3] dist1_special (motion.c:1485 @ 804fa33) [137] iquant_intra (quantize.c:139 @ 806c510)
+ [238] bdist1 (motion.c:1734 @ 805cb17) [13] dist1_special (motion.c:1476 @ 804fa40) [138] iquant_intra (quantize.c:139 @ 806c523)
+ [239] bdist1 (motion.c:1734 @ 805cbaf) [107] dist1_special (motion.c:1476 @ 804fb25) [435] iquant_intra (quantize.c:140 @ 806c532)
+ [154] bdist1 (motion.c:1734 @ 805cc47) [77] dist1_special (motion.c:1458 @ 804fb3a) [436] iquant_intra (quantize.c:139 @ 806c537)
+ [384] bdist1 (motion.c:1726 @ 805cdc8) [12] dist1_special (motion.c:1476 @ 804fb50) [64] iquant_intra (quantize.c:140 @ 806c53a)
+ [385] bdist1 (motion.c:1725 @ 805cdca) [28] dist1_special (motion.c:1476 @ 804fb63) [341] iquant_intra (quantize.c:137 @ 806c55b)
+ [240] bdist1 (motion.c:1734 @ 805ce4e) [128] dist1_special (motion.c:1484 @ 804fb66) [437] iquant_intra (quantize.c:140 @ 806c55c)
+ [241] bdist1 (motion.c:1734 @ 805cf7f) [2] dist1_special (motion.c:1485 @ 804fb6b) [438] iquant_intra (quantize.c:137 @ 806c55e)
+ [242] bdist1 (motion.c:1734 @ 805d017) [5] dist1_special (motion.c:1476 @ 804fb78) [342] iquant_intra (quantize.c:147 @ 806c571)
+ [243] bdist1 (motion.c:1740 @ 805d0a0) [294] dist1_special (motion.c:1452 @ 804fc54) [563] iquant_non_intra (quantize.c:153 @ 806c580)
+ [244] bdist1 (motion.c:1740 @ 805d300) [60] dist1_special (motion.c:1476 @ 804fc5d) [187] iquant_non_intra (quantize.c:165 @ 806c620)
+ [245] bdist1 (motion.c:1734 @ 805d43f) [295] dist1_special (motion.c:1458 @ 804fc72) [212] iquant_non_intra (quantize.c:164 @ 806c676)
+ [246] bdist1 (motion.c:1734 @ 805d568) [32] dist1_special (motion.c:1476 @ 804fc90) [213] iquant_non_intra (quantize.c:166 @ 806c67b)
+ [247] bdist1 (motion.c:1734 @ 805d607) [73] dist1_special (motion.c:1476 @ 804fca3) [586] itransform (transfrm.c:115 @ 806a020)
+ [248] bdist1 (motion.c:1734 @ 805d9bf) [296] dist1_special (motion.c:1484 @ 804fca6) [343] itransform (transfrm.c:125 @ 806a0a0)
+ [155] bdist1 (motion.c:1734 @ 805da57) [4] dist1_special (motion.c:1485 @ 804fcab) [344] itransform (transfrm.c:151 @ 806a0a3)
+ [156] bdist1 (motion.c:1734 @ 805db87) [11] dist1_special (motion.c:1476 @ 804fcb8) [345] itransform (transfrm.c:173 @ 806a118)
+ [249] bdist1 (motion.c:1734 @ 805dc1f) [297] dist1_special (motion.c:1452 @ 804fd9e) [346] itransform (transfrm.c:130 @ 806a7f0)
+ [250] bdist1 (motion.c:1734 @ 805dcb7) [144] dist1_special (motion.c:1476 @ 804fda6) [587] motion_estimation (motion.c:124 @ 805a960)
+ [251] bdist1 (motion.c:1734 @ 805dd48) [108] dist1_special (motion.c:1458 @ 804fdbb) [562] pred_comp (predict.c:402 @ 8064ad0)
+ [252] bdist1 (motion.c:1734 @ 805e20f) [23] dist1_special (motion.c:1476 @ 804fdd0) [347] pred_comp (predict.c:429 @ 8064b4f)
+ [580] bdist2 (motion.c:1769 @ 804f000) [41] dist1_special (motion.c:1476 @ 804fde3) [348] pred_comp (predict.c:427 @ 8064bed)
+  [37] bdist2 (motion.c:1788 @ 804f068) [145] dist1_special (motion.c:1484 @ 804fde6) [439] pred_comp (predict.c:431 @ 8064bfc)
+ [253] bdist2 (motion.c:1791 @ 804f6cf) [1] dist1_special (motion.c:1485 @ 804fdeb) [440] pred_comp (predict.c:432 @ 8064bff)
+ [224] bitcount (putbits.c:85 @ 804e4b0) [8] dist1_special (motion.c:1476 @ 804fdf8) [139] pred_comp (predict.c:481 @ 8064c70)
+ [583] calcSNR (stats.c:43 @ 806f530) [95] dist1_special (motion.c:1458 @ 8050a78) [349] pred_comp (predict.c:481 @ 8064c87)
+ [157] calcSNR1 (stats.c:88 @ 806f5c0) [404] dist1_special (motion.c:1467 @ 8050ac6) [350] pred_comp (predict.c:480 @ 8064c90)
+ [386] calcSNR1 (stats.c:88 @ 806f5cc) [26] dist1_special (motion.c:1468 @ 8050acb) [351] pred_comp (predict.c:485 @ 8064cb0)
+ [387] calcSNR1 (stats.c:91 @ 806f5cf) [30] dist1_special (motion.c:1458 @ 8050ad8) [352] pred_comp (predict.c:439 @ 8064d6d)
+ [158] calcSNR1 (stats.c:90 @ 806f5d5) [405] dist1_special (motion.c:1458 @ 8050b13) [353] pred_comp (predict.c:429 @ 8064ddf)
+ [159] calcSNR1 (stats.c:86 @ 806f5d7) [24] dist1_special (motion.c:1468 @ 8050b1b) [354] pred_comp (predict.c:464 @ 8064eb8)
+ [104] calcSNR1 (stats.c:91 @ 806f5dd) [74] dist1_special (motion.c:1458 @ 8050b28) [355] pred_comp (predict.c:461 @ 8064ecf)
+ [110] calcSNR1 (stats.c:92 @ 806f5e2) [298] dist1_special (motion.c:1458 @ 8050b89) [102] pred_comp (predict.c:473 @ 8064f30)
+ [198] calcSNR1 (stats.c:86 @ 806f5e6) [29] dist1_special (motion.c:1468 @ 8050bb6) [188] pred_comp (predict.c:473 @ 8064f51)
+ [254] calcSNR1 (stats.c:88 @ 806f710) [61] dist1_special (motion.c:1458 @ 8050bc7) [356] pred_comp (predict.c:456 @ 8064fb8)
+ [388] calcSNR1 (stats.c:88 @ 806f84c) [577] dist2 (motion.c:1638 @ 804e5f0) [588] predict (predict.c:70 @ 80656c0)
+ [389] calcSNR1 (stats.c:91 @ 806f84f) [299] dist2 (motion.c:1662 @ 804e915) [605] profile_and_level_checks (conform.c:189 @ 804b270)
+ [390] calcSNR1 (stats.c:92 @ 806f862) [300] dist2 (motion.c:1652 @ 804ebe1) [150] putAC (putvlc.c:106 @ 804ded0)
+ [391] calcSNR1 (stats.c:86 @ 806f866) [301] dist2 (motion.c:1690 @ 804ed48) [357] putAC (putvlc.c:140 @ 804df64)
+ [570] calc_DMV (predict.c:504 @ 8065000) [406] dist2 (motion.c:1686 @ 804efbb) [358] putAC (putvlc.c:143 @ 804df68)
+ [255] calc_actj (ratectl.c:172 @ 806ed79) [407] dist2 (motion.c:1691 @ 804efbe) [359] putAC (putvlc.c:165 @ 804df85)
+ [584] calc_vbv_delay (ratectl.c:380 @ 806c6f0) [302] dist2 (motion.c:1651 @ 8060505) [571] putACfirst (putvlc.c:96 @ 804e1d0)
+ [256] clearblock (predict.c:585 @ 8065d8c) [223] fdct (fdctref.c:65 @ 806afe0) [221] putDC (putvlc.c:79 @ 804e3d5)
+ [585] dct_type_estimation (transfrm.c:224 @ 8069170) [62] fdct (fdctref.c:76 @ 806b00c) [360] putDC (putvlc.c:87 @ 804e458)
+ [257] dct_type_estimation (transfrm.c:248 @ 8069264) [129] fdct (fdctref.c:78 @ 806b0d1) [579] putDCchrom (putvlc.c:49 @ 804e0d0)
+ [258] dct_type_estimation (transfrm.c:248 @ 80692f7) [206] fdct (fdctref.c:76 @ 806b0e4) [573] putDClum (putvlc.c:42 @ 804e390)
+ [259] dct_type_estimation (transfrm.c:248 @ 8069329) [408] fdct (fdctref.c:78 @ 806b166) [575] putaddrinc (putvlc.c:173 @ 804de70)
+ [260] dct_type_estimation (transfrm.c:249 @ 8069370) [53] fdct (fdctref.c:76 @ 806b172) [222] putbits (putbits.c:51 @ 804e4d0)
+ [392] dct_type_estimation (transfrm.c:249 @ 80693a2) [173] fdct (fdctref.c:76 @ 806b20c) [361] putbits (putbits.c:57 @ 804e500)
+ [393] dct_type_estimation (transfrm.c:248 @ 80693bf) [207] fdct (fdctref.c:78 @ 806b294) [362] putbits (putbits.c:64 @ 804e505)
+ [261] dct_type_estimation (transfrm.c:249 @ 80693d4) [78] fdct (fdctref.c:76 @ 806b2a6) [189] putbits (putbits.c:59 @ 804e507)
+ [262] dct_type_estimation (transfrm.c:248 @ 806951d) [303] fdct (fdctref.c:78 @ 806b32e) [214] putbits (putbits.c:62 @ 804e51a)
+ [263] dct_type_estimation (transfrm.c:249 @ 806956a) [42] fdct (fdctref.c:76 @ 806b340) [441] putbits (putbits.c:65 @ 804e523)
+ [264] dct_type_estimation (transfrm.c:243 @ 8069587) [208] fdct (fdctref.c:78 @ 806b3c8) [363] putbits (putbits.c:67 @ 804e529)
+ [265] dct_type_estimation (transfrm.c:260 @ 8069897) [35] fdct (fdctref.c:76 @ 806b3da) [364] putbits (putbits.c:69 @ 804e52d)
+ [266] dct_type_estimation (transfrm.c:269 @ 8069f58) [304] fdct (fdctref.c:78 @ 806b462) [365] putbits (putbits.c:57 @ 804e55d)
+ [199] dist1 (motion.c:1524 @ 804ff1e) [130] fdct (fdctref.c:76 @ 806b474) [190] putbits (putbits.c:74 @ 804e561)
+ [394] dist1 (motion.c:1527 @ 804ff32) [305] fdct (fdctref.c:78 @ 806b4de) [581] putcbp (putvlc.c:221 @ 804dd30)
+ [395] dist1 (motion.c:1546 @ 804ff3b) [306] fdct (fdctref.c:87 @ 806b530) [600] putgophdr (puthdr.c:125 @ 804d410)
+ [111] dist1 (motion.c:1546 @ 804ff60) [307] fdct (fdctref.c:89 @ 806b5d5) [568] putintrablk (putmpg.c:38 @ 804dc50)
+ [396] dist1 (motion.c:1556 @ 804ff79) [308] fdct (fdctref.c:87 @ 806b5f9) [366] putintrablk (putmpg.c:46 @ 804dc7f)
+  [57] dist1 (motion.c:1557 @ 804ff7e) [96] fdct (fdctref.c:87 @ 806b603) [367] putintrablk (putmpg.c:55 @ 804dc9f)
+ [200] dist1 (motion.c:1546 @ 804ff8b) [174] fdct (fdctref.c:89 @ 806b661) [576] putmbtype (putvlc.c:186 @ 804de30)
+ [267] dist1 (motion.c:1563 @ 8050000) [409] fdct (fdctref.c:89 @ 806b6f2) [565] putmotioncode (putvlc.c:194 @ 804ddd0)
+ [268] dist1 (motion.c:1574 @ 8050052) [410] fdct (fdctref.c:87 @ 806b71a) [566] putmv (putmpg.c:110 @ 804daa0)
+  [65] dist1 (motion.c:1577 @ 8050064) [309] fdct (fdctref.c:87 @ 806b725) [368] putmv (putmpg.c:131 @ 804dae6)
+ [112] dist1 (motion.c:1578 @ 805006f) [175] fdct (fdctref.c:89 @ 806b783) [369] putmv (putmpg.c:141 @ 804db10)
+ [113] dist1 (motion.c:1574 @ 8050078) [411] fdct (fdctref.c:89 @ 806b7b1) [578] putmvs (putpic.c:303 @ 804c5f0)
+ [269] dist1 (motion.c:1574 @ 805009c) [209] fdct (fdctref.c:87 @ 806b7b6) [572] putnonintrablk (putmpg.c:75 @ 804db90)
+ [114] dist1 (motion.c:1577 @ 80500ac) [176] fdct (fdctref.c:87 @ 806b83c) [442] putnonintrablk (putmpg.c:88 @ 804dbc0)
+ [160] dist1 (motion.c:1574 @ 80500c0) [97] fdct (fdctref.c:87 @ 806b847) [382] putnonintrablk (putmpg.c:91 @ 804dbc6)
+ [161] dist1 (motion.c:1577 @ 80500d0) [177] fdct (fdctref.c:89 @ 806b8a5) [443] putnonintrablk (putmpg.c:81 @ 804dbe1)
+ [270] dist1 (motion.c:1578 @ 80500db) [178] fdct (fdctref.c:87 @ 806b8cd) [215] putnonintrablk (putmpg.c:84 @ 804dbe7)
+ [271] dist1 (motion.c:1574 @ 80500e4) [179] fdct (fdctref.c:89 @ 806b936) [444] putnonintrablk (putmpg.c:86 @ 804dbfb)
+ [162] dist1 (motion.c:1577 @ 80500f4) [310] fdct (fdctref.c:87 @ 806b95e) [445] putnonintrablk (putmpg.c:100 @ 804dbff)
+ [272] dist1 (motion.c:1574 @ 8050108) [311] fdct (fdctref.c:87 @ 806b969) [589] putpict (putpic.c:42 @ 804c910)
+ [115] dist1 (motion.c:1574 @ 805012c) [75] fdct (fdctref.c:89 @ 806b9c7) [446] putpict (putpic.c:61 @ 804c9b0)
+ [141] dist1 (motion.c:1577 @ 805013c) [574] frame_estimate (motion.c:814 @ 8050c20) [447] putpict (putpic.c:68 @ 804c9b3)
+ [397] dist1 (motion.c:1578 @ 8050147) [312] frame_estimate (motion.c:827 @ 8050d05) [370] putpict (putpic.c:115 @ 804ca00)
+ [163] dist1 (motion.c:1574 @ 8050150) [313] frame_estimate (motion.c:846 @ 8050dc4) [448] putpict (putpic.c:239 @ 804cf7d)
+ [273] dist1 (motion.c:1577 @ 8050160) [560] fullsearch (motion.c:1279 @ 804f810) [449] putpict (putpic.c:238 @ 804cf82)
+ [274] dist1 (motion.c:1578 @ 805016b) [412] fullsearch (motion.c:1286 @ 804f837) [590] putpictcodext (puthdr.c:194 @ 804d270)
+ [116] dist1 (motion.c:1574 @ 8050198) [413] fullsearch (motion.c:1291 @ 804f847) [591] putpicthdr (puthdr.c:160 @ 804d680)
+ [275] dist1 (motion.c:1577 @ 80501a8) [314] fullsearch (motion.c:1314 @ 804f908) [606] putseq (putseq.c:36 @ 804b6b0)
+ [276] dist1 (motion.c:1578 @ 80501b3) [315] fullsearch (motion.c:1275 @ 804f96f) [607] putseqdispext (puthdr.c:92 @ 804d5a0)
+ [117] dist1 (motion.c:1574 @ 80501bc) [316] fullsearch (motion.c:1320 @ 804f981) [608] putseqend (puthdr.c:218 @ 804d240)
+ [398] dist1 (motion.c:1577 @ 80501cc) [414] fullsearch (motion.c:1275 @ 804f984) [609] putseqext (puthdr.c:70 @ 804d7d0)
+ [201] dist1 (motion.c:1578 @ 80501d7) [415] fullsearch (motion.c:1320 @ 804f987) [610] putseqhdr (puthdr.c:43 @ 804d920)
+ [399] dist1 (motion.c:1577 @ 80501f0) [131] fullsearch (motion.c:1322 @ 804f997) [611] putuserdata (puthdr.c:112 @ 804d540)
+ [400] dist1 (motion.c:1578 @ 80501fb) [39] fullsearch (motion.c:1320 @ 804f9c0) [569] quant_intra (quantize.c:49 @ 806c1c0)
+ [202] dist1 (motion.c:1577 @ 8050237) [33] fullsearch (motion.c:1322 @ 804f9d4) [450] quant_intra (quantize.c:60 @ 806c22a)
+ [277] dist1 (motion.c:1578 @ 8050242) [98] fullsearch (motion.c:1334 @ 804fa59) [27] quant_intra (quantize.c:63 @ 806c22e)
+ [142] dist1 (motion.c:1574 @ 8050247) [317] fullsearch (motion.c:1320 @ 804fa60) [76] quant_intra (quantize.c:74 @ 806c26d)
+ [164] dist1 (motion.c:1577 @ 805025a) [318] fullsearch (motion.c:1334 @ 804fa63) [191] quant_intra (quantize.c:57 @ 806c27a)
+ [401] dist1 (motion.c:1574 @ 805026a) [416] fullsearch (motion.c:1320 @ 804fa65) [564] quant_non_intra (quantize.c:93 @ 806c300)
+ [203] dist1 (motion.c:1577 @ 805027a) [417] fullsearch (motion.c:1334 @ 804fa66) [34] quant_non_intra (quantize.c:116 @ 806c330)
+  [82] dist1 (motion.c:1565 @ 8050285) [319] fullsearch (motion.c:1320 @ 804fa68) [216] quant_non_intra (quantize.c:103 @ 806c34f)
+ [165] dist1 (motion.c:1594 @ 80502e8) [210] fullsearch (motion.c:1335 @ 804fa6b) [217] quant_non_intra (quantize.c:102 @ 806c352)
+ [118] dist1 (motion.c:1597 @ 8050300) [418] fullsearch (motion.c:1334 @ 804fa6e) [451] quant_non_intra (quantize.c:103 @ 806c356)
+ [119] dist1 (motion.c:1594 @ 8050314) [180] fullsearch (motion.c:1336 @ 804fa75) [21] quant_non_intra (quantize.c:104 @ 806c35a)
+ [120] dist1 (motion.c:1597 @ 8050328) [63] fullsearch (motion.c:1320 @ 804fa8a) [14] quant_non_intra (quantize.c:105 @ 806c376)
+ [166] dist1 (motion.c:1594 @ 805033c) [99] fullsearch (motion.c:1340 @ 804fab0) [18] quant_non_intra (quantize.c:108 @ 806c37e)
+ [278] dist1 (motion.c:1597 @ 8050350) [56] fullsearch (motion.c:1340 @ 804faf0) [103] quant_non_intra (quantize.c:116 @ 806c394)
+ [121] dist1 (motion.c:1597 @ 8050378) [36] fullsearch (motion.c:1342 @ 804fb06) [612] range_checks (conform.c:38 @ 804aaf0)
+ [279] dist1 (motion.c:1594 @ 805038c) [79] fullsearch (motion.c:1348 @ 804fb94) [380] rc_calc_mquant (ratectl.c:268 @ 806cb80)
+  [83] dist1 (motion.c:1597 @ 80503a0) [211] fullsearch (motion.c:1349 @ 804fb9f) [601] rc_init_GOP (ratectl.c:87 @ 806d030)
+ [280] dist1 (motion.c:1594 @ 80503b4) [132] fullsearch (motion.c:1349 @ 804fba5) [592] rc_init_pict (ratectl.c:104 @ 806d3b0)
+  [84] dist1 (motion.c:1597 @ 80503c8) [146] fullsearch (motion.c:1349 @ 804fbad) [613] rc_init_seq (ratectl.c:49 @ 806d140)
+ [167] dist1 (motion.c:1594 @ 80503dc) [147] fullsearch (motion.c:1350 @ 804fbaf) [593] rc_start_mb (ratectl.c:227 @ 806cce0)
+ [281] dist1 (motion.c:1597 @ 80503f0) [181] fullsearch (motion.c:1349 @ 804fbb8) [594] rc_update_pict (ratectl.c:182 @ 806cda0)
+  [85] dist1 (motion.c:1594 @ 8050404) [133] fullsearch (motion.c:1350 @ 804fbbb) [595] readframe (readpic.c:47 @ 8067350)
+ [282] dist1 (motion.c:1597 @ 8050418) [43] fullsearch (motion.c:1275 @ 804fbc8) [614] readparmfile (mpeg2enc.c:173 @ 8048ba0)
+ [283] dist1 (motion.c:1594 @ 805042c) [182] fullsearch (motion.c:1354 @ 804fbe4) [596] stats (stats.c:111 @ 806ef20)
+ [122] dist1 (motion.c:1597 @ 8050440) [100] fullsearch (motion.c:1356 @ 804fbf0) [452] stats (stats.c:124 @ 806ef9e)
+  [86] dist1 (motion.c:1594 @ 8050454) [31] fullsearch (motion.c:1354 @ 804fc30) [453] stats (stats.c:130 @ 806efa6)
+ [284] dist1 (motion.c:1597 @ 8050468) [134] fullsearch (motion.c:1356 @ 804fc44) [192] sub_pred (transfrm.c:209 @ 806aa3f)
+  [87] dist1 (motion.c:1597 @ 8050490) [320] fullsearch (motion.c:1362 @ 804fcd4) [371] sub_pred (transfrm.c:209 @ 806aabd)
+ [285] dist1 (motion.c:1594 @ 80504a4) [419] fullsearch (motion.c:1354 @ 804fcdb) [218] sub_pred (transfrm.c:209 @ 806ab3c)
+ [168] dist1 (motion.c:1597 @ 80504b8) [420] fullsearch (motion.c:1362 @ 804fcde) [454] sub_pred (transfrm.c:211 @ 806abae)
+ [286] dist1 (motion.c:1594 @ 80504cd) [321] fullsearch (motion.c:1362 @ 804fce1) [372] sub_pred (transfrm.c:209 @ 806abbb)
+  [88] dist1 (motion.c:1597 @ 80504e1) [183] fullsearch (motion.c:1354 @ 804fce3) [140] sub_pred (transfrm.c:209 @ 806ac3a)
+ [169] dist1 (motion.c:1597 @ 8050505) [322] fullsearch (motion.c:1363 @ 804fce6) [193] sub_pred (transfrm.c:209 @ 806acb9)
+  [89] dist1 (motion.c:1594 @ 8050515) [421] fullsearch (motion.c:1364 @ 804fcf0) [194] sub_pred (transfrm.c:209 @ 806ad38)
+ [287] dist1 (motion.c:1597 @ 8050529) [422] fullsearch (motion.c:1363 @ 804fcf3) [373] sub_pred (transfrm.c:209 @ 806adb7)
+ [123] dist1 (motion.c:1594 @ 8050539) [423] fullsearch (motion.c:1364 @ 804fcff) [597] transform (transfrm.c:46 @ 806a940)
+ [170] dist1 (motion.c:1597 @ 805054d) [424] fullsearch (motion.c:1363 @ 804fd02) [375] transform (transfrm.c:94 @ 806af80)
+ [124] dist1 (motion.c:1590 @ 8050558) [44] fullsearch (motion.c:1275 @ 804fd18) [376] var_sblk (ratectl.c:343 @ 806da58)
+ [288] dist1 (motion.c:1601 @ 805056c) [17] fullsearch (motion.c:1368 @ 804fd2f) [377] var_sblk (ratectl.c:345 @ 806e5dd)
+ [289] dist1 (motion.c:1531 @ 80505e0) [25] fullsearch (motion.c:1370 @ 804fd88) [455] var_sblk (ratectl.c:350 @ 806e744)
+ [290] dist1 (motion.c:1607 @ 8050612) [148] fullsearch (motion.c:1376 @ 804fe0e) [456] var_sblk (ratectl.c:344 @ 806e746)
+  [22] dist1 (motion.c:1612 @ 8050640) [101] fullsearch (motion.c:1377 @ 804fe19) [457] var_sblk (ratectl.c:343 @ 806e842)
+  [20] dist1 (motion.c:1615 @ 805066d) [425] fullsearch (motion.c:1376 @ 804fe1c) [458] var_sblk (ratectl.c:344 @ 806e846)
+  [66] dist1 (motion.c:1612 @ 8050682) [426] fullsearch (motion.c:1377 @ 804fe1f) [459] var_sblk (ratectl.c:344 @ 806e9e5)
+  [16] dist1 (motion.c:1615 @ 80506a3) [54] fullsearch (motion.c:1314 @ 804fe40) [460] var_sblk (ratectl.c:345 @ 806e9e7)
+  [45] dist1 (motion.c:1612 @ 80506b7) [427] fullsearch (motion.c:1387 @ 804fe7b) [378] var_sblk (ratectl.c:345 @ 806e9fd)
+ [125] dist1 (motion.c:1615 @ 80506d7) [428] fullsearch (motion.c:1391 @ 804fe7e) [195] variance (motion.c:1825 @ 805aac0)
+  [90] dist1 (motion.c:1612 @ 80506eb) [323] fullsearch (motion.c:1395 @ 804fee0) [196] variance (motion.c:1827 @ 805abb1)
+ [105] dist1 (motion.c:1615 @ 805070b) [149] fullsearch (motion.c:1397 @ 804ff16) [598] vbv_end_of_picture (ratectl.c:368 @ 806c6d0)
+  [55] dist1 (motion.c:1612 @ 805071f) [324] fullsearch (motion.c:1407 @ 804ff90) [599] writeframe (writepic.c:38 @ 8068e80)
+  [91] dist1 (motion.c:1615 @ 8050740) [325] fullsearch (motion.c:1401 @ 804ff9b)
