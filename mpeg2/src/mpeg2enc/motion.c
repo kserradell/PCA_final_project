@@ -1429,31 +1429,19 @@ static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __re
   s = 0;
   p1 = blk1;
   p2 = blk2;
-
-
-
-  int rc,t;
   
 /*VECTORITZACIO: 
 dades alineades a mpeg2enc.c (posix memalign...)
-
-Peero, aquesta funcio reb adreçes blk1 i blk2 que van variant en un char, per tant no sempre entra un punter alineat .  Separem en casos alineats i no alineats.
-
-Si el punter p1 i p2 estan alineats inicialment, tots els accessos seran alineats ja que l'increment
-lx que fa als punters es multiple de 16
-
 */
 /*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem, si no no*/
 	 
 	__m128i res;
-	//unsigned short res_v[8] __attribute__((__aligned__(16)));
-	//res=(__m128i*)res_v;
+
 	
 	if ( ((unsigned int)p1 & 15) == 0)  //p2 sempre esta alineat
 	{
-	    //printf("VECTORITZACIO\n");
-	    
-	    __m128i *pr1,*pr2;
+	
+	 __m128i *pr1,*pr2;
 	    
 	    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
 	    {   
@@ -1518,12 +1506,11 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
 * els valors de p1 i p2 de i oscilen entre 0 i 255, memomization de les restes i valors no millora
 */
 
-            __m128i * res;
-            unsigned short res_v[8] __attribute__((__aligned__(16)));
-            res=(__m128i*)res_v;
-                 
+  
+  
   if (!hx && !hy)
   {
+        __m128i res;  
  /*Vectoritzat, en aquest cas s'hauria de provar mes per que no estic segura que es guanyi*/
         if ( ((unsigned int)p1 & 15) == 0)
         {
@@ -1536,8 +1523,8 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
 		
 		        /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
 		        fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
-		          *res=_mm_sad_epu8(*pr1, *pr2);
-		           s+=_mm_extract_epi16(*res,0) + _mm_extract_epi16(*res,4);
+		          res=_mm_sad_epu8(*pr1, *pr2);
+		           s+=_mm_extract_epi16(res,0) + _mm_extract_epi16(res,4);
             }
          }
          else
@@ -1545,7 +1532,7 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
 	  	    __m128i pr1,pr2;
 	  
 	 	    for (j=0; j<h && s<distlim; j++,p1+=lx,p2+=lx)
-	    		{  
+	        {  
 	 	      //__mm_loadu_si128();
 	 
 	 	      pr1 = _mm_loadu_si128( (__m128i*) p1);
@@ -1554,10 +1541,10 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
 		      /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
 		      fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
 		      
-		      *res=_mm_sad_epu8(pr1, pr2);
-		      s+=_mm_extract_epi16(*res,0) + _mm_extract_epi16(*res,4);
+		      res=_mm_sad_epu8(pr1, pr2);
+		      s+=_mm_extract_epi16(res,0) + _mm_extract_epi16(res,4);
 	 		
-	 	      }  
+	 	    }  
          }   
     //printf("p1min: %d , p1max: %d  , p2min: %d , p2max: %d , \n",p1min,p1max,p2min,p2max);
     }
