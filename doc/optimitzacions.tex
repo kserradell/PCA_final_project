@@ -110,7 +110,7 @@ Com hem vist als dos intents anteriors d'optimitzar els calculs de dist1, no hem
 
 El principal problema que vam veure es que el punter p1 no sempre es alineat, per tant vam separar dos casos. Quan p1 es alineat, hem aplicat una vectorització que fa servir l'intrinsic \_mm\_sad\_epu8, que fa exactament el que volem: diferencies absolutes. Aquests resultats es guarden a un altre registre vectorial del que extraiem el resultat amb \_mm\_extract\_epu16.
 
-Com explicarem al punt següent, havíem pensat que potser seria bo que la part no alineada es fes amb threads per aplicar una mica totes les tecniques de les que disposem, pero la idea no va resultar massa be, ja que dist 1 es crida moltissimes veegades, per tant finalment vam fer la part no alineada amb vectorització no alineada carregant les dades amb l'intrinsic de load unaligned, que tot i això va donar un speed up força bo respecte a la versió sense vectorització.
+Com explicarem al punt següent, havíem pensat que potser seria bo que la part no alineada es fes amb threads per aplicar una mica totes les tècniques de les que disposem, però la idea no va resultar massa be, ja que dist 1 es crida moltíssimes vegades, per tant finalment vam fer la part no alineada amb vectorització no alineada carregant les dades amb l'intrinsic de load unaligned, que tot i això va donar un speed up força bo respecte a la versió sense vectorització.
 
 \section{Optimitzaci\'o 8: Threads}
 \begin{itemize}
