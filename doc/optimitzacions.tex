@@ -53,7 +53,7 @@ Com es pot veure, la millora no es massa notable, pero suficient per deixarla, a
 \section{Optimitzaci\'o 4: Bithacks}
 \begin{itemize}
 \item{Funció: motion.c/fullsearch}
-\item{SpeedUp:  --- mirar be si aixo millora el temps}
+\item{SpeedUp:  1.02}
 \end{itemize}
 
 Aquest bithack consisteix en substituir aquest codi:
@@ -78,33 +78,32 @@ imin = (imin & ~mask) + (i&mask);
 jmin = (jmin & ~mask) + (j&mask);
 \end{lstlisting}
 
-D'aquesta manera ens estalviem el salt i tenim la mateixa sortida.
+D'aquesta manera ens estalviem els salts i tenim la mateixa sortida.
 
 \section{Optimitzaci\'o 5: Memoization}
 \begin{itemize}
 \item{Funció: motion.c/dist1}
-\item{SpeedUp:}
+\item{SpeedUp: -}
 \end{itemize}
 
 Analitzant els valors dels punters p1 i p2 a dist1, hem vist que aquests son valors entre 0 i 255  (típics valors de components de color y valors que caben a un unsigned char). Per tant vam pensar que potser fent memoization de les restes i valors absoluts d'aquests valors aconseguíem accelerar el proces a dist1. Vam fer servir una matriu de 255x255 amb totes les restes que s'inicialitzava al principi de l'execució. 
 
-El profiling d'aquesta versió va donar temps molt semblants a la versió sense memoization, el que vol dir que amb memoization es guanya poc temps, el qual es perd amb l'overhead inicial d'omplir aquesta matriu i amb el cost dels accessos a memòria de la matriu de memoitzacio.
+El profiling d'aquesta versió va donar temps molt semblants tot i que sempre menors a la versió sense memoization, el que vol dir que amb memoization es guanya poc temps, el qual es perd amb l'overhead inicial d'omplir aquesta matriu i amb el cost dels accessos a memòria de la matriu de memorització la qual s'accedeix de forma arbitraria i no s'aprofita gens la localitat espacial.
 
 
 \section{Optimitzaci\'o 6: Especialitzaci\'o de dist1}
 \begin{itemize}
 \item{Funció: motion.c/dist1 -> dist1\_special}
-\item{SpeedUp:}
+\item{SpeedUp: 1.07}
 \end{itemize}
 
 Dist1 es crida des de fullsearch, la segona funció en el ranking de temps d'execució. Fullsearch crida a dist1 diverses vegades, inicialment amb paràmetres hx i hy =0, per tant hem decidit separar aquest cas de la dist1 genèrica per qualsevol hx i hy. D'aquesta manera en aquestes crides no s'haurà d'executar l'if tantes vegades.
 
-El profiling no mostra una gran millora, però com veurem mes endavant, aquesta optimització ens va permetre obtindre un temps millor amb vectorització.
 
 \section{Optimitzaci\'o 7: Vectoritzaci\'o}
 \begin{itemize}
 \item{Funció: motion.c/dist1\_special , motion.c/dist1}
-\item{SpeedUp:}
+\item{SpeedUp: 2.10}
 \end{itemize}
 
 Com hem vist als dos intents anteriors d'optimitzar els calculs de dist1, no hem aconseguit un guany de temps important, per tant hem decidir atacar el problema amb la vectoritzacio, ja que aquesta funcio fa calculs exactament de 16 bytes a cada iteració, el punter p2 sempre esta alineat, i l'increment dels punters lx sempre es multiple de 16, per tant ens deixa en un bon escenari per aplicar vectorització.
@@ -116,7 +115,7 @@ Com explicarem al punt següent, havíem pensat que potser seria bo que la part 
 \section{Optimitzaci\'o 8: Threads}
 \begin{itemize}
 \item{Funció: motion.c/dist1\_special}
-\item{SpeedUp:}
+\item{SpeedUp: -}
 \end{itemize}
 
 Abans d'aplicar la vectorització tota "sencera", és a dir per posicions alineades i no alineades, tenim el cas que les no alineades seguien executant-se amb el bucle i utilitzant gprof, hem vist que aquesta part del codi, consumia gairebé un 80\% del temps de CPU. Per optimitzar aquest part, de seguida vàrem pensar en utilitzar els pthreads, ja que ens semblava un bon lloc i una bona manera d'aplicar una tècnica que encara no havíem fet servir fins ara. La idea era que cada thread executés un bucle i que es repartissin la feina entre ells. El codi quedava així:
@@ -148,7 +147,7 @@ La funció \texttt{blucle\_thread} és el bucle que fa els càlculs i tant els p
 \section{Optimitzaci\'o 8: Code hoisting}
 \begin{itemize}
 \item{Funció: motion.c/fullsearch}
-\item{SpeedUp:}
+\item{SpeedUp: 1.08}
 \end{itemize}
 
 Un cop hem vectoritzat dist1, hem vist que tant dist1 com dist1\_special baixaven molt a la llista temps d'execucio, i fullsearch es va quedar en primer lloc com a funció que triga més, per tant vam decidir centrar esforços en optimitzar fullsearch.
