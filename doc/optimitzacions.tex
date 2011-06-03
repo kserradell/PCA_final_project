@@ -154,20 +154,19 @@ A fullsearch, recordant de les optimitzacions anteriors, tenim un bucle al que v
 
 \begin{lstlisting}
 if( i>=ilow && i<=ihigh)
-            for (; k<(l<<2); k++,j++)
-            {
-                  if (j>=jlow && j<=jhigh)
-                  {
+       for (; k<(l<<2); k++,j++)
+       {
+             if (j>=jlow && j<=jhigh)
+             {
                     d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
-
-                    //bithacks!
                     mask=-(d<dmin);
                     dmin=(dmin & ~mask) + (d&mask);
                     imin = (imin & ~mask) + (i&mask);
                     jmin = (jmin & ~mask) + (j&mask);
-                  }
-            }
-       else{
-            j+=l<<1;
-            k=l<<2;	}	 	
+             }
+        } 
+else{
+     j+=l<<1;
+     k=l<<2;	
+     }	 	
 \end{lstlisting}
