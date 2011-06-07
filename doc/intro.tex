@@ -2,7 +2,7 @@
 
 %primera versio d'estructura del document
 \section{Entorn i eines de treball}
-Totes les mesures, execucions i optimitzacions d'aquesta pràctica s'han dut a terme sota una arquitectura Intel Core Duo. Això ens permet treballar tant a les aules com en els nostres respectius portàtils.\\
+Totes les mesures, execucions i optimitzacions d'aquesta pràctica s'han dut a terme sota una arquitectura Intel Core Duo. Això ens permet treballar tant a les aules com en els nostres respectius portàtils.
 
 Pel manteniment del codi i per poder treballar amb més facilitat hem optat per GIT com a sistema de control de versions. Concretament, hem optat per GitHUB \url{https://github.com/} que ofereix repositoris propis gratuïtament.
 
@@ -44,7 +44,7 @@ I finalment, com a curiositat, el flag \texttt{-parallel}, que intenta paralelit
 %-O3, -march=core2 ... etc
 \section{Profiling del codi original}
 
-El primer pas abans de començar a treballar ha estat el de fer profiling del codi original, per tal d'identificar quines son les rutines que més temps de CPU consumeixen. Aix+o s'ha fet mitjançant l'eina \texttt{gprof} i posteriorment, dibuixant un graf que mostra visualment la sortida. De seguida veiem que la funció que més temps consumeix és \texttt{dist1} que alhora prové de la branca \texttt{motion}. Aquesta funció la trobem dins de \texttt{motion.c} i és la primera que optimitzarem.
+El primer pas abans de començar a treballar ha estat el de fer profiling del codi original, per tal d'identificar quines son les rutines que més temps de CPU consumeixen. Això s'ha fet mitjançant l'eina \texttt{gprof} i posteriorment, dibuixant un graf que mostra visualment la sortida. De seguida veiem que la funció que més temps consumeix és \texttt{dist1} que alhora prové de la branca \texttt{motion}. Aquesta funció la trobem dins de \texttt{motion.c} i és la primera que optimitzarem.
 
 \begin{figure}[hbtp]
 \begin{center}
@@ -63,4 +63,4 @@ Durant tota aquesta pràctica hem seguit la següent metodologia per validar i i
   \item Calcular speedups
 \end{itemize}
 
-Per amenitzar aquestes tasques hem fet servir diversos scripts de shell. El que fa mes tasques de les citades es "compara.sh", el qual executa el programa optimitzat i l'original el nombre de vegades que se li demana, fa la mitja dels temps i calcula l'speed-up. A més a mes també comprova que la sortida sigui la mateixa. Tot i això hem fet servir molts més scripts diferents per fer execucions/profilings ràpidament.
+Per simplificar aquestes tasques hem fet servir diversos scripts de shell. El que fa més tasques de les citades es \texttt{compara.sh}, el qual executa el programa optimitzat i l'original el nombre de vegades que se li demana, fa la mitja dels temps i calcula l'speed-up. A més també comprova que la sortida sigui la mateixa. Tot i això hem fet servir molts més scripts diferents per fer execucions/profilings ràpidament.
