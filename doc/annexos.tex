@@ -1,3 +1,41 @@
 \appendix
 \chapter{Makefile}
+\begin{lstlisting}
+.SUFFIXES: .pg
+CC = gcc
+CFLAGS = -g -pg -O3 -Wall -march=core2 -ftree-vectorize -pthread
+#CFLAGS = -O3 -Wall -march=core2  #flags icc
+OBJ = mpeg2enc.o conform.o putseq.o putpic.o puthdr.o putmpg.o putvlc.o 
+putbits.o motion.o predict.o readpic.o writepic.o transfrm.o fdctref.o 
+idct.o quantize.o ratectl.o stats.o
+all: mpeg2encode .pg
+pc: mpeg2enc.exe
+clean:
+	rm -f *.o *% core mpeg2encode mpeg2encode.pg
+mpeg2enc.exe: mpeg2encode
+	coff2exe mpeg2enc
+mpeg2encode: $(OBJ)
+	$(CC) $(CFLAGS) -o mpeg2encode $(OBJ) -lm
+.pg: $(OBJ)
+	$(CC) $(CFLAGS) -g -pg -o mpeg2encode.pg $(OBJ) -lm
+conform.o : conform.c config.h global.h mpeg2enc.h 
+fdctref.o : fdctref.c config.h 
+idct.o : idct.c config.h 
+motion.o : motion.c config.h global.h mpeg2enc.h 
+mpeg2enc.o : mpeg2enc.c config.h global.h mpeg2enc.h 
+predict.o : predict.c config.h global.h mpeg2enc.h 
+putbits.o : putbits.c config.h 
+puthdr.o : puthdr.c config.h global.h mpeg2enc.h 
+putmpg.o : putmpg.c config.h global.h mpeg2enc.h 
+putpic.o : putpic.c config.h global.h mpeg2enc.h 
+putseq.o : putseq.c config.h global.h mpeg2enc.h 
+putvlc.o : putvlc.c config.h global.h mpeg2enc.h vlc.h 
+quantize.o : quantize.c config.h global.h mpeg2enc.h 
+ratectl.o : ratectl.c config.h global.h mpeg2enc.h 
+readpic.o : readpic.c config.h global.h mpeg2enc.h 
+stats.o : stats.c config.h global.h mpeg2enc.h 
+transfrm.o : transfrm.c config.h global.h mpeg2enc.h 
+writepic.o : writepic.c config.h global.h mpeg2enc.h 
+\end{lstlisting}
+
 \chapter{compara.sh}
