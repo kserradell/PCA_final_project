@@ -6,7 +6,8 @@
 \section{Optimitzaci\'o 1: Loop roll}
 \begin{itemize}
 \item{Funció: motion.c/dist1}
-\item{SpeedUp:1.08}
+\item{SpeedUp:1.07}
+\item{Elapsed:47.45s}
 \end{itemize}
 
 A dist 1 hem detectat que hi havia un bucle desenrotllat. Hem decidit provar d'enrotllar-ho de nou i veure si el compilador aconseguia optimitzar més aquest unroll, i efectivament, amb el bucle enrotllat hi ha hagut un guany de temps, ja que el compilador genera un codi més eficient en el moment d'aplicar l'unroll. Per tant la feina d'aquest unroll la deixem al compilador.
@@ -18,10 +19,11 @@ for (i = 0 ; i < 16 ; i++)
 }
 \end{lstlisting}
  
-\section{Optimitzaci\'o 2: Retallada d'iteracions}
+\section{Optimitzaci\'o 2: Retallada d'iteracions innecessaries}
 \begin{itemize}
 \item{Funció: motion.c/dist1}
 \item{SpeedUp: 1.21}
+\item{Elapsed: 39.5s}
 \end{itemize}
 
 Analitzant una mica el codi de la funció dist1 a motion.c, hem vist que el que fa aquesta funció es acumular a la variable s distàncies absolutes i finalment retornar s. Peró hi ha un detall important en aquest codi: no volem calcular totalment s, sinó que el que en interessa es saber si $s>distlim$, un altre paràmetre de la funció.
@@ -33,6 +35,7 @@ Per tant, als bucles que acumulen distancies absolutes a s, hem fet que es surti
 \begin{itemize}
 \item{Funcio: motion.c/dist1}
 \item{SpeedUp: -}
+\item{Elapsed: 41.62s}
 \end{itemize}
 
 El bucle que hem desenrotllat a l'optimització 1 fa el següent a cada iteració: resta dos valors, els fa el valor absolut i els suma a s. El valor absolut el calcula amb un 
@@ -49,16 +52,17 @@ v = (v ^ (v>>31)) - (v>>31);
 \end{lstlisting}
  
 
-Tot i això, el profiling d'aquest programa ha estat negatiu: es triga més amb aquest bithack que amb l'if. Es evident que el compilador amb els flags adequats d'optimització fa bastant bona feina amb algunes optimitzacions.
+D'entrada nomes l'hem aplicat al primer bucle de dist1 per veure si hi havia guany o no. Tot i això, el profiling d'aquest programa ha estat negatiu: es triga més amb aquest bithack que amb l'if. Es evident que el compilador amb els flags adequats d'optimització fa bastant bona feina amb algunes optimitzacions.
               
 
 \section{Optimitzaci\'o 4: Loop splitting}
 \begin{itemize}
 \item{Funcio: motion.c/fullsearch}
 \item{SpeedUp: 1.03}
+\item {Elapsed: 38.91}
 \end{itemize}
 
-El bucle 
+El bucle:
 
 \begin{lstlisting}
 for(k=0; k<8*l; k++)
@@ -71,7 +75,8 @@ Com es pot veure, la millora no es massa notable, pero suficient per deixarla, a
 \section{Optimitzaci\'o 4: Bithacks}
 \begin{itemize}
 \item{Funció: motion.c/fullsearch}
-\item{SpeedUp:  1.02}
+\item{SpeedUp:  -}
+\item{Elapsed:  39.89}
 \end{itemize}
 
 Aquest bithack consisteix en substituir aquest codi:
@@ -94,22 +99,24 @@ imin = (imin & ~mask) + (i&mask);
 jmin = (jmin & ~mask) + (j&mask);
 \end{lstlisting}
 
-D'aquesta manera ens estalviem els salts i tenim la mateixa sortida.
+D'aquesta manera ens estalviem els salts i tenim la mateixa sortida. Com es pot veure el temps ha pujat, per tant descartem el canvi.
 
 \section{Optimitzaci\'o 5: Memoization}
 \begin{itemize}
 \item{Funció: motion.c/dist1}
 \item{SpeedUp: -}
+\item{Elapsed:41.21s} 
 \end{itemize}
 
 Analitzant els valors dels punters p1 i p2 a dist1, hem vist que aquests son valors entre 0 i 255  (típics valors de components de color y valors que caben a un unsigned char). Per tant vam pensar que potser fent memoization de les restes i valors absoluts d'aquests valors aconseguíem accelerar el proces a dist1. Vam fer servir una matriu de 255x255 amb totes les restes que s'inicialitzava al principi de l'execució. 
 
-El profiling d'aquesta versió va donar temps molt semblants tot i que sempre menors a la versió sense memoization. Això ens indica que amb memoization es guanya poc temps, el qual es perd amb l'overhead inicial d'omplir aquesta matriu i amb el cost dels accessos a memòria de la matriu de memorització la qual s'accedeix de forma arbitraria i no s'aprofita gens la localitat espacial.
+El profiling d'aquesta versió va donar temps molt semblants tot i que sempre pitjors que els de la versió sense memoization. Això ens indica que amb memoization es guanya poc temps, el qual es perd amb l'overhead inicial d'omplir aquesta matriu i amb el cost dels accessos a memòria de la matriu de memorització la qual s'accedeix de forma arbitraria i no s'aprofita gens la localitat espacial.
 
 \section{Optimitzaci\'o 6: Especialitzaci\'o de dist1}
 \begin{itemize}
 \item{Funció: motion.c/dist1 -> dist1\_special}
 \item{SpeedUp: 1.07}
+\item{Elapsed: 36.42s}
 \end{itemize}
 
 Dist1 es crida des de fullsearch, la segona funció en el ranking de temps d'execució. Fullsearch crida a dist1 diverses vegades, inicialment amb paràmetres hx i hy =0, per tant hem decidit separar aquest cas de la dist1 genèrica per qualsevol hx i hy. D'aquesta manera en aquestes crides no s'haurà d'executar l'if tantes vegades.
@@ -117,7 +124,8 @@ Dist1 es crida des de fullsearch, la segona funció en el ranking de temps d'exe
 \section{Optimitzaci\'o 7: Vectoritzaci\'o}
 \begin{itemize}
 \item{Funció: motion.c/dist1\_special , motion.c/dist1}
-\item{SpeedUp: 2.10}
+\item{SpeedUp: 2.04}
+\item{Elapsed: 17.77s}
 \end{itemize}
 
 Com hem vist als dos intents anteriors d'optimitzar els calculs de dist1, no hem aconseguit un guany de temps important, per tant hem decidir atacar el problema amb la vectoritzacio, ja que aquesta funcio fa calculs exactament de 16 bytes a cada iteració, el punter p2 sempre esta alineat, i l'increment dels punters lx sempre es multiple de 16, per tant ens deixa en un bon escenari per aplicar vectorització.
@@ -192,7 +200,8 @@ La funció \texttt{blucle\_thread} és el bucle que fa els càlculs i tant els p
 \section{Optimitzaci\'o 8: Code hoisting}
 \begin{itemize}
 \item{Funció: motion.c/fullsearch}
-\item{SpeedUp: 1.08}
+\item{SpeedUp: 1.04}
+\item{Elapsed: 17.02s}
 \end{itemize}
 
 Un cop hem vectoritzat dist1, hem vist que tant dist1 com dist1\_special baixaven molt a la llista temps d'execució, i fullsearch es va quedar en primer lloc com a funció que triga més, per tant vam decidir centrar esforços en optimitzar fullsearch.
@@ -218,3 +227,12 @@ else{
   k=l<<2;	
 }	 	
 \end{lstlisting}
+
+\section{Optimitzaci\'o 9: Reducci\'o de constants a crides inicials}
+\begin{itemize}
+\item{Funció: motion.c/fullsearch}
+\item{SpeedUp: 1.004 }
+\item{Elapsed: 16.96}
+\end{itemize}
+
+A fullsearch es fa una crida inicial a dist1 abans d'entrar al bucle de calcul, la qual es fa amb un valor constant. Aquest valor constant inicial es pot reduir, guanyant aixi una mica de temps i sense que es modifiqui la sortida del programa.
