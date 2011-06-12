@@ -1316,7 +1316,7 @@ int *iminp,*jminp;
         i = i0 - l;
         j = j0 - l;
         
-      
+        
         if (j>=jlow && j<=jhigh)
             for (k=0; k<(l<<1); k++,i++)
             {
@@ -1332,10 +1332,12 @@ int *iminp,*jminp;
                     (un anula el que hi ha i l'altre ho deixa com estava)
                     El temps no sembla que varii... una altra vegada. El compilador ho fa tot.
                     */
-                    maska= -(d<dmin);
-                    dmin=(dmin & ~maska) + (d&maska);
-                    imin = (imin & ~maska) + (i&maska);
-                    jmin = (jmin & ~maska) + (j&maska);
+                    if (d<dmin)
+                    {
+                      dmin = d;
+                      imin = i;
+                      jmin = j;
+                    }
                   }
             }
         else
@@ -1348,7 +1350,7 @@ int *iminp,*jminp;
                   {
                     d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
 
-                    //bithacks!
+                    //bithacks
                     maska=-(d<dmin);
                     dmin=(dmin & ~maska) + (d&maska);
                     imin = (imin & ~maska) + (i&maska);
@@ -1365,11 +1367,12 @@ int *iminp,*jminp;
                   {
                     d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
 
-                    //bithacks!
-                    maska=-(d<dmin);
-                    dmin=(dmin & ~maska) + (d&maska);
-                    imin = (imin & ~maska) + (i&maska);
-                    jmin = (jmin & ~maska) + (j&maska);
+                    if (d<dmin)
+                    {
+                      dmin = d;
+                      imin = i;
+                      jmin = j;
+                    }
                   }
             }
         else
@@ -1383,13 +1386,14 @@ int *iminp,*jminp;
                     d = dist1_special(org+i+lx*j   ,   blk,lx,0,0,h,dmin);
 
                     //bithacks!
-                    maska=-(d<dmin);
-                    dmin=(dmin & ~maska) + (d&maska);
-                    imin = (imin & ~maska) + (i&maska);
-                    jmin = (jmin & ~maska) + (j&maska);
+                   if (d<dmin)
+                   {
+                      dmin = d;
+                      imin = i;
+                      jmin = j;
+                   }
                   }
              }
-   
   }
 
   /* half pel */
