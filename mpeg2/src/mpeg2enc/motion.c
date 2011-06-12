@@ -1280,7 +1280,7 @@ int *iminp,*jminp;
   int i,j,imin,jmin,ilow,ihigh,jlow,jhigh;
   int d,dmin;
   int k,l,sxy;
-  int maska;
+  int mask;
  
   ilow = i0 - sx;
   ihigh = i0 + sx;
@@ -1316,7 +1316,6 @@ int *iminp,*jminp;
         i = i0 - l;
         j = j0 - l;
         
-        
         if (j>=jlow && j<=jhigh)
             for (k=0; k<(l<<1); k++,i++)
             {
@@ -1351,10 +1350,10 @@ int *iminp,*jminp;
                     d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
 
                     //bithacks
-                    maska=-(d<dmin);
-                    dmin=(dmin & ~maska) + (d&maska);
-                    imin = (imin & ~maska) + (i&maska);
-                    jmin = (jmin & ~maska) + (j&maska);
+                    mask=-(d<dmin);
+                    dmin=(dmin & ~mask) + (d&mask);
+                    imin = (imin & ~mask) + (i&mask);
+                    jmin = (jmin & ~mask) + (j&mask);
                   }
             }
        else
@@ -1407,7 +1406,7 @@ int *iminp,*jminp;
   ihigh = imin + (imin<((xmax-16)<<1));
   jlow = jmin - (jmin>0);
   jhigh = jmin + (jmin<((ymax-h)<<1));
-
+  
   for (j=jlow; j<=jhigh; j++)
     for (i=ilow; i<=ihigh; i++)
     {
@@ -1415,10 +1414,10 @@ int *iminp,*jminp;
       
      //bithacks!
    
-        maska=-(d<dmin);
-        dmin=(dmin & ~maska) + (d&maska);
-        imin = (imin & ~maska) + (i&maska);
-        jmin = (jmin & ~maska) + (j&maska);
+        mask=-(d<dmin);
+        dmin=(dmin & ~mask) + (d&mask);
+        imin = (imin & ~mask) + (i&mask);
+        jmin = (jmin & ~mask) + (j&mask);
     }
 
   *iminp = imin;
