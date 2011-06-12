@@ -1502,7 +1502,6 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
   if (!hx && !hy)
   {
         __m128i res;  
- /*Vectoritzat, en aquest cas s'hauria de provar mes per que no estic segura que es guanyi*/
         if ( ((unsigned int)p1 & 15) == 0)
         {
             __m128i *pr1,*pr2;
