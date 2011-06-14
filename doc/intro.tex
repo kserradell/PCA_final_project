@@ -10,11 +10,11 @@ Per la feina propiament dita d'optimitzacions, hem utilitzat les eines vistes du
 
 %scripts, makefile, etc
 \section{Optimitzacions amb el compilador}
-Al treballar sota una arquitectura Intel, tenim l'opció de treballar amb dos compiladors:
+Al treballar sota una arquitectura Intel, tenim l'opció de treballar amb dos compil·ladors:
 
 \begin{itemize}
-  \item icc (ICC) 12.0.2 20110112
-  \item gcc (Ubuntu/Linaro 4.5.2-8ubuntu4) 4.5.2
+  \item icc: Intel C Compiler
+  \item gcc: GNU Compiler
 \end{itemize}
 
 Sense començar a mirar el codi i per experiència d'anteriors pràctiques/feines, treballant sota una arquitectura Intel, el seu compil·lador natiu te millor rendiment. Tot seguit, adjuntem un benchmarking del codi, comparant els dos compil·ladors i emprant diferents flags. Pels flags del compil·lador d'Intel, hem seguit parcialment el manual d'optimitzacions d'Intel.
@@ -32,14 +32,14 @@ Sense començar a mirar el codi i per experiència d'anteriors pràctiques/feine
 \texttt{-O3 -parallel} & 33.690s & N.A.\\
 \hline
 \end{tabular}
-\caption{Benchmarking entre compiladors i flags utilitzant el video del tigre}
+\caption{Benchmarking entre compil·ladors i flags utilitzant el video \texttt{02.tiger.mpg}}
 \end{center}
 \label{table1}
 \end{table}
 
-De seguida veiem que el codi te un rendiment molt superior tan aviat com se li apliquen optimitzacions. Això és una bo per nosaltres, ja que aplicant les millores vistes durant el curs directament sobre el codi, hauriem de tenir speedups que demostressin l'eficàcia d'aquestes optimitzacions.
-Veiem també el que comentavem anteriorment, que sota una arquitectura Intel, el seu compilador és molt més eficient. Podriem dir que la versió \texttt{-O3 -march=core2} marca el millor temps que podem obtenir. Sembla dificil aconseguir millors optimitzacions que les més agressives que utilitza aquest compilador.
-I finalment, com a curiositat, el flag \texttt{-parallel}, que intenta paralelitzar automaticament el codi, i en aquest cas correr sobre dos processadors, no aporta cap guany, al contrari, te un rendiment inferior.
+De seguida veiem que el codi te un rendiment molt superior tan aviat com se li apliquen optimitzacions. Això és bo per nosaltres, ja que aplicant les millores vistes durant el curs directament sobre el codi, hauriem de tenir speedups que demostressin l'eficàcia d'aquestes optimitzacions.
+Veiem també el que comentàvem anteriorment, que sota una arquitectura Intel, el seu compilador és molt més eficient. Podriem dir que la versió \texttt{-O3 -march=core2} marca el millor temps que podem obtenir.
+I finalment, com a curiositat, el flag \texttt{-parallel}, que intenta paralelitzar automaticament el codi, i en aquest cas còrrer sobre dos processadors, no aporta cap guany, al contrari, te un rendiment inferior.
 
 %-O3, -march=core2 ... etc
 \section{Profiling del codi original}
@@ -58,8 +58,8 @@ Durant tota aquesta pràctica hem seguit la següent metodologia per validar i i
 
 \begin{itemize}
   \item Codificar
-  \item Testejar amb el fitxer tiger.mpg
-  \item Comparar el resultat amb l'original (\texttt{diff})
+  \item Testejar amb el fitxer  \texttt{02.tiger.mpg}
+  \item Comparar el resultat amb l'original (\texttt{diff}) i verificar que son idèntics
   \item Calcular speedups
 \end{itemize}
 

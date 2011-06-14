@@ -3,8 +3,9 @@
 
 \chapter{Optimitzacions}
 
-Timing del codi original sobre la maquina de proves especificada al fitxer maq\_proves.txt amb la qual s'han calculat els timings i speed ups de les optimitzacions d'aquest apartat:
+Timing del codi original sobre la maquina de proves especificada al Annex B amb la qual s'han calculat els timings i speedups de les optimitzacions d'aquest apartat:
 \begin{itemize}
+\item{\textbf{AMB QUINS FLAGS S'HA COMPILAT ¿?}}
 \item{Elapsed: 51.03s}
 \end{itemize}
 
@@ -34,8 +35,7 @@ for (i = 0 ; i < 16 ; i++)
 
 Analitzant una mica el codi de la funció dist1 a motion.c, hem vist que el que fa aquesta funció es acumular a la variable s distàncies absolutes i finalment retornar s. Peró hi ha un detall important en aquest codi: no volem calcular totalment s, sinó que el que en interessa es saber si $s>distlim$, un altre paràmetre de la funció.
 
-Per tant, als bucles que acumulen distancies absolutes a s, hem fet que es surti del bucle si s passa a ser major o igual que distlim. D'aquesta manera, ens estalviem gran quantitat de càlculs ja que dist1 es una funció que es crida gran quantitat de vegades als bucles de fullsearch.
-
+Per tant, als bucles que acumulen distàncies absolutes a s, hem fet que sorti del bucle si s passa a ser major o igual que distlim. D'aquesta manera, ens estalviem gran quantitat de càlculs ja que dist1 es una funció que es crida gran quantitat de vegades als bucles de fullsearch.
 
 \section{Optimitzaci\'o 3: Bithacks}
 \begin{itemize}
@@ -91,7 +91,7 @@ El profiling d'aquesta versió va donar temps molt semblants tot i que sempre pi
 
 \section{Optimitzaci\'o 6: Especialitzaci\'o de dist1}
 \begin{itemize}
-\item{Funció: motion.c/dist1 -> dist1\_special}
+\item{Funció: motion.c/dist1 $\Rightarrow$ dist1\_special}
 \item{SpeedUp: 1.07}
 \item{Elapsed: 36.42s}
 \end{itemize}
@@ -105,9 +105,9 @@ Dist1 es crida des de fullsearch, la segona funció en el ranking de temps d'exe
 \item{Elapsed: 17.77s}
 \end{itemize}
 
-Com hem vist als dos intents anteriors d'optimitzar els calculs de dist1, no hem aconseguit un guany de temps important, per tant hem decidir atacar el problema amb la vectorització, ja que aquesta funció fa càlculs exactament de 16 bytes a cada iteració, el punter p2 sempre esta alineat, i l'increment dels punters lx sempre es múltiple de 16, per tant ens deixa en un bon escenari per aplicar vectorització.
+Com hem vist als dos intents anteriors d'optimitzar els calculs de dist1, no hem aconseguit un guany de temps important, per tant hem decidir atacar el problema amb la vectorització, ja que aquesta funció fa càlculs exactament de 16 bytes a cada iteració, el punter p2 sempre esta alineat, i l'increment dels punters lx sempre és múltiple de 16, per tant ens deixa en un bon escenari per aplicar vectorització.
 
-El principal problema que vam veure es que el punter p1 no sempre es alineat, per tant vam separar dos casos. Quan p1 es alineat, hem aplicat una vectorització que fa servir l'intrinsic \texttt{\_mm\_sad\_epu8}, que fa exactament el que volem: diferencies absolutes. Aquests resultats es guarden a un altre registre vectorial del que extraiem el resultat amb \texttt{\_mm\_extract\_epu16}.
+El principal problema que vam veure es que el punter p1 no sempre és alineat, per tant hem separat dos casos. Quan p1 és alineat, hem aplicat una vectorització que fa servir l'intrinsic \texttt{\_mm\_sad\_epu8}, que fa exactament el que volem: difèrencies absolutes. Aquests resultats es guarden a un altre registre vectorial del que extraiem el resultat amb \texttt{\_mm\_extract\_epu16}.
 
 \begin{lstlisting}
 __m128i res;  
@@ -142,7 +142,7 @@ else
 }   
 \end{lstlisting}
 
-Com explicarem al punt següent, havíem pensat que potser seria bo que la part no alineada es fes amb threads per aplicar una mica totes les tècniques de les que disposem, però la idea no va resultar massa be, ja que dist 1 es crida moltíssimes vegades, per tant finalment vam fer la part no alineada amb vectorització no alineada carregant les dades amb l'intrinsic de load unaligned, que tot i això va donar un speed up força bo respecte a la versió sense vectorització.
+Com explicarem al punt següent, havíem pensat que potser seria bo que la part no alineada es fes amb threads per aplicar una mica totes les tècniques de les que disposem, però la idea no va resultar massa bona, ja que dist 1 es crida moltes vegades. Per aconseguir optimitzar una mica més, finalment vam fer la part no alineada amb vectorització no alineada, carregant les dades amb l'intrinsic de load unaligned, que tot i això va donar un speed up força bo respecte a la versió sense vectorització.
 
 \section{Optimitzaci\'o 8: Threads}
 \begin{itemize}
@@ -172,7 +172,7 @@ for (t = 0; t < NUM_THREADS; t++){
 }		 	
 \end{lstlisting}
 
-La funció \texttt{blucle\_thread} és el bucle que fa els càlculs i tant els parametres d'entrada com de sortida están passats a través d'una estructura de dades creada i re-agrupada sota un array, un element per thread. La idea semblava correcte però el que no vam tenir en compte és en els càlculs reals que duu a terme \texttt{blucle\_thread}. En efecte, aquesta funció no fa masses iteracions i al contrari, és crida molts cops, per tant, l'overhead generat per crear i gestionar els threads era molt superior al temps guanyat. Això va provocar que descartéssim aquesta optimització per ineficient.
+La funció \texttt{blucle\_thread} és el bucle que fa els càlculs i tant els parametres d'entrada com de sortida están passats a través d'una estructura de dades creada i re-agrupada sota un array, un element per thread. La idea semblava que havia de donar bons results però el que no vam tenir en compte és en els càlculs reals que duu a terme \texttt{blucle\_thread}. En efecte, aquesta funció no fa masses iteracions i al contrari, és crida molts cops, per tant, l'overhead generat per crear i gestionar els threads era molt superior al temps guanyat. Això va provocar que descartéssim aquesta optimització per ineficient.
 
 \section{Optimitzaci\'o 9: Code hoisting}
 \begin{itemize}
@@ -183,7 +183,7 @@ La funció \texttt{blucle\_thread} és el bucle que fa els càlculs i tant els p
 
 Un cop hem vectoritzat dist1, hem vist que tant dist1 com dist1\_special baixaven molt a la llista temps d'execució, i fullsearch es va quedar en primer lloc com a funció que triga més, per tant vam decidir centrar esforços en optimitzar fullsearch.
 
-A fullsearch, recordant de les optimitzacions anteriors, tenim un bucle al que vam aplicar loop splitting per separar els casos a on s'incrementa//decrementa cada index (i,j). Això ens permet aplicar ara code hoisting i treure fora de l'if de dintre del bucle les condició que tenen a veure amb l'index que no es modifica en aquell bucle. D'aquesta manera ja no cal ni entrar al bucle si la condició invariant no es compleix, directament modifiquem les variables que toca a fora del bucle, d'aquesta manera:
+A fullsearch, recordant de les optimitzacions anteriors, tenim un bucle al que vam aplicar loop splitting per separar els casos a on s'incrementa//decrementa cada index (i,j). Això ens permet aplicar ara code hoisting i treure fora de l'if de dintre del bucle les condicions que tenen a veure amb l'index que no es modifica en aquell bucle. D'aquesta manera ja no cal ni entrar al bucle si la condició invariant no es compleix, directament modifiquem les variables que toca a fora del bucle, d'aquesta manera:
 
 \begin{lstlisting}
 if( i>=ilow && i<=ihigh){
