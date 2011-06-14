@@ -138,7 +138,7 @@ if(((unsigned int)p1 & 15) == 0)
     pr2 = (__m128i*) (((unsigned char *)p2));
 		
     res=_mm_sad_epu8(*pr1, *pr2);
-    s+=_mm_extract_epi16(res,0) + _mm_extract_epi16(res,4);
+    s+=_mm_extract_epi16(res,0)+_mm_extract_epi16(res,4);
   }
 }
 else
@@ -152,7 +152,7 @@ else
 	  pr2 = _mm_loadu_si128( (__m128i*) p2);
 		
 	  res=_mm_sad_epu8(pr1, pr2);
-	  s+=_mm_extract_epi16(res,0) + _mm_extract_epi16(res,4);
+	  s+=_mm_extract_epi16(res,0)+_mm_extract_epi16(res,4);
 	}  
 }   
 \end{lstlisting}
