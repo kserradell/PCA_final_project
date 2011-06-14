@@ -3,7 +3,7 @@
 
 \chapter{Optimitzacions}
 
-En aquest apartat hem documentat les optimitzacions que hem anat aplicant al projecte incrementalment, es a dir, les hem aplicat una per una i hem mirat si realment teniem un guany de temps. 
+En aquest apartat hem documentat les optimitzacions que hem anat aplicant al projecte incrementalment, es a dir, les hem aplicat una per una i hem mirat si realment teníem un guany de temps. 
 
 Timing del codi original sobre la maquina de proves especificada al Apèndix B amb la qual s'han calculat els timings i speedups de les optimitzacions d'aquest apartat (compil·lat utilitzant el Makefile de l'Apèndix A). Així hem obtingut un elapsed time de 51.03s.
 
@@ -33,7 +33,7 @@ for (i = 0 ; i < 16 ; i++)
 
 Analitzant una mica el codi de la funció dist1 a motion.c, hem vist que el que fa aquesta funció es acumular a la variable s distàncies absolutes i finalment retornar s. Peró hi ha un detall important en aquest codi: no volem calcular totalment s, sinó que el que en interessa es saber si $s>distlim$, un altre paràmetre de la funció.
 
-Per tant, als bucles que acumulen distàncies absolutes a s, hem fet que sorti del bucle si s passa a ser major o igual que distlim. D'aquesta manera, ens estalviem gran quantitat de càlculs ja que dist1 es una funció que es crida gran quantitat de vegades als bucles de fullsearch.
+Per tant, als bucles que acumulen distàncies absolutes a s, hem fet que surti del bucle si s passa a ser major o igual que distlim. D'aquesta manera, ens estalviem gran quantitat de càlculs ja que dist1 es una funció que es crida gran quantitat de vegades als bucles de fullsearch.
 
 \section{Optimitzaci\'o 3: Bithacks}
 \begin{itemize}
@@ -105,7 +105,7 @@ Dist1 es crida des de fullsearch, la segona funció en el ranking de temps d'exe
 
 Com hem vist als dos intents anteriors d'optimitzar els calculs de dist1, no hem aconseguit un guany de temps important, per tant hem decidir atacar el problema amb la vectorització, ja que aquesta funció fa càlculs exactament de 16 bytes a cada iteració, el punter p2 sempre esta alineat, i l'increment dels punters lx sempre és múltiple de 16, per tant ens deixa en un bon escenari per aplicar vectorització.
 
-El principal problema que vam veure es que el punter p1 no sempre és alineat, per tant hem separat dos casos. Quan p1 és alineat, hem aplicat una vectorització que fa servir l'intrinsic \texttt{\_mm\_sad\_epu8}, que fa exactament el que volem: difèrencies absolutes. Aquests resultats es guarden a un altre registre vectorial del que extraiem el resultat amb \texttt{\_mm\_extract\_epu16}.
+El principal problema que vam veure es que el punter p1 no sempre és alineat, per tant hem separat dos casos. Quan p1 és alineat, hem aplicat una vectorització que fa servir l'intrinsic \texttt{\_mm\_sad\_epu8}, que fa exactament el que volem: diferències absolutes. Aquests resultats es guarden a un altre registre vectorial del que extraiem el resultat amb \texttt{\_mm\_extract\_epu16}.
 
 \begin{lstlisting}
 __m128i res;  
