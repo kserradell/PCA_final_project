@@ -170,7 +170,7 @@ for (t = 0; t < NUM_THREADS; t++){
 }		 	
 \end{lstlisting}
 
-La funció \texttt{blucle\_thread} és el bucle que fa els càlculs i tant els parametres d'entrada com de sortida están passats a través d'una estructura de dades creada i re-agrupada sota un array, un element per thread. La idea semblava que havia de donar bons results però el que no vam tenir en compte és en els càlculs reals que duu a terme \texttt{blucle\_thread}. En efecte, aquesta funció no fa masses iteracions i al contrari, és crida molts cops, per tant, l'overhead generat per crear i gestionar els threads era molt superior al temps guanyat. Això va provocar que descartéssim aquesta optimització per ineficient.
+La funció \texttt{blucle\_thread} és el bucle que fa els càlculs i tant els paràmetres d'entrada com de sortida son passats a través d'una estructura de dades creada i re-agrupada sota un array, un element per thread. La idea semblava que havia de donar bons results però el que no vam tenir en compte és en els càlculs reals que duu a terme \texttt{blucle\_thread}. En efecte, aquesta funció no fa masses iteracions i al contrari, és crida molts cops, per tant, l'overhead generat per crear i gestionar els threads era molt superior al temps guanyat. Això va provocar que descartéssim aquesta optimització per ineficient.
 
 \section{Optimitzaci\'o 9: Code hoisting}
 \begin{itemize}
