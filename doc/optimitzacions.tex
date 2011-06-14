@@ -19,7 +19,7 @@ Timing del codi original sobre la maquina de proves especificada al Apèndix B a
 \item{Elapsed:47.45s}
 \end{itemize}
 
-A dist 1 hem detectat que hi havia un bucle desenrotllat. Hem decidit provar d'enrotllar-ho de nou i veure si el compilador aconseguia optimitzar més aquest unroll, i efectivament, amb el bucle enrotllat hi ha hagut un guany de temps, ja que el compilador genera un codi més eficient en el moment d'aplicar l'unroll. Per tant la feina d'aquest unroll la deixem al compilador.
+A dist 1 hem detectat que hi havia un bucle desenrotllat. Hem decidit provar d'enrotllar-ho de nou i veure si el compilador aconseguia optimitzar més aquest unroll, i efectivament, amb el bucle enrotllat hi ha hagut un guany de temps, ja que el compilador genera un codi més eficient en el moment d'aplicar l'unroll, probablement reordenant de manera optima les operacions i escollint un bon factor d'unrolling. Per tant la feina d'aquest unroll la deixem al compilador.
 
 \begin{lstlisting}
 for (i = 0 ; i < 16 ; i++)
