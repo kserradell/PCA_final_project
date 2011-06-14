@@ -2,6 +2,8 @@
 
 Amb aquesta pràctica hem pogut veure un exemple real, en un encoder de video, de quin impacte pot tenir la programació en funció de l'arquitectura. Aplicant les diverses tècniques vistes durant el curs, hem pogut optimitzar l'aplicació i reduir en un temps considerable el temps d'execució.
 
+Durant l'optimització del programa ens hem adonat de la gran millora que pot aportar la vectorització si ens trobem en un bon escenari per aplicar-la, com en aquest cas, a on precisament necessitàvem fer 16 operacions amb chars paral.lelament. Respecte a les optimitzacions mes petites, tot i que d'entrada el temps que es guanya no es massa alt, quan vam veure el temps acumulat que es guanya entre aplicar-les i no aplicar-les, també vam pensar que valen molt la pena, tot i que algunes costen d'aplicar ja que moltes vegades es el compilador qui ho fa.
+
 També hem pogut comprovar que no totes les optimitzacions aporten beneficis i que cal un estudi previ per a veure si la tècnica que s'emprarà tindrà bon rendiment. Així ens ha passat en el cas dels threads, on moguts per aplicar aquesta tècnica i després de temps en fer-la funcionar, un cop implementada, el seu rendiment no ha estat gens eficient. 
 
 Volem destacar l'algoritme escollit per optimitzar per ser una aplicació molt pràctica i molt utilitzada actualment. A més, de seguida fent els primers profilings de l'aplicació, ha estat fàcil trobar per on començar a treballar i les optimitzacions a utilitzar han donat bon resultats. Suposem que tot això ho heu tingut en compte en el moment de triar l'enunciat.
