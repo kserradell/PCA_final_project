@@ -1280,7 +1280,7 @@ int *iminp,*jminp;
   int i,j,imin,jmin,ilow,ihigh,jlow,jhigh;
   int d,dmin;
   int k,l,sxy;
-  int maska;
+  int mask;
  
   ilow = i0 - sx;
   ihigh = i0 + sx;
@@ -1301,8 +1301,6 @@ int *iminp,*jminp;
     jhigh = ymax-h;
 
   /* full pel search, spiraling outwards */
- /*Aixo de la cerca en espiral sona ineficient pel tema de la memoria (localitat espacial arruinada) potser
-        es pot fer d'una altra forma...*/
   imin = i0;
   jmin = j0;
   dmin = dist1_special(org+imin+lx*jmin,blk,lx,0,0,h,65536);
@@ -1316,7 +1314,6 @@ int *iminp,*jminp;
         i = i0 - l;
         j = j0 - l;
         
-      
         if (j>=jlow && j<=jhigh)
             for (k=0; k<(l<<1); k++,i++)
             {
@@ -1324,18 +1321,13 @@ int *iminp,*jminp;
                  {
                  // if(!(i<ilow || i>ihigh || j<jlow || j>jhigh)){
                     d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
-
-                    //bithacks! eliminacio del salt
                     
-                    /*
-                    explicacio: la comparacio dona 1 o 0.  -0 es 0x00000000, i -1 es 0xFFFFFFFF 
-                    (un anula el que hi ha i l'altre ho deixa com estava)
-                    El temps no sembla que varii... una altra vegada. El compilador ho fa tot.
-                    */
-                    maska= -(d<dmin);
-                    dmin=(dmin & ~maska) + (d&maska);
-                    imin = (imin & ~maska) + (i&maska);
-                    jmin = (jmin & ~maska) + (j&maska);
+                    if (d<dmin)
+                    {
+                      dmin = d;
+                      imin = i;
+                      jmin = j;
+                    }
                   }
             }
         else
@@ -1348,11 +1340,11 @@ int *iminp,*jminp;
                   {
                     d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
 
-                    //bithacks!
-                    maska=-(d<dmin);
-                    dmin=(dmin & ~maska) + (d&maska);
-                    imin = (imin & ~maska) + (i&maska);
-                    jmin = (jmin & ~maska) + (j&maska);
+                    //bithacks
+                    mask=-(d<dmin);
+                    dmin=(dmin & ~mask) + (d&mask);
+                    imin = (imin & ~mask) + (i&mask);
+                    jmin = (jmin & ~mask) + (j&mask);
                   }
             }
        else
@@ -1365,11 +1357,12 @@ int *iminp,*jminp;
                   {
                     d = dist1_special(org+i+lx*j,blk,lx,0,0,h,dmin);
 
-                    //bithacks!
-                    maska=-(d<dmin);
-                    dmin=(dmin & ~maska) + (d&maska);
-                    imin = (imin & ~maska) + (i&maska);
-                    jmin = (jmin & ~maska) + (j&maska);
+                    if (d<dmin)
+                    {
+                      dmin = d;
+                      imin = i;
+                      jmin = j;
+                    }
                   }
             }
         else
@@ -1382,20 +1375,20 @@ int *iminp,*jminp;
                   {
                     d = dist1_special(org+i+lx*j   ,   blk,lx,0,0,h,dmin);
 
-                    //bithacks!
-                    maska=-(d<dmin);
-                    dmin=(dmin & ~maska) + (d&maska);
-                    imin = (imin & ~maska) + (i&maska);
-                    jmin = (jmin & ~maska) + (j&maska);
+                   
+                   if (d<dmin)
+                   {
+                      dmin = d;
+                      imin = i;
+                      jmin = j;
+                   }
                   }
              }
-   
   }
 
   /* half pel */
-   /*Se mbla ser que per baixar aquest valor el resultat no canvia i baixa el temps alguna decima (molt poc)*/
+  
    //dmin=65536;
-   int aux=dmin;
   dmin = 19000;
   imin <<= 1;
   jmin <<= 1;
@@ -1403,18 +1396,17 @@ int *iminp,*jminp;
   ihigh = imin + (imin<((xmax-16)<<1));
   jlow = jmin - (jmin>0);
   jhigh = jmin + (jmin<((ymax-h)<<1));
-
+  
   for (j=jlow; j<=jhigh; j++)
     for (i=ilow; i<=ihigh; i++)
     {
         d = dist1(ref+(i>>1)+lx*(j>>1),blk,lx,i&1,j&1,h,dmin);
       
-     //bithacks!
-   
-        maska=-(d<dmin);
-        dmin=(dmin & ~maska) + (d&maska);
-        imin = (imin & ~maska) + (i&maska);
-        jmin = (jmin & ~maska) + (j&maska);
+     //bithacks
+        mask=-(d<dmin);
+        dmin=(dmin & ~mask) + (d&mask);
+        imin = (imin & ~mask) + (i&mask);
+        jmin = (jmin & ~mask) + (j&mask);
     }
 
   *iminp = imin;
@@ -1439,10 +1431,9 @@ static int dist1_special(unsigned char * __restrict__ blk1, unsigned char * __re
 /*VECTORITZACIO: 
 dades alineades a mpeg2enc.c (posix memalign...)
 */
-/*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem, si no no*/
+/*Mirem si els punters que ens envien estan alineats, si es aixi vectoritzem aligned, si no vectoritzem unaligned*/
 	 
 	__m128i res;
-
 	
 	if ( ((unsigned int)p1 & 15) == 0)  //p2 sempre esta alineat
 	{
@@ -1472,10 +1463,6 @@ dades alineades a mpeg2enc.c (posix memalign...)
  	         pr1 = _mm_loadu_si128( (__m128i*) p1);
 	         pr2 = _mm_loadu_si128( (__m128i*) p2);
 	
-	         /*info d'aquesta operacio a la pag 137 del manual d'intel que ens donen amb la teoria del tema 6, 
-	          fa exactament el que volem amb 16 chars i en una sola operació (diferencies absolutes)*/
-	      //int _mm_extract_epi16(__m128i a, int imm)
-
 	         res=_mm_sad_epu8(pr1, pr2);
 	         s+=_mm_extract_epi16(res,0) + _mm_extract_epi16(res,4);
  	    }
@@ -1515,7 +1502,6 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
   if (!hx && !hy)
   {
         __m128i res;  
- /*Vectoritzat, en aquest cas s'hauria de provar mes per que no estic segura que es guanyi*/
         if ( ((unsigned int)p1 & 15) == 0)
         {
             __m128i *pr1,*pr2;
@@ -1556,21 +1542,18 @@ static int dist1(unsigned char * __restrict__ blk1, unsigned char * __restrict__
   { 
     for (j=0; j<h && s<distlim ; j++)
     {
-     /* He intentat fer unroll d'aquests loops i obtinc temps molt pitjors. El O3 fa més bona feia
-	que jo manualment... 
-	Si aixo m'ha passat a la practica5 de l'assignatura, la majoria d'optimitzacions (especialment unroll i inlining) no nomes les fa el compilador si no que ell les fa molt millor que nosaltres a ma...
-	*/ 
-     for (i=0; i<16; i++)
-      {
-       
-        v = ((unsigned int)(p1[i]+p1[i+1]+1)>>1) - p2[i];
-         if (v<0) v=-v;
-       
-          s+=v; 
-          if (s >= distlim) break;
-      }
-      p1+= lx;
-      p2+= lx;
+         for (i=0; i<16; i++)
+          {
+           
+            v = ((unsigned int)(p1[i]+p1[i+1]+1)>>1) - p2[i];
+             if (v<0) v=-v;
+           
+              s+=v; 
+              if (s >= distlim) break;
+          }
+          
+          p1+= lx;
+          p2+= lx;
     }
    }
 
