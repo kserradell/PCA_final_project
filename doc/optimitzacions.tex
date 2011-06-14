@@ -3,7 +3,7 @@
 
 \chapter{Optimitzacions}
 
-Timing del codi original sobre la maquina de proves especificada al Annex B amb la qual s'han calculat els timings i speedups de les optimitzacions d'aquest apartat:
+Timing del codi original sobre la maquina de proves especificada al Apèndix B amb la qual s'han calculat els timings i speedups de les optimitzacions d'aquest apartat:
 \begin{itemize}
 \item{\textbf{AMB QUINS FLAGS S'HA COMPILAT ¿?}}
 \item{Elapsed: 51.03s}
@@ -243,10 +243,14 @@ jmin = (jmin & ~mask) + (j&mask);
 
 D'aquesta manera ens estalviem els salts i tenim la mateixa sortida. A fullsearch hi ha diversos punts a on es pot aplicar, però per alguna raó només ens ha donat guany aplicant això a dos d'ells.
 
-
 \section{Info general de les optimitzacions}
-\begin{itemize}
-\item{SpeedUp total: 3.05}
-\item{Elapsed time aconseguit: 16.72}
-\item{Maquina de proves}
-\end{itemize}
+
+Finalment, adjuntem una grafica comparativa dels temps obtinguts aplicant les diferents optimitzacions. Cal dir que son optimitzacions acumulatives, és a dir, que si una optimització ens ha aportat un millor tem,ps, l'hem conservat. En el cas contrari, l'hem descartat. Al final hem aconseguit un \textbf{speedup de 3.05} corresponent a un \textbf{temps total d'execució de 16.72 s}. Tots aquests temps, han estat mesurats amb la màquina de proves del Apèndix B.
+
+
+\begin{figure}[hbtp]
+\begin{center}
+\includegraphics[scale=0.4]{img/image001.png}
+\caption{Temps obtinguts amb les diferents optimitzacions}
+\end{center}
+\end{figure}
