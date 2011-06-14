@@ -67,7 +67,7 @@ D'entrada nomes l'hem aplicat al primer bucle de dist1 per veure si hi havia gua
 \begin{itemize}
 \item{Funcio: motion.c/fullsearch}
 \item{SpeedUp: 1.03}
-\item {Elapsed: 38.91}
+\item {Elapsed: 38.91s}
 \end{itemize}
 
 El bucle:
@@ -211,7 +211,7 @@ else{
 \begin{itemize}
 \item{Funció: motion.c/fullsearch}
 \item{SpeedUp: 1.004 }
-\item{Elapsed: 16.96}
+\item{Elapsed: 16.96s}
 \end{itemize}
 
 A fullsearch es fa una crida inicial a dist1 abans d'entrar al bucle de calcul, la qual es fa amb un valor constant. Aquest valor constant inicial es pot reduir, guanyant així una mica de temps i sense que es modifiqui la sortida del programa.
@@ -220,7 +220,7 @@ A fullsearch es fa una crida inicial a dist1 abans d'entrar al bucle de calcul, 
 \begin{itemize}
 \item{Funció: motion.c/fullsearch}
 \item{SpeedUp:  1.014}
-\item{Elapsed:  16.72}
+\item{Elapsed:  16.72s}
 \end{itemize}
 
 Aquest bithack consisteix en substituir aquest codi:
